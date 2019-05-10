@@ -1,1 +1,160 @@
-<h1>Hello</h1>
+<html>
+	<head>
+		<title>FLAS Grammar</title>
+		<link type='text/css' rel='stylesheet' href='grammar.css'>
+	</head>
+	<body>
+		<h1>FLAS Grammar</h1>
+FLAS is an actor-based functional language for cards.
+<h2>Layout and Blocks</h2>
+<h2>Summary</h2>
+<div class='production-block'>
+  <div class='production-number'>(1)</div>
+  <div class='production-name'>&lt;file&gt;</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;top-level-unit&gt;</span><span class='production-many'>*</span>
+</div>
+<div class='production-block'>
+  <div class='production-number'>(2)</div>
+  <div class='production-name'>&lt;top-level-unit&gt;</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;top-level-definition&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(3)</div>
+  <div class='production-name'>&lt;top-level-definition&gt;</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;struct-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;union-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;card-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;contract-declaration&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(4)</div>
+  <div class='production-name'>&lt;function-scope-unit&gt;</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;function-case-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;standalone-method-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;handler-declaration&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(5)</div>
+  <div class='production-name'>&lt;function-case-declaration&gt;</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;one-line-function-case-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;multi-line-function-case-declaration&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(6)</div>
+  <div class='production-name'>&lt;one-line-function-case-declaration&gt;</div>
+  <div class='production-op'>::=</div>
+</div>
+<div class='production-block'>
+  <div class='production-number'>(7)</div>
+  <div class='production-name'>&lt;multi-line-function-case-declaration&gt;</div>
+  <div class='production-op'>::=</div>
+</div>
+<h2>Definitions</h2>
+<h3>Files</h3>
+<div class='production-block'>
+  <div class='production-number'>(1)</div>
+  <div class='production-name'>&lt;file&gt;</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;top-level-unit&gt;</span><span class='production-many'>*</span>
+</div>
+<div class='production-block'>
+  <div class='production-number'>(2)</div>
+  <div class='production-name'>&lt;top-level-unit&gt;</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;top-level-definition&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(3)</div>
+  <div class='production-name'>&lt;top-level-definition&gt;</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;struct-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;union-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;card-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;contract-declaration&gt;</span></div>
+<div class='section-description'>
+
+	        FLAS units are grouped into files.
+	        There are no specific rules about how units are grouped and grouping
+	        units together in a file offers no special privileges of access.
+
+       This is the set of units that can be defined at the top level in files.
+       Since many of these may also be defined within nested function scopes,
+       this is defined as a production of those together with the others that cannot.
+
+       These units can only be declared at the top level in a file.
+	    </div>
+<h3>Scoping</h3>
+<div class='production-block'>
+  <div class='production-number'>(4)</div>
+  <div class='production-name'>&lt;function-scope-unit&gt;</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;function-case-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;standalone-method-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;handler-declaration&gt;</span></div>
+<div class='section-description'>
+
+	       This set of units can be defined at the top level in files or within the
+	       scope of a function.
+	    </div>
+<h3>Functions</h3>
+<div class='production-block'>
+  <div class='production-number'>(5)</div>
+  <div class='production-name'>&lt;function-case-declaration&gt;</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;one-line-function-case-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;multi-line-function-case-declaration&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(6)</div>
+  <div class='production-name'>&lt;one-line-function-case-declaration&gt;</div>
+  <div class='production-op'>::=</div>
+</div>
+<div class='production-block'>
+  <div class='production-number'>(7)</div>
+  <div class='production-name'>&lt;multi-line-function-case-declaration&gt;</div>
+  <div class='production-op'>::=</div>
+</div>
+<div class='section-description'>
+
+	       Constants and functions can be declared either at the top level or within nested scopes.
+	       When declared within a nested scope, all the surrounding variables and definitions are available
+	       for reference by name.
+	       Note that a complete function declaration is made up of multiple cases applying to specific patterns.
+	       All of the cases must be declared “together” without any intervening blocks, but this is not
+	       included in this grammar specification.
+	       There are two ways to declare a function case.
+	       It is possible to declare a single expression on the same line as the function declaration.
+	       Or the function name and argument patterns can appear on one line, and one or more guarded equations
+	       can appear on subsequent lines. 
+	    </div>
+	</body>
+</html>
