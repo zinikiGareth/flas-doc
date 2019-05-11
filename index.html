@@ -7,16 +7,20 @@
 		<h1>FLAS Grammar</h1>
 FLAS is an actor-based functional language for cards.
 <h2>Layout and Blocks</h2>
-<h2>Summary</h2>
+<h2>Lexical Issues</h2><h3>EQ</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>=</span><div class='lexical-description'>
+  	Defines the variable/function definition operator.
+  </div><h3>var-name</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[a-z][A-Za-z0-9_]*</span><div class='lexical-description'>
+  	Function and variable names are one or more characters, where
+  	the first character must be a lower case alphabetic character.
+  </div><h2>Summary</h2>
 <div class='production-block'>
   <div class='production-number'>(1)</div>
-  <div class='production-name'>&lt;file&gt;</div>
+  <div class='production-name'>file</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;top-level-unit&gt;</span><span class='production-many'>*</span>
-</div>
+<span class='production-reference'>&lt;top-level-unit&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
   <div class='production-number'>(2)</div>
-  <div class='production-name'>&lt;top-level-unit&gt;</div>
+  <div class='production-name'>top-level-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;top-level-definition&gt;</span></div>
 <div class='production-or-block'>
@@ -24,7 +28,7 @@ FLAS is an actor-based functional language for cards.
 <span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(3)</div>
-  <div class='production-name'>&lt;top-level-definition&gt;</div>
+  <div class='production-name'>top-level-definition</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;struct-declaration&gt;</span></div>
 <div class='production-or-block'>
@@ -38,7 +42,7 @@ FLAS is an actor-based functional language for cards.
 <span class='production-reference'>&lt;contract-declaration&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(4)</div>
-  <div class='production-name'>&lt;function-scope-unit&gt;</div>
+  <div class='production-name'>function-scope-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;function-case-declaration&gt;</span></div>
 <div class='production-or-block'>
@@ -49,7 +53,7 @@ FLAS is an actor-based functional language for cards.
 <span class='production-reference'>&lt;handler-declaration&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(5)</div>
-  <div class='production-name'>&lt;function-case-declaration&gt;</div>
+  <div class='production-name'>function-case-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;one-line-function-case-declaration&gt;</span></div>
 <div class='production-or-block'>
@@ -57,25 +61,24 @@ FLAS is an actor-based functional language for cards.
 <span class='production-reference'>&lt;multi-line-function-case-declaration&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(6)</div>
-  <div class='production-name'>&lt;one-line-function-case-declaration&gt;</div>
+  <div class='production-name'>one-line-function-case-declaration</div>
   <div class='production-op'>::=</div>
-</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>EQ</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;function-scope-unit&gt;</span></div></div>
 <div class='production-block'>
   <div class='production-number'>(7)</div>
-  <div class='production-name'>&lt;multi-line-function-case-declaration&gt;</div>
+  <div class='production-name'>multi-line-function-case-declaration</div>
   <div class='production-op'>::=</div>
-</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;guarded-equations&gt;</span></div></div>
 <h2>Definitions</h2>
 <h3>Files</h3>
 <div class='production-block'>
   <div class='production-number'>(1)</div>
-  <div class='production-name'>&lt;file&gt;</div>
+  <div class='production-name'>file</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;top-level-unit&gt;</span><span class='production-many'>*</span>
-</div>
+<span class='production-reference'>&lt;top-level-unit&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
   <div class='production-number'>(2)</div>
-  <div class='production-name'>&lt;top-level-unit&gt;</div>
+  <div class='production-name'>top-level-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;top-level-definition&gt;</span></div>
 <div class='production-or-block'>
@@ -83,7 +86,7 @@ FLAS is an actor-based functional language for cards.
 <span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(3)</div>
-  <div class='production-name'>&lt;top-level-definition&gt;</div>
+  <div class='production-name'>top-level-definition</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;struct-declaration&gt;</span></div>
 <div class='production-or-block'>
@@ -110,7 +113,7 @@ FLAS is an actor-based functional language for cards.
 <h3>Scoping</h3>
 <div class='production-block'>
   <div class='production-number'>(4)</div>
-  <div class='production-name'>&lt;function-scope-unit&gt;</div>
+  <div class='production-name'>function-scope-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;function-case-declaration&gt;</span></div>
 <div class='production-or-block'>
@@ -127,7 +130,7 @@ FLAS is an actor-based functional language for cards.
 <h3>Functions</h3>
 <div class='production-block'>
   <div class='production-number'>(5)</div>
-  <div class='production-name'>&lt;function-case-declaration&gt;</div>
+  <div class='production-name'>function-case-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;one-line-function-case-declaration&gt;</span></div>
 <div class='production-or-block'>
@@ -135,14 +138,14 @@ FLAS is an actor-based functional language for cards.
 <span class='production-reference'>&lt;multi-line-function-case-declaration&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(6)</div>
-  <div class='production-name'>&lt;one-line-function-case-declaration&gt;</div>
+  <div class='production-name'>one-line-function-case-declaration</div>
   <div class='production-op'>::=</div>
-</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>EQ</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;function-scope-unit&gt;</span></div></div>
 <div class='production-block'>
   <div class='production-number'>(7)</div>
-  <div class='production-name'>&lt;multi-line-function-case-declaration&gt;</div>
+  <div class='production-name'>multi-line-function-case-declaration</div>
   <div class='production-op'>::=</div>
-</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;guarded-equations&gt;</span></div></div>
 <div class='section-description'>
 
 	       Constants and functions can be declared either at the top level or within nested scopes.

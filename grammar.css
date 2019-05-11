@@ -1,3 +1,23 @@
+.pattern-title {
+	display: inline-block;
+	font-family: sans-serif;
+	font-weight: bold;
+	text-align: left;
+	padding-left: 1em;
+	margin-right: 1em;
+}
+
+.pattern {
+	display: inline-block;
+	font-family: monospace;
+	font-style: italic;
+}
+
+.lexical-description {
+	margin-top: 1em;
+	padding-left: 2em;
+}
+
 .production-block {
 	font-family: sans-serif;
 	line-height: 1.35em;
@@ -8,11 +28,15 @@
 	line-height: 1.35em;
 }
 
+.production-nested-block {
+	font-family: sans-serif;
+	line-height: 1.35em;
+}
+
 .production-number {
 	display: inline-block;
 	width:2em;
 	text-align: right;
-	font-weight: bold;
 	margin-right: 0.5em;
 }
 
@@ -39,14 +63,26 @@
 	margin-right: 1.5em;
 }
 
+.production-nested {
+	display: inline-block;
+	font-weight: bold;
+	text-align: right;
+	width: 26em;
+	margin-right: 1.5em;
+}
+
 .production-reference {
+	display: inline;
+	font-style: italic;
+}
+
+.production-token {
 	display: inline;
 	font-weight: bold;
 }
 
 .production-many {
 	display: inline;
-	font-weight: bold;
     vertical-align: super;
     font-size: smaller;
     line-height: normal;
