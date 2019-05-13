@@ -1,0 +1,774 @@
+<html>
+	<head>
+		<title>FLAS Grammar</title>
+		<link type='text/css' rel='stylesheet' href='grammar.css'>
+	</head>
+	<body>
+		<h1>FLAS Grammar</h1>
+FLAS is an actor-based functional language for cards.
+<h2>Layout and Blocks</h2>
+<h2>Lexical Issues</h2><h3>APPLY</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\.</span><div class='lexical-description'>
+  	<p>The apply operator.</p>
+  </div><h3>BINOP</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[-+*/.]</span><div class='lexical-description'>
+  	<p>One of the standard binary operators.  They have precedence, but this is not apparent from the grammar.</p>
+  	<p class="comment">We should specify the precedence here.</p>
+  </div><h3>CARD</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>card</span><div class='lexical-description'>
+  	<p>The <tt>card</tt> keyword introduces a card definition.</p>
+  </div><h3>CCB</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\}</span><div class='lexical-description'>
+  	<p>A closing curly bracket delimits the end of an constructor pattern or object creation.</p>
+  </div><h3>COMMA</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>,</span><div class='lexical-description'>
+  	<p>Separates similar items in a list.</p>
+  </div><h3>CONTRACT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>contract</span><div class='lexical-description'>
+  	<p>The <tt>contract</tt> keyword introduces a contract declaration.</p>
+  </div><h3>CRB</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\)</span><div class='lexical-description'>
+  	<p>A closing round bracket delimits the end of an expression or pattern.</p>
+  </div><h3>CSB</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\]</span><div class='lexical-description'>
+  	<p>A closing square bracket delimits the end of a list operation or polymorphic variable list.</p>
+  </div><h3>DIR</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>up|down</span><div class='lexical-description'>
+  	<p>The <tt>up</tt> and <tt>down</tt> keywords indicate the sense in which a contract method is called.</p>
+  </div><h3>EOL</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\n</span><div class='lexical-description'>
+  	<p>Specifies the end of a line.</p>
+  </div><h3>EQ</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>=</span><div class='lexical-description'>
+  	<p>Defines the variable/function definition operator.</p>
+  </div><h3>GUARD</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>|</span><div class='lexical-description'>
+  	<p>Defines the variable/function definition operator.</p>
+  </div><h3>HANDLER</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>handler</span><div class='lexical-description'>
+  	<p>The <tt>handler</tt> keyword introduces a handler definition.</p>
+  </div><h3>METHOD</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>method</span><div class='lexical-description'>
+  	<p>The <tt>method</tt> keyword introduces a standalone method definition.</p>
+  </div><h3>OBJECT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>object</span><div class='lexical-description'>
+  	<p>The <tt>object</tt> keyword introduces an object declaration.</p>
+  </div><h3>OCB</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\{</span><div class='lexical-description'>
+  	<p>An opening curly bracket introduces a constructor pattern match or object creation.</p>
+  </div><h3>OPTIONAL</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>optional</span><div class='lexical-description'>
+  	<p>The <tt>optional</tt> keyword indicates that a contract method does not need to be implemented.</p>
+  </div><h3>OR</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>|</span><div class='lexical-description'>
+  	<p>A token to separate cases in a union declaration.</p>
+  </div><h3>ORB</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\(</span><div class='lexical-description'>
+  	<p>An opening square bracket introduces a sub-element of an expression or pattern.</p>
+  </div><h3>OSB</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\[</span><div class='lexical-description'>
+  	<p>An opening square bracket introduces various list operations as well as polymorphic variables.</p>
+  </div><h3>PUT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>&lt;-</span><div class='lexical-description'>
+  	<p>Method actions are defined using the PUT operator.</p>
+  </div><h3>SEND</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>&lt;-</span><div class='lexical-description'>
+  	<p>An opening square bracket introduces various list operations as well as polymorphic variables.</p>
+  </div><h3>STATE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>state</span><div class='lexical-description'>
+  	<p>The <tt>state</tt> keyword introduces a card or object state.</p>
+  </div><h3>STRUCT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>struct</span><div class='lexical-description'>
+  	<p>The <tt>struct</tt> keyword introduces a struct declaration.</p>
+  </div><h3>TEMPLATE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>template</span><div class='lexical-description'>
+  	<p>The <tt>template</tt> keyword introduces a template definition.</p>
+  </div><h3>UNION</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>union</span><div class='lexical-description'>
+  	<p>The <tt>union</tt> keyword introduces a union declaration.</p>
+  </div><h3>UNOP</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[\-]</span><div class='lexical-description'>
+  	<p>One of the standard unary operators.  They have precedence, but this is not apparent from the grammar.</p>
+  	<p class="comment">We should specify the precedence here.</p>
+  </div><h3>poly-var</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[A-Z][A-Z]?</span><div class='lexical-description'>
+  	<p>Polymorphic variable names must be one or two capital letters.</p>
+  </div><h3>type-name</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[A-Z][A-Za-z0-9_][A-Za-z0-9_]+</span><div class='lexical-description'>
+  	<p>Concrete type names must start with a capital letter and have at
+  	least three characters in the name.</p>
+  </div><h3>var-name</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[a-z][A-Za-z0-9_]*</span><div class='lexical-description'>
+  	<p>Function and variable names are one or more characters, where
+  	the first character must be a lower case alphabetic character.</p>
+  </div><h2>Summary</h2>
+<div class='production-block'>
+  <div class='production-number'>(1)</div>
+  <div class='production-name'>file</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;top-level-unit&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(2)</div>
+  <div class='production-name'>top-level-unit</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;top-level-definition&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(3)</div>
+  <div class='production-name'>top-level-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;struct-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;union-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;contract-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;object-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;card-declaration&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(4)</div>
+  <div class='production-name'>function-scope</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;function-scope-unit&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(5)</div>
+  <div class='production-name'>function-scope-unit</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;function-case-definition&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;standalone-method-definition&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;handler-definition&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(6)</div>
+  <div class='production-name'>struct-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>STRUCT</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-reference'>&lt;poly-var-list&gt;</span><span class='production-optional'>?</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;struct-field-list&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(7)</div>
+  <div class='production-name'>poly-var-list</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OSB</span>&nbsp;<span class='production-token'>poly-var</span>&nbsp;<span class='production-reference'>&lt;comma-poly-var&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>CSB</span></div>
+<div class='production-block'>
+  <div class='production-number'>(8)</div>
+  <div class='production-name'>comma-poly-var</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>COMMA</span>&nbsp;<span class='production-token'>poly-var</span></div>
+<div class='production-block'>
+  <div class='production-number'>(9)</div>
+  <div class='production-name'>struct-field-list</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;struct-field-decl&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(10)</div>
+  <div class='production-name'>struct-field-decl</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;struct-initializer&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-token'>EOL</span></div>
+<div class='production-block'>
+  <div class='production-number'>(11)</div>
+  <div class='production-name'>struct-initializer</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(12)</div>
+  <div class='production-name'>union-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>UNION</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>EQ</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-reference'>&lt;or-type-reference&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>EOL</span></div>
+<div class='production-block'>
+  <div class='production-number'>(13)</div>
+  <div class='production-name'>or-type-reference</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OR</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(14)</div>
+  <div class='production-name'>contract-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>CONTRACT</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;contract-method-decls&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(15)</div>
+  <div class='production-name'>contract-method-decls</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;contract-method-decl&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(16)</div>
+  <div class='production-name'>contract-method-decl</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OPTIONAL</span><span class='production-optional'>?</span>&nbsp;<span class='production-token'>DIR</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern-typed&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(17)</div>
+  <div class='production-name'>function-case-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;simple-function-case-definition&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;guarded-function-case-definition&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(18)</div>
+  <div class='production-name'>simple-function-case-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>EQ</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;function-scope&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(19)</div>
+  <div class='production-name'>guarded-function-case-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;guarded-equations&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(20)</div>
+  <div class='production-name'>guarded-equations</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;guarded-expression&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;guarded-default-expression&gt;</span><span class='production-optional'>?</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;function-scope&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(21)</div>
+  <div class='production-name'>guarded-expression</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>GUARD</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EQ</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(22)</div>
+  <div class='production-name'>guarded-default-expression</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>EQ</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(23)</div>
+  <div class='production-name'>argument-pattern</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;argument-pattern-variable&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;argument-pattern-list&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;argument-pattern-typed&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;argument-pattern-ctor&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(24)</div>
+  <div class='production-name'>argument-pattern-maybe-typed</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;argument-pattern-variable&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;argument-pattern-typed&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(25)</div>
+  <div class='production-name'>argument-pattern-variable</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span></div>
+<div class='production-block'>
+  <div class='production-number'>(26)</div>
+  <div class='production-name'>argument-pattern-list</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OSB</span>&nbsp;<span class='production-token'>CSB</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>OSB</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span>&nbsp;<span class='production-reference'>&lt;comma-argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>CSB</span></div>
+<div class='production-block'>
+  <div class='production-number'>(27)</div>
+  <div class='production-name'>comma-argument-pattern</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>COMMA</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(28)</div>
+  <div class='production-name'>argument-pattern-typed</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>ORB</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>CRB</span></div>
+<div class='production-block'>
+  <div class='production-number'>(29)</div>
+  <div class='production-name'>argument-pattern-ctor</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OCB</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>CCB</span></div>
+<div class='production-block'>
+  <div class='production-number'>(30)</div>
+  <div class='production-name'>type-reference</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>type-name</span>&nbsp;<span class='production-reference'>&lt;poly-type-list&gt;</span><span class='production-optional'>?</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>poly-var</span></div>
+<div class='production-block'>
+  <div class='production-number'>(31)</div>
+  <div class='production-name'>poly-type-list</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OSB</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-reference'>&lt;comma-type-reference&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>CSB</span></div>
+<div class='production-block'>
+  <div class='production-number'>(32)</div>
+  <div class='production-name'>comma-type-reference</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>COMMA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(33)</div>
+  <div class='production-name'>expression</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>UNOP</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>BINOP</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>ORB</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>CRB</span></div>
+<div class='production-block'>
+  <div class='production-number'>(34)</div>
+  <div class='production-name'>handler-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>HANDLER</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern-maybe-typed&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;method-definition&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(35)</div>
+  <div class='production-name'>standalone-method-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>METHOD</span>&nbsp;<span class='production-reference'>&lt;method-definition&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(36)</div>
+  <div class='production-name'>method-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;method-actions&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(37)</div>
+  <div class='production-name'>method-actions</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;method-action&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;function-scope-unit&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(38)</div>
+  <div class='production-name'>method-action</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;message-method-action&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;assign-method-action&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(39)</div>
+  <div class='production-name'>message-method-action</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>PUT</span>&nbsp;<span class='production-reference'>&lt;service-method&gt;</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>EOL</span></div>
+<div class='production-block'>
+  <div class='production-number'>(40)</div>
+  <div class='production-name'>service-method</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>APPLY</span>&nbsp;<span class='production-token'>var-name</span></div>
+<div class='production-block'>
+  <div class='production-number'>(41)</div>
+  <div class='production-name'>assign-method-action</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;member-path&gt;</span>&nbsp;<span class='production-token'>PUT</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
+<div class='production-block'>
+  <div class='production-number'>(42)</div>
+  <div class='production-name'>member-path</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;member-path-apply&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(43)</div>
+  <div class='production-name'>member-path-apply</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>APPLY</span>&nbsp;<span class='production-token'>var-name</span></div>
+<div class='production-block'>
+  <div class='production-number'>(44)</div>
+  <div class='production-name'>object-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OBJECT</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;object-contents&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(45)</div>
+  <div class='production-name'>object-contents</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;default-or-many-templates&gt;</span>&nbsp;<span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(46)</div>
+  <div class='production-name'>state-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>STATE</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;struct-field-list&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(47)</div>
+  <div class='production-name'>default-or-many-templates</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;default-template-definition&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(48)</div>
+  <div class='production-name'>default-template-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>TEMPLATE</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-action&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(49)</div>
+  <div class='production-name'>named-template-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>TEMPLATE</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-action&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(50)</div>
+  <div class='production-name'>card-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>CARD</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;card-contents&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(51)</div>
+  <div class='production-name'>card-contents</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;default-template-definition&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;card-scope-unit&gt;</span></div>
+<h2>Definitions</h2>
+<h3>Files</h3>
+<div class='production-block'>
+  <div class='production-number'>(1)</div>
+  <div class='production-name'>file</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;top-level-unit&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(2)</div>
+  <div class='production-name'>top-level-unit</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;top-level-definition&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(3)</div>
+  <div class='production-name'>top-level-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;struct-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;union-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;contract-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;object-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;card-declaration&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(4)</div>
+  <div class='production-name'>function-scope</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;function-scope-unit&gt;</span><span class='production-many'>*</span></div>
+<div class='section-description'>
+
+	    <p>
+	        FLAS units are grouped into files.
+	        There are no specific rules about how units are grouped and grouping
+	        units together in a file offers no special privileges of access.
+</p>
+<p>
+       This is the set of units that can be defined at the top level in files.
+       Since many of these may also be defined within nested function scopes,
+       this is defined as a production of those together with the others that cannot.
+</p>
+<p>
+       These units can only be declared at the top level in a file.
+</p>
+	    </div>
+<h3>Scoping</h3>
+<div class='production-block'>
+  <div class='production-number'>(5)</div>
+  <div class='production-name'>function-scope-unit</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;function-case-definition&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;standalone-method-definition&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;handler-definition&gt;</span></div>
+<div class='section-description'>
+
+	       This set of units can be defined at the top level in files or within the
+	       scope of a function.
+	    </div>
+<h3>Data Declarations</h3>
+<div class='production-block'>
+  <div class='production-number'>(6)</div>
+  <div class='production-name'>struct-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>STRUCT</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-reference'>&lt;poly-var-list&gt;</span><span class='production-optional'>?</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;struct-field-list&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(7)</div>
+  <div class='production-name'>poly-var-list</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OSB</span>&nbsp;<span class='production-token'>poly-var</span>&nbsp;<span class='production-reference'>&lt;comma-poly-var&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>CSB</span></div>
+<div class='production-block'>
+  <div class='production-number'>(8)</div>
+  <div class='production-name'>comma-poly-var</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>COMMA</span>&nbsp;<span class='production-token'>poly-var</span></div>
+<div class='production-block'>
+  <div class='production-number'>(9)</div>
+  <div class='production-name'>struct-field-list</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;struct-field-decl&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(10)</div>
+  <div class='production-name'>struct-field-decl</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;struct-initializer&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-token'>EOL</span></div>
+<div class='production-block'>
+  <div class='production-number'>(11)</div>
+  <div class='production-name'>struct-initializer</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(12)</div>
+  <div class='production-name'>union-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>UNION</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>EQ</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-reference'>&lt;or-type-reference&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>EOL</span></div>
+<div class='production-block'>
+  <div class='production-number'>(13)</div>
+  <div class='production-name'>or-type-reference</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OR</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span></div>
+<div class='section-description'>
+
+	    </div>
+<h3>Contracts</h3>
+<div class='production-block'>
+  <div class='production-number'>(14)</div>
+  <div class='production-name'>contract-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>CONTRACT</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;contract-method-decls&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(15)</div>
+  <div class='production-name'>contract-method-decls</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;contract-method-decl&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(16)</div>
+  <div class='production-name'>contract-method-decl</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OPTIONAL</span><span class='production-optional'>?</span>&nbsp;<span class='production-token'>DIR</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern-typed&gt;</span><span class='production-many'>*</span></div>
+<div class='section-description'>
+
+      </div>
+<h3>Functions</h3>
+<div class='production-block'>
+  <div class='production-number'>(17)</div>
+  <div class='production-name'>function-case-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;simple-function-case-definition&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;guarded-function-case-definition&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(18)</div>
+  <div class='production-name'>simple-function-case-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>EQ</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;function-scope&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(19)</div>
+  <div class='production-name'>guarded-function-case-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;guarded-equations&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(20)</div>
+  <div class='production-name'>guarded-equations</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;guarded-expression&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;guarded-default-expression&gt;</span><span class='production-optional'>?</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;function-scope&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(21)</div>
+  <div class='production-name'>guarded-expression</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>GUARD</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EQ</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(22)</div>
+  <div class='production-name'>guarded-default-expression</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>EQ</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<div class='section-description'>
+
+	       Constants and functions can be declared either at the top level or within nested scopes.
+	       When declared within a nested scope, all the surrounding variables and definitions are available
+	       for reference by name.
+	       Note that a complete function declaration is made up of multiple cases applying to specific patterns.
+	       All of the cases must be declared “together” without any intervening blocks, but this is not
+	       included in this grammar specification.
+	       There are two ways to declare a function case.
+	       It is possible to declare a single expression on the same line as the function declaration.
+	       Or the function name and argument patterns can appear on one line, and one or more guarded equations
+	       can appear on subsequent lines. 
+	    </div>
+<h3>Patterns</h3>
+<div class='production-block'>
+  <div class='production-number'>(23)</div>
+  <div class='production-name'>argument-pattern</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;argument-pattern-variable&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;argument-pattern-list&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;argument-pattern-typed&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;argument-pattern-ctor&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(24)</div>
+  <div class='production-name'>argument-pattern-maybe-typed</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;argument-pattern-variable&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;argument-pattern-typed&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(25)</div>
+  <div class='production-name'>argument-pattern-variable</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span></div>
+<div class='production-block'>
+  <div class='production-number'>(26)</div>
+  <div class='production-name'>argument-pattern-list</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OSB</span>&nbsp;<span class='production-token'>CSB</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>OSB</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span>&nbsp;<span class='production-reference'>&lt;comma-argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>CSB</span></div>
+<div class='production-block'>
+  <div class='production-number'>(27)</div>
+  <div class='production-name'>comma-argument-pattern</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>COMMA</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(28)</div>
+  <div class='production-name'>argument-pattern-typed</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>ORB</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>CRB</span></div>
+<div class='production-block'>
+  <div class='production-number'>(29)</div>
+  <div class='production-name'>argument-pattern-ctor</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OCB</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>CCB</span></div>
+<div class='section-description'>
+
+    	  </div>
+<h3>Types</h3>
+<div class='production-block'>
+  <div class='production-number'>(30)</div>
+  <div class='production-name'>type-reference</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>type-name</span>&nbsp;<span class='production-reference'>&lt;poly-type-list&gt;</span><span class='production-optional'>?</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>poly-var</span></div>
+<div class='production-block'>
+  <div class='production-number'>(31)</div>
+  <div class='production-name'>poly-type-list</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OSB</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-reference'>&lt;comma-type-reference&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>CSB</span></div>
+<div class='production-block'>
+  <div class='production-number'>(32)</div>
+  <div class='production-name'>comma-type-reference</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>COMMA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span></div>
+<div class='section-description'>
+
+      </div>
+<h3>Expressions</h3>
+<div class='production-block'>
+  <div class='production-number'>(33)</div>
+  <div class='production-name'>expression</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>UNOP</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>BINOP</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>ORB</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>CRB</span></div>
+<div class='section-description'>
+
+      </div>
+<h3>Handler</h3>
+<div class='production-block'>
+  <div class='production-number'>(34)</div>
+  <div class='production-name'>handler-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>HANDLER</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern-maybe-typed&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;method-definition&gt;</span></div></div>
+<div class='section-description'>
+
+      </div>
+<h3>Method</h3>
+<div class='production-block'>
+  <div class='production-number'>(35)</div>
+  <div class='production-name'>standalone-method-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>METHOD</span>&nbsp;<span class='production-reference'>&lt;method-definition&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(36)</div>
+  <div class='production-name'>method-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;method-actions&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(37)</div>
+  <div class='production-name'>method-actions</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;method-action&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;function-scope-unit&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(38)</div>
+  <div class='production-name'>method-action</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;message-method-action&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;assign-method-action&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(39)</div>
+  <div class='production-name'>message-method-action</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>PUT</span>&nbsp;<span class='production-reference'>&lt;service-method&gt;</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>EOL</span></div>
+<div class='production-block'>
+  <div class='production-number'>(40)</div>
+  <div class='production-name'>service-method</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>APPLY</span>&nbsp;<span class='production-token'>var-name</span></div>
+<div class='production-block'>
+  <div class='production-number'>(41)</div>
+  <div class='production-name'>assign-method-action</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;member-path&gt;</span>&nbsp;<span class='production-token'>PUT</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
+<div class='production-block'>
+  <div class='production-number'>(42)</div>
+  <div class='production-name'>member-path</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;member-path-apply&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(43)</div>
+  <div class='production-name'>member-path-apply</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>APPLY</span>&nbsp;<span class='production-token'>var-name</span></div>
+<div class='section-description'>
+
+      </div>
+<h3>Object</h3>
+<div class='production-block'>
+  <div class='production-number'>(44)</div>
+  <div class='production-name'>object-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OBJECT</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;object-contents&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(45)</div>
+  <div class='production-name'>object-contents</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;default-or-many-templates&gt;</span>&nbsp;<span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(46)</div>
+  <div class='production-name'>state-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>STATE</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;struct-field-list&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(47)</div>
+  <div class='production-name'>default-or-many-templates</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;default-template-definition&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(48)</div>
+  <div class='production-name'>default-template-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>TEMPLATE</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-action&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(49)</div>
+  <div class='production-name'>named-template-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>TEMPLATE</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-action&gt;</span></div></div>
+<div class='section-description'>
+
+      </div>
+<h3>Card</h3>
+<div class='production-block'>
+  <div class='production-number'>(50)</div>
+  <div class='production-name'>card-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>CARD</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;card-contents&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(51)</div>
+  <div class='production-name'>card-contents</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;default-template-definition&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;card-scope-unit&gt;</span></div>
+<div class='section-description'>
+
+      </div>
+	</body>
+</html>
