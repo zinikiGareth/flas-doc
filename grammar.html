@@ -30,10 +30,14 @@ FLAS is an actor-based functional language for cards.
   	<p>Specifies the end of a line.</p>
   </div><h3>EQ</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>=</span><div class='lexical-description'>
   	<p>Defines the variable/function definition operator.</p>
+  </div><h3>EVENT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>event</span><div class='lexical-description'>
+  	<p>The <tt>event</tt> keyword introduces an event handler.</p>
   </div><h3>GUARD</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>|</span><div class='lexical-description'>
   	<p>Defines the variable/function definition operator.</p>
   </div><h3>HANDLER</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>handler</span><div class='lexical-description'>
-  	<p>The <tt>handler</tt> keyword introduces a handler definition.</p>
+  	<p>The <tt>handler</tt> keyword introduces a callback handler.</p>
+  </div><h3>IMPLEMENTS</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>implements</span><div class='lexical-description'>
+  	<p>The <tt>implements</tt> keyword introduces a contract implementation in a service or card.</p>
   </div><h3>METHOD</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>method</span><div class='lexical-description'>
   	<p>The <tt>method</tt> keyword introduces a standalone method definition.</p>
   </div><h3>OBJECT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>object</span><div class='lexical-description'>
@@ -52,6 +56,8 @@ FLAS is an actor-based functional language for cards.
   	<p>Method actions are defined using the PUT operator.</p>
   </div><h3>SEND</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>&lt;-</span><div class='lexical-description'>
   	<p>An opening square bracket introduces various list operations as well as polymorphic variables.</p>
+  </div><h3>SERVICE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>service</span><div class='lexical-description'>
+  	<p>The <tt>service</tt> keyword introduces a service declaration.</p>
   </div><h3>STATE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>state</span><div class='lexical-description'>
   	<p>The <tt>state</tt> keyword introduces a card or object state.</p>
   </div><h3>STRUCT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>struct</span><div class='lexical-description'>
@@ -99,6 +105,9 @@ FLAS is an actor-based functional language for cards.
 <div class='production-or-block'>
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;object-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;service-declaration&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;card-declaration&gt;</span></div>
@@ -376,14 +385,70 @@ FLAS is an actor-based functional language for cards.
 <span class='production-token'>TEMPLATE</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-action&gt;</span></div></div>
 <div class='production-block'>
   <div class='production-number'>(50)</div>
+  <div class='production-name'>service-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>SERVICE</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;service-contents&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(51)</div>
+  <div class='production-name'>service-contents</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;service-scope&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(52)</div>
+  <div class='production-name'>service-scope</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;service-scope-unit&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(53)</div>
+  <div class='production-name'>service-scope-unit</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;implements-contract&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(54)</div>
   <div class='production-name'>card-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>CARD</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;card-contents&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(51)</div>
+  <div class='production-number'>(55)</div>
   <div class='production-name'>card-contents</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;default-template-definition&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;card-scope-unit&gt;</span></div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;default-template-definition&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;card-scope&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(56)</div>
+  <div class='production-name'>card-scope</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;card-scope-unit&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(57)</div>
+  <div class='production-name'>card-scope-unit</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;event-handler&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;service-scope-unit&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(58)</div>
+  <div class='production-name'>implements-contract</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>IMPLEMENTS</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>var-name</span><span class='production-optional'>?</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;implementation-method&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(59)</div>
+  <div class='production-name'>implementation-method</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern-variable&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;method-actions&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(60)</div>
+  <div class='production-name'>event-handler</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>EVENT</span>&nbsp;<span class='production-reference'>&lt;method-definition&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(61)</div>
+  <div class='production-name'>template-action</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>SEND</span></div>
 <h2>Definitions</h2>
 <h3>Files</h3>
 <div class='production-block'>
@@ -413,6 +478,9 @@ FLAS is an actor-based functional language for cards.
 <div class='production-or-block'>
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;object-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;service-declaration&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;card-declaration&gt;</span></div>
@@ -756,19 +824,95 @@ FLAS is an actor-based functional language for cards.
 <div class='section-description'>
 
       </div>
-<h3>Card</h3>
+<h3>Service</h3>
 <div class='production-block'>
   <div class='production-number'>(50)</div>
+  <div class='production-name'>service-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>SERVICE</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;service-contents&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(51)</div>
+  <div class='production-name'>service-contents</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;service-scope&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(52)</div>
+  <div class='production-name'>service-scope</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;service-scope-unit&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(53)</div>
+  <div class='production-name'>service-scope-unit</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;implements-contract&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
+<div class='section-description'>
+
+      </div>
+<h3>Card</h3>
+<div class='production-block'>
+  <div class='production-number'>(54)</div>
   <div class='production-name'>card-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>CARD</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;card-contents&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(51)</div>
+  <div class='production-number'>(55)</div>
   <div class='production-name'>card-contents</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;default-template-definition&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;card-scope-unit&gt;</span></div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;default-template-definition&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;card-scope&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(56)</div>
+  <div class='production-name'>card-scope</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;card-scope-unit&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(57)</div>
+  <div class='production-name'>card-scope-unit</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;event-handler&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;service-scope-unit&gt;</span></div>
 <div class='section-description'>
 
+      </div>
+<h3>Implements Contract</h3>
+<div class='production-block'>
+  <div class='production-number'>(58)</div>
+  <div class='production-name'>implements-contract</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>IMPLEMENTS</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>var-name</span><span class='production-optional'>?</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;implementation-method&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(59)</div>
+  <div class='production-name'>implementation-method</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern-variable&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;method-actions&gt;</span></div></div>
+<div class='section-description'>
+
+      </div>
+<h3>Events</h3>
+<div class='production-block'>
+  <div class='production-number'>(60)</div>
+  <div class='production-name'>event-handler</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>EVENT</span>&nbsp;<span class='production-reference'>&lt;method-definition&gt;</span></div>
+<div class='section-description'>
+
+        <p>An event handler is a special type of method on a card, which can respond to UI events.</p>
+        <p>Although not part of the grammar, each event will receive an appropriate event object as its final argument.</p>
+        <p>Event handlers are not called directly by the system but through the template mechanism (see some rule) and are generally curried, in that some arguments are presented as part of the configuration, and the event itself is provided by the system when called.</p>
+      </div>
+<h3>Templates</h3>
+<div class='production-block'>
+  <div class='production-number'>(61)</div>
+  <div class='production-name'>template-action</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>SEND</span></div>
+<div class='section-description'>
+
+        <p>Templates are still somewhat at the research phase.  I know I want to use WebZip and then bind things later, but I have notes at best.</p>
       </div>
 	</body>
 </html>
