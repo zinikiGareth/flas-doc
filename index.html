@@ -5,11 +5,34 @@
 	</head>
 	<body>
 <h1>FLAS</h1>
+<p>FLAS is a system for the development and deployment of card-based systems using functional programming and actor models.</p>
+<p>The FLAS language supports the definition of contracts, cards and services to cover the entire spectrum of application development in a target-neutral way.</p>
+<p>Compilation backends and runtimes are provided for a number of environments, including:</p>
+<ul>
+<li>Javascript deployment into a browser;
+<li>Android packaging to build APKs for mobile phones;
+<li>JVM code to install into Java-based servers such as Ziniki;
+<li>Javascript modules for deployment into Node.js servers;
+<li>PHP?
+</ul>
 <h2>FLAS Language</h2>
-Four phases: blocking, parsing, resolving, generating
+<p>Processing FLAS language files consists of four main phases:</p>
+<ul>
+<li>blocking;
+<li>parsing;
+<li>resolving;
+<li>generating code.
+</ul>
+<p>These four phases follow on from each other and each consists of a number of sub-phases.</p> 
+</ul>
 <h3>Blocking</h3>
+<p>The first step in interpreting a FLAS program file is to break it into lines, which are grouped into blocks using a simple indent rule.</p>
+<p>Blank lines and any lines with no leading white space are considered "literate comments" and are ignored by the compiler (although there should be a <tt>weave</tt>-like tool for generating documentation based on them).</p>
+<p>Top-level statements should all begin with exactly one tab character.</p>
+<p>Lines that are too long and want to be continued on the next line should have the continuation line begin with the same number of tabs <b>and</b> one or more space characters.</p>
+<p>Nested definitions should have exactly one more leading tab than their parent line.</p>
 <h3>Parsing</h3>
-The syntax of the language can be expressed using a <a href='grammar.html'>formal grammar</a>.
+<p>The syntax of the language can be expressed using a <a href='grammar.html'>formal grammar</a>.</p>
 <h3>Resolving</h3>
 <h4>Name Resolution</h4>
 <h4>Method Conversion<h4>
