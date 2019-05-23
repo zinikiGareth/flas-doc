@@ -28,12 +28,18 @@
   	<p>A closing square bracket delimits the end of a list operation or polymorphic variable list.</p>
   </div><h3>DIR</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>up|down</span><div class='lexical-description'>
   	<p>The <tt>up</tt> and <tt>down</tt> keywords indicate the sense in which a contract method is called.</p>
+  </div><h3>ENTITY</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>entity</span><div class='lexical-description'>
+  	<p>The <tt>entity</tt> keyword introduces an entity definition.</p>
+  </div><h3>ENVELOPE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>envelope</span><div class='lexical-description'>
+  	<p>The <tt>envelope</tt> keyword introduces an envelope definition.</p>
   </div><h3>EOL</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\n</span><div class='lexical-description'>
   	<p>Specifies the end of a line.</p>
   </div><h3>EQ</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>=</span><div class='lexical-description'>
   	<p>Defines the variable/function definition operator.</p>
   </div><h3>EVENT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>event</span><div class='lexical-description'>
   	<p>The <tt>event</tt> keyword introduces an event handler.</p>
+  </div><h3>FALSE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>false</span><div class='lexical-description'>
+  	<p>The boolean literal <tt>false</tt>.</p>
   </div><h3>GUARD</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>|</span><div class='lexical-description'>
   	<p>Defines the variable/function definition operator.</p>
   </div><h3>HANDLER</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>handler</span><div class='lexical-description'>
@@ -42,6 +48,8 @@
   	<p>The <tt>implements</tt> keyword introduces a contract implementation in a service or card.</p>
   </div><h3>METHOD</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>method</span><div class='lexical-description'>
   	<p>The <tt>method</tt> keyword introduces a standalone method definition.</p>
+  </div><h3>NUMBER</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[0-9.e+-]+</span><div class='lexical-description'>
+  	<p>A numeric literal.</p>
   </div><h3>OBJECT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>object</span><div class='lexical-description'>
   	<p>The <tt>object</tt> keyword introduces an object declaration.</p>
   </div><h3>OCB</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\{</span><div class='lexical-description'>
@@ -58,21 +66,33 @@
   	<p>Method actions are defined using the PUT operator.</p>
   </div><h3>SEND</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>&lt;-</span><div class='lexical-description'>
   	<p>An opening square bracket introduces various list operations as well as polymorphic variables.</p>
+  </div><h3>SENDTO</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>=&gt;</span><div class='lexical-description'>
+  	<p>An opening square bracket introduces various list operations as well as polymorphic variables.</p>
   </div><h3>SERVICE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>service</span><div class='lexical-description'>
   	<p>The <tt>service</tt> keyword introduces a service declaration.</p>
   </div><h3>STATE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>state</span><div class='lexical-description'>
   	<p>The <tt>state</tt> keyword introduces a card or object state.</p>
+  </div><h3>STRING</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>&quot;[^&quot;]*&quot;|'[^']*'</span><div class='lexical-description'>
+  	<p>A string literal.</p>
   </div><h3>STRUCT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>struct</span><div class='lexical-description'>
   	<p>The <tt>struct</tt> keyword introduces a struct declaration.</p>
   </div><h3>TEMPLATE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>template</span><div class='lexical-description'>
   	<p>The <tt>template</tt> keyword introduces a template definition.</p>
+  </div><h3>TRUE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>true</span><div class='lexical-description'>
+  	<p>The boolean literal <tt>true</tt>.</p>
   </div><h3>UNION</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>union</span><div class='lexical-description'>
   	<p>The <tt>union</tt> keyword introduces a union declaration.</p>
   </div><h3>UNOP</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[\-]</span><div class='lexical-description'>
   	<p>One of the standard unary operators.  They have precedence, but this is not apparent from the grammar.</p>
   	<p class="comment">We should specify the precedence here.</p>
+  </div><h3>WRAPS</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>wraps</span><div class='lexical-description'>
+  	<p>The <tt>wraps</tt> keyword introduces a definition that wraps an entity in an envelope.</p>
+  </div><h3>event-name</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[a-z][a-z0-9-]*</span><div class='lexical-description'>
+  	<p>The mnemonic name of an event, such as 'click' or 'scroll-down'.</p>
   </div><h3>poly-var</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[A-Z][A-Z]?</span><div class='lexical-description'>
   	<p>Polymorphic variable names must be one or two capital letters.</p>
+  </div><h3>template-name</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[a-z][a-z0-9-]*</span><div class='lexical-description'>
+  	<p>The name of a template or template item, which must match the name of a provided webzip element.</p>
   </div><h3>type-name</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[A-Z][A-Za-z0-9_][A-Za-z0-9_]+</span><div class='lexical-description'>
   	<p>Concrete type names must start with a capital letter and have at
   	least three characters in the name.</p>
@@ -361,7 +381,7 @@
   <div class='production-number'>(45)</div>
   <div class='production-name'>object-contents</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;default-or-many-templates&gt;</span>&nbsp;<span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;many-templates&gt;</span>&nbsp;<span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(46)</div>
   <div class='production-name'>state-declaration</div>
@@ -369,39 +389,21 @@
 <span class='production-token'>STATE</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;struct-field-list&gt;</span></div></div>
 <div class='production-block'>
   <div class='production-number'>(47)</div>
-  <div class='production-name'>default-or-many-templates</div>
-  <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;default-template-definition&gt;</span></div>
-<div class='production-or-block'>
-  <div class='production-or'>|</div>
-<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span></div>
-<div class='production-block'>
-  <div class='production-number'>(48)</div>
-  <div class='production-name'>default-template-definition</div>
-  <div class='production-op'>::=</div>
-<span class='production-token'>TEMPLATE</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-action&gt;</span></div></div>
-<div class='production-block'>
-  <div class='production-number'>(49)</div>
-  <div class='production-name'>named-template-definition</div>
-  <div class='production-op'>::=</div>
-<span class='production-token'>TEMPLATE</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-action&gt;</span></div></div>
-<div class='production-block'>
-  <div class='production-number'>(50)</div>
   <div class='production-name'>service-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>SERVICE</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;service-contents&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(51)</div>
+  <div class='production-number'>(48)</div>
   <div class='production-name'>service-contents</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;service-scope&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(52)</div>
+  <div class='production-number'>(49)</div>
   <div class='production-name'>service-scope</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;service-scope-unit&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number'>(53)</div>
+  <div class='production-number'>(50)</div>
   <div class='production-name'>service-scope-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;implements-contract&gt;</span></div>
@@ -409,22 +411,22 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(54)</div>
+  <div class='production-number'>(51)</div>
   <div class='production-name'>card-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>CARD</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;card-contents&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(55)</div>
+  <div class='production-number'>(52)</div>
   <div class='production-name'>card-contents</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;default-template-definition&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;card-scope&gt;</span></div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;many-templates&gt;</span>&nbsp;<span class='production-reference'>&lt;card-scope&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(56)</div>
+  <div class='production-number'>(53)</div>
   <div class='production-name'>card-scope</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;card-scope-unit&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number'>(57)</div>
+  <div class='production-number'>(54)</div>
   <div class='production-name'>card-scope-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;event-handler&gt;</span></div>
@@ -432,25 +434,77 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;service-scope-unit&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(58)</div>
+  <div class='production-number'>(55)</div>
   <div class='production-name'>implements-contract</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>IMPLEMENTS</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>var-name</span><span class='production-optional'>?</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;implementation-method&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(59)</div>
+  <div class='production-number'>(56)</div>
   <div class='production-name'>implementation-method</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern-variable&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;method-actions&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(60)</div>
+  <div class='production-number'>(57)</div>
   <div class='production-name'>event-handler</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>EVENT</span>&nbsp;<span class='production-reference'>&lt;method-definition&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(61)</div>
-  <div class='production-name'>template-action</div>
+  <div class='production-number'>(58)</div>
+  <div class='production-name'>many-templates</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>SEND</span></div>
+<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(59)</div>
+  <div class='production-name'>named-template-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>TEMPLATE</span>&nbsp;<span class='production-token'>template-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-bind&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(60)</div>
+  <div class='production-name'>template-bind</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;one-template-bind&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-customization&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(61)</div>
+  <div class='production-name'>one-template-bind</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>template-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-token'>expr</span>&nbsp;<span class='production-reference'>&lt;pass-to-template&gt;</span><span class='production-optional'>?</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>template-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;option-template-bind&gt;</span></div></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>template-name</span></div>
+<div class='production-block'>
+  <div class='production-number'>(62)</div>
+  <div class='production-name'>option-template-bind</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OR</span>&nbsp;<span class='production-token'>expr</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-token'>expr</span>&nbsp;<span class='production-reference'>&lt;pass-to-template&gt;</span><span class='production-optional'>?</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>OR</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-token'>expr</span>&nbsp;<span class='production-reference'>&lt;pass-to-template&gt;</span><span class='production-optional'>?</span></div>
+<div class='production-block'>
+  <div class='production-number'>(63)</div>
+  <div class='production-name'>pass-to-template</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>template-name</span></div>
+<div class='production-block'>
+  <div class='production-number'>(64)</div>
+  <div class='production-name'>template-customization</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;template-style&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;template-event&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(65)</div>
+  <div class='production-name'>template-style</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OR</span>&nbsp;<span class='production-reference'>&lt;expr&gt;</span>&nbsp;<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>STRING</span><span class='production-many'>+</span></div>
+<div class='production-block'>
+  <div class='production-number'>(66)</div>
+  <div class='production-name'>template-event</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>event-name</span>&nbsp;<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expr&gt;</span><span class='production-many'>*</span></div>
 <h2>Definitions</h2>
 <h3>Files</h3>
 <div class='production-block'>
@@ -799,51 +853,33 @@
   <div class='production-number'>(45)</div>
   <div class='production-name'>object-contents</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;default-or-many-templates&gt;</span>&nbsp;<span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;many-templates&gt;</span>&nbsp;<span class='production-reference'>&lt;function-scope-unit&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(46)</div>
   <div class='production-name'>state-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>STATE</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;struct-field-list&gt;</span></div></div>
-<div class='production-block'>
-  <div class='production-number'>(47)</div>
-  <div class='production-name'>default-or-many-templates</div>
-  <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;default-template-definition&gt;</span></div>
-<div class='production-or-block'>
-  <div class='production-or'>|</div>
-<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span></div>
-<div class='production-block'>
-  <div class='production-number'>(48)</div>
-  <div class='production-name'>default-template-definition</div>
-  <div class='production-op'>::=</div>
-<span class='production-token'>TEMPLATE</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-action&gt;</span></div></div>
-<div class='production-block'>
-  <div class='production-number'>(49)</div>
-  <div class='production-name'>named-template-definition</div>
-  <div class='production-op'>::=</div>
-<span class='production-token'>TEMPLATE</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-action&gt;</span></div></div>
 <div class='section-description'>
 
       </div>
 <h3>Service</h3>
 <div class='production-block'>
-  <div class='production-number'>(50)</div>
+  <div class='production-number'>(47)</div>
   <div class='production-name'>service-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>SERVICE</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;service-contents&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(51)</div>
+  <div class='production-number'>(48)</div>
   <div class='production-name'>service-contents</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;service-scope&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(52)</div>
+  <div class='production-number'>(49)</div>
   <div class='production-name'>service-scope</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;service-scope-unit&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number'>(53)</div>
+  <div class='production-number'>(50)</div>
   <div class='production-name'>service-scope-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;implements-contract&gt;</span></div>
@@ -855,22 +891,22 @@
       </div>
 <h3>Card</h3>
 <div class='production-block'>
-  <div class='production-number'>(54)</div>
+  <div class='production-number'>(51)</div>
   <div class='production-name'>card-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>CARD</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;card-contents&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(55)</div>
+  <div class='production-number'>(52)</div>
   <div class='production-name'>card-contents</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;default-template-definition&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;card-scope&gt;</span></div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;many-templates&gt;</span>&nbsp;<span class='production-reference'>&lt;card-scope&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(56)</div>
+  <div class='production-number'>(53)</div>
   <div class='production-name'>card-scope</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;card-scope-unit&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number'>(57)</div>
+  <div class='production-number'>(54)</div>
   <div class='production-name'>card-scope-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;event-handler&gt;</span></div>
@@ -882,12 +918,12 @@
       </div>
 <h3>Implements Contract</h3>
 <div class='production-block'>
-  <div class='production-number'>(58)</div>
+  <div class='production-number'>(55)</div>
   <div class='production-name'>implements-contract</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>IMPLEMENTS</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>var-name</span><span class='production-optional'>?</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;implementation-method&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(59)</div>
+  <div class='production-number'>(56)</div>
   <div class='production-name'>implementation-method</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;argument-pattern-variable&gt;</span><span class='production-many'>*</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;method-actions&gt;</span></div></div>
@@ -896,7 +932,7 @@
       </div>
 <h3>Events</h3>
 <div class='production-block'>
-  <div class='production-number'>(60)</div>
+  <div class='production-number'>(57)</div>
   <div class='production-name'>event-handler</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>EVENT</span>&nbsp;<span class='production-reference'>&lt;method-definition&gt;</span></div>
@@ -908,13 +944,84 @@
       </div>
 <h3>Templates</h3>
 <div class='production-block'>
-  <div class='production-number'>(61)</div>
-  <div class='production-name'>template-action</div>
+  <div class='production-number'>(58)</div>
+  <div class='production-name'>many-templates</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>SEND</span></div>
+<span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(59)</div>
+  <div class='production-name'>named-template-definition</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>TEMPLATE</span>&nbsp;<span class='production-token'>template-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-bind&gt;</span></div></div>
 <div class='section-description'>
 
-        <p>Templates are still somewhat at the research phase.  I know I want to use WebZip and then bind things later, but I have notes at best.</p>
+        <p>Each card can have zero or more templates.  If it has no templates, it cannot have any visual representation.</p>
+        <p>If it has at least one template, the first template name must be defined as a <tt>card</tt> in an associated webzip file.  Other templates must be associated with <tt>item</tt>s in a webzip file.</p>
+        <p>Each template consists of a set of binding of values to portions of the template.</p>
       </div>
+<h3>Template Bindings</h3>
+<div class='production-block'>
+  <div class='production-number'>(60)</div>
+  <div class='production-name'>template-bind</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;one-template-bind&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-customization&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(61)</div>
+  <div class='production-name'>one-template-bind</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>template-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-token'>expr</span>&nbsp;<span class='production-reference'>&lt;pass-to-template&gt;</span><span class='production-optional'>?</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>template-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;option-template-bind&gt;</span></div></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>template-name</span></div>
+<div class='production-block'>
+  <div class='production-number'>(62)</div>
+  <div class='production-name'>option-template-bind</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OR</span>&nbsp;<span class='production-token'>expr</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-token'>expr</span>&nbsp;<span class='production-reference'>&lt;pass-to-template&gt;</span><span class='production-optional'>?</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-token'>OR</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-token'>expr</span>&nbsp;<span class='production-reference'>&lt;pass-to-template&gt;</span><span class='production-optional'>?</span></div>
+<div class='production-block'>
+  <div class='production-number'>(63)</div>
+  <div class='production-name'>pass-to-template</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>template-name</span></div>
+<div class='production-block'>
+  <div class='production-number'>(64)</div>
+  <div class='production-name'>template-customization</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;template-style&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;template-event&gt;</span></div>
+<div class='section-description'>
+
+        <p>Each binding is responsible for filling one slot in the template, which can be of type <tt>punnet</tt>, <tt>container</tt> or <tt>content</tt>.</p>
+        <p>The first case of rule (61) enables a value to be "assigned" to a slot in the template.  The exact semantics of this depend on the slot type; see <a href="index.html#connecting-elements-to-cards">connecting elements to cards</a> for details.</p>
+        <p>The second case allows the assignment to be conditional on another expression.  In this case, the conditional (first) expression of each case of rule (62), which must be of type boolean, is considered and the first one to evaluate to <tt>true</tt> is selected.  The value (second) expression is then used as the value.  The second clause of rule (62) may only be used once, and must be the last instance in a given binding.</p>
+        <p>The degenerate (third) case for rule (61) can only be used to customize <tt>style</tt> elements.  In this case the template name is provided and the styles and events are immediate descendants of this.</p>
+        <p>For <tt>container</tt> slots <i>only</i>, it is possible to specify an <tt>item</tt> template that the value should be passed to using rule (63).</p>
+        <p>Styling and event handling may be added to all elements except <tt>punnet</tt>s, which hand off styling and event handling to their contained cards.  In general, this will also not be used with <tt>container</tt> slots.</p>
+      </div>
+<h3>Template Customization</h3>
+<div class='production-block'>
+  <div class='production-number'>(65)</div>
+  <div class='production-name'>template-style</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>OR</span>&nbsp;<span class='production-reference'>&lt;expr&gt;</span>&nbsp;<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>STRING</span><span class='production-many'>+</span></div>
+<div class='production-block'>
+  <div class='production-number'>(66)</div>
+  <div class='production-name'>template-event</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>event-name</span>&nbsp;<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expr&gt;</span><span class='production-many'>*</span></div>
+<div class='section-description'>
+
+    			<p>For <tt>content</tt> and <tt>style</tt> elements, it is possible to <i>customize</i> the element by applying styling and adding event handlers.</p>
+    			<p>Rule (65) defines the behaviour for styling.  Any number of styling rules may be applied; each will match the <tt>expr</tt> and, if true, will add the classes identified by the strings to the element's class list.</p>
+    			<p>Rule (66) defines event handlers.  Each of the predefined events can be mapped exactly once per element.  The outcome will be the invocation of an event handler defined on the card as <tt>var-name</tt>.  It will receive a set of arguments along with an event object of a type appropriate for the named event.</p>
+    		</div>
 </body>
 </html>
