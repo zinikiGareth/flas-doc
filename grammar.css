@@ -33,6 +33,10 @@
 	line-height: 1.35em;
 }
 
+.production-needs-testing {
+	background: red;
+}
+
 .production-number {
 	display: inline-block;
 	width:2em;

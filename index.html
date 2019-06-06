@@ -5,103 +5,137 @@
 	</head>
 	<body>
 <h1>FLAS</h1>
-<p>FLAS is a system for the development and deployment of card-based systems using functional programming and actor models.</p>
-<p>The FLAS language supports the definition of contracts, cards and services to cover the entire spectrum of application development in a target-neutral way.</p>
-<p>Compilation backends and runtimes are provided for a number of environments, including:</p>
-<ul>
-<li>Javascript deployment into a browser;
-<li>Android packaging to build APKs for mobile phones;
-<li>JVM code to install into Java-based servers such as Ziniki;
-<li>Javascript modules for deployment into Node.js servers;
-<li>PHP?
-</ul>
-<h2>FLAS Language</h2>
-<p>Processing FLAS language files consists of four main phases:</p>
-<ul>
-<li>blocking;
-<li>parsing;
-<li>resolving;
-<li>generating code.
-</ul>
-<p>These four phases follow on from each other and each consists of a number of sub-phases.</p> 
-</ul>
-<h3>Blocking</h3>
-<p>The first step in interpreting a FLAS program file is to break it into lines, which are grouped into blocks using a simple indent rule.</p>
-<p>Blank lines and any lines with no leading white space are considered "literate comments" and are ignored by the compiler (although there should be a <tt>weave</tt>-like tool for generating documentation based on them).</p>
-<p>Top-level statements should all begin with exactly one tab character.</p>
-<p>Lines that are too long and want to be continued on the next line should have the continuation line begin with the same number of tabs <b>and</b> one or more space characters.</p>
-<p>Nested definitions should have exactly one more leading tab than their parent line.</p>
-<h3>Parsing</h3>
-<p>The syntax of the language can be expressed using a <a href='grammar.html'>formal grammar</a>.</p>
-<p>The parser operates by considering the leading line of each block in turn, and then considering all the nested blocks.</p>
-<p>Each line is identified by block context (and possibly leading keyword); if no other pattern can be found, it is assumed to be a function definition and those productions are tried.  If it cannot be parsed as a function, a syntax error will result.</p>
-<h3>Resolving</h3>
-<h4>Name Resolution</h4>
-<h4>Method Conversion<h4>
-<h3>Code Generation</h3>
-<h4>HSIE Function Generation</h4>
-<h4>JavaScript Generation</h4>
-<h4>JVM &amp; Android Generation</h4>
-<h2>FLAS Runtime</h2>
-<h3>Basic Runtime</h3>
-<h3>IFrames, workers, sub-cards and security</h3>
-<h3>Object wire format (all cases, and what can and cannot be shipped)</h3>
-<h3>Object storage (including editing concerns)</h3>
-<h3>Disconnected Mode (and reconciliation)</h3>
-<h3>Backend connection</h3>
-<h2>Visuals and Templates</h2>
+    <p>FLAS is a system for the development and deployment of card-based systems using functional programming and actor models.</p>
+    <p>The FLAS language supports the definition of contracts, cards and services to cover the entire spectrum of application development in a target-neutral way.</p>
+    <p>Compilation backends and runtimes are provided for a number of environments, including:</p>
+    <ul>
+      <li>Javascript deployment into a browser;
+      <li>Android packaging to build APKs for mobile phones;
+      <li>JVM code to install into Java-based servers such as Ziniki;
+      <li>Javascript modules for deployment into Node.js servers;
+      <li>PHP?
+    </ul>
+  <h2>FLAS Language</h2>
+    <p>Processing FLAS language files consists of four main phases:</p>
+    <ul>
+      <li>blocking;
+      <li>parsing;
+      <li>resolving;
+      <li>generating code.
+    </ul>
+    <p>These four phases follow on from each other and each consists of a number of sub-phases.</p> 
+  <h3>Blocking</h3>
+    <p>The first step in interpreting a FLAS program file is to break it into lines, which are grouped into blocks using a simple indent rule.</p>
+    <p>Blank lines and any lines with no leading white space are considered "literate comments" and are ignored by the compiler (although there should be a <tt>weave</tt>-like tool for generating documentation based on them).</p>
+    <p>Top-level statements should all begin with exactly one tab character.</p>
+    <p>Lines that are too long and want to be continued on the next line should have the continuation line begin with the same number of tabs <b>and</b> one or more space characters.</p>
+    <p>Nested definitions should have exactly one more leading tab than their parent line.</p>
+  <h3>Parsing</h3>
+    <p>The syntax of the language can be expressed using a <a href='grammar.html'>formal grammar</a>.</p>
+    <p>The parser operates by considering the leading line of each block in turn, and then considering all the nested blocks.</p>
+    <p>Each line is identified by block context (and possibly leading keyword); if no other pattern can be found, it is assumed to be a function definition and those productions are tried.  If it cannot be parsed as a function, a syntax error will result.</p>
+  <h3>Resolving</h3>
+    <p>Each full declaration (a full declaration is something like a card, function, standalone method or contract; templates, contract methods, states, actions, are not full declarations: they cannot be separated from their containing declaration) is stored with a fully qualified name in a repository.
+       The fully qualified name contains portions of all the enclosing scopes so that it is clear where it is defined.
+       A fully qualified name begins with the package scope of the file in which the translation unit was found, except for builtin declarations which are in the root scope (with no package prefix).
+       Declarations are grouped according to type (cards, functions, contracts, etc.) but each fully qualified name must be globally unique.</p>
+  <h4>Name Resolution</h4>
+    <p>The resolution process begins by examining each declaration in turn and looking at the unresolved members in it.
+       These may either be qualified or unqualified (i.e. contain a '.').
+       For qualified names, the name <i>must</i> exist as is, otherwise an error will occur.
+       For unqualified names, the following process is used to find a matching name.</p>
+    <ul>
+      <li>If the current declaration has nested declarations, the immediately nested declarations are considered first (i.e. the unqualified name is appended to the containing declaration's name; if that exists, it is used);
+      <li>Otherwise, the containing scope of the current declaration is considered;
+      <li>This is considered up until there are no more enclosing scopes;
+      <li>Finally, the builtin scope is considered to see if the name is defined there.
+    </ul>
+    <p>It is an error for no matching item to be found.</p>
+    <p>The kind of declaration and its type are not taken into account in the matching process; the nearest match is always found.
+       This may lead to errors in later stages if more than one match could be found and the "wrong" one was.
+       It is always possible to override this process by specifying a fully qualified name, except where a builtin is desired.</p>
+  <h4>Method Conversion</h4>
+    <p>FLAS offers "special syntax" for methods to enable cleaner code.
+       However, the special syntax does not confer the ability to do anything special; methods are simply functions which can be invoked by the runtime environment and return a list of Action structs.
+       After resolving, the compiler converts all methods to simple functions of this type.</p>
+    <p>Each method with multiple actions is transformed to a function returning the flattened concatenation of all the method actions.</p>
+    <p>If a method is a simple send or assigment, it is transformed into a Send or Assign struct.</p>
+    <p>If a method already returns an Action struct, it is directly used.</p>
+    <p>If a method returns a list of Action structs, these are flattened into the list constructed by the compiler.</p>
+    <p>Note that the resultant function is a <i>pure</i> function; the side-effects are purely the result of interpreting the resulting list as a series of state changes, which only happens after the function has returned, and so cannot affect the current evaluation cycle.</p>
+  <h3>Data Types</h3>
+  typing & typechecking go in here
+  but also a discussion of how the different things relate to each other
+  crosets
+  croquis
+  arenas (as crosets?  as objects wrapping crosets?  benches?  permissions?)
+  <h4 id='envelopes'>Envelopes and Wrapping</h4>
+  <h3>Code Generation</h3>
+  <h4>HSIE Function Generation</h4>
+  <h4>JavaScript Generation</h4>
+  <h4>JVM &amp; Android Generation</h4>
+  <h2>FLAS Runtime</h2>
+  <h3>Basic Runtime</h3>
+  <h3>IFrames, workers, sub-cards and security</h3>
+  <h3>Object wire format (all cases, and what can and cannot be shipped)</h3>
+  <h3>Object storage (including editing concerns)</h3>
+  <!-- the editing concerns here are about how we change things and track those changes and units of work.  For the UI, see the webzip section -->
+  <h3>Disconnected Mode (and reconciliation)</h3>
+  <h3>Backend connection</h3>
+  <h2>Visuals and Templates</h2>
 <!-- TODO: I would like to move some or all of this into its own "executable" XML file to check that the code works as described, like with grammar.xml -->
-<p>Cards consist of data, behaviour and visual representation.</p>
-<p>Data is represented by the <tt>state</tt> of a card.  At any given time, there are atomic values for the state of the card and these can be rendered.</p>
-<p>The render process consists of finding an extant card template from a webzip file and populating it with entries from the state.  To avoid flicker and other visual artefacts, the view is minimally changed to reflect the new state.</p>
-<h3>Webzip Files</h3>
-<p>The UI is built outside FLAS using a suitable visual design tool.  The output of this tool (or tool chain) needs to be a set of HTML and CSS files, possibly together with other visual assets such as images.</p>
-<p>The only constraints that FLAS puts on these assets are:</p>
-<ul>
-<li>it must be presented as one or more zip files;
-<li>significant elements in the HTML files must have suitably defined <tt>id</tt> attributes to enable them to be identified.
-</ul>
-<p>After external preparation, the zip file must then be "split" using an appropriate tool (<tt>splitzip.helpfulsidekick.com</tt>).  The result of this process will be a "split" zip file ready for processing by the FLAS compiler and deployment by a Ziniki runtime.</p>
-<h4>Element Types</h4>
-<p>There are six identified special types of element in the input HTML files.</p>
-<p><tt>card</tt> - an element tagged with id <tt>flas-card-<i>name</i></tt> introduces a new card template which can be referenced from within a FLAS card definition.  The entirety of this element and its children are included in the card definition unless removed by a nested card or other "hole".</p>
-<p><tt>item</tt> - an element tagged with id <tt>flas-item-<i>name</i></tt> introduces a new item template which can be referenced from within a FLAS card definition when wiring up a container.  The entirety of this element and its children are included in the item definition unless otherwise removed, but do not appear in any parent container.</p>
-<p><tt>punnet</tt> - an element tagged with id <tt>flas-punnet-<i>name</i></tt> is preserved, but all of its contents are removed (although nested cards and items will be captured).  The name is to be used in a card definition to associate a set of nested cards, which should be entities within a Croset, although a single entity in a variable is also acceptable.</p>
-<p><tt>container</tt> - an element tagged with id <tt>flas-container-<i>name</i></tt> is preserved, but all of its contents are removed (although nested cards and items will be captured).  The name is then used in a card definition to associate a set of items, each of which is identified by a template and backed by a list (or single data object).</p>
-<p><tt>content</tt> - an element tagged with id <tt>flas-content-<i>name</i></tt> is preserved in the current <tt>card</tt> or <tt>item</tt> context, but all of its contents are removed (although nested items and cards will be extracted as separate templates).  The name is available within the template scope for providing values and for adding styles and events.</p>
-<p><tt>style</tt> - an element tagged with id <tt>flas-style-<i>name</i></tt> is preserved along with its children (unless otherwise processed).  The name may be referenced within the template definition for the application of styling and to connect event handlers.</p>
-<p>During the processing of these elements, all of these <tt>id</tt>s are removed and "equivalent" <tt>data</tt> tags are inserted.  This ensures that there will never be duplicate <tt>id</tt>s in any of the application pages.</p>
-<p>The key difference between a <tt>punnet</tt> and a <tt>container</tt> is that, while superficially similar, the <tt>punnet</tt> delegates to the system the task of finding and instantiating a card for an entity, which is then responsible for generating a template and handling its own events.  A card using a <tt>container</tt> knows what data it is expecting and has appropraite <tt>item</tt> templates to handle them.</p>
-<h4 id="connecting-elements-to-cards">Connecting Elements to Cards</h4>
+    <p>Cards consist of data, behaviour and visual representation.</p>
+    <p>Data is represented by the <tt>state</tt> of a card.  At any given time, there are atomic values for the state of the card and these can be rendered.</p>
+    <p>The render process consists of finding an extant card template from a webzip file and populating it with entries from the state.  To avoid flicker and other visual artefacts, the view is minimally changed to reflect the new state.</p>
+  <h3>Webzip Files</h3>
+    <p>The UI is built outside FLAS using a suitable visual design tool.  The output of this tool (or tool chain) needs to be a set of HTML and CSS files, possibly together with other visual assets such as images.</p>
+    <p>The only constraints that FLAS puts on these assets are:</p>
+    <ul>
+      <li>it must be presented as one or more zip files;
+      <li>significant elements in the HTML files must have suitably defined <tt>id</tt> attributes to enable them to be identified.
+    </ul>
+    <p>After external preparation, the zip file must then be "split" using an appropriate tool (<tt>splitzip.helpfulsidekick.com</tt>).  The result of this process will be a "split" zip file ready for processing by the FLAS compiler and deployment by a Ziniki runtime.</p>
+  <h4>Element Types</h4>
+    <p>There are six identified special types of element in the input HTML files.</p>
+    <p><tt>card</tt> - an element tagged with id <tt>flas-card-<i>name</i></tt> introduces a new card template which can be referenced from within a FLAS card definition.  The entirety of this element and its children are included in the card definition unless removed by a nested card or other "hole".</p>
+    <p><tt>item</tt> - an element tagged with id <tt>flas-item-<i>name</i></tt> introduces a new item template which can be referenced from within a FLAS card definition when wiring up a container.  The entirety of this element and its children are included in the item definition unless otherwise removed, but do not appear in any parent container.</p>
+    <p><tt>punnet</tt> - an element tagged with id <tt>flas-punnet-<i>name</i></tt> is preserved, but all of its contents are removed (although nested cards and items will be captured).  The name is to be used in a card definition to associate a set of nested cards, which should be entities within a Croset, although a single entity in a variable is also acceptable.</p>
+    <p><tt>container</tt> - an element tagged with id <tt>flas-container-<i>name</i></tt> is preserved, but all of its contents are removed (although nested cards and items will be captured).  The name is then used in a card definition to associate a set of items, each of which is identified by a template and backed by a list (or single data object).</p>
+    <p><tt>content</tt> - an element tagged with id <tt>flas-content-<i>name</i></tt> is preserved in the current <tt>card</tt> or <tt>item</tt> context, but all of its contents are removed (although nested items and cards will be extracted as separate templates).  The name is available within the template scope for providing values and for adding styles and events.</p>
+    <p><tt>style</tt> - an element tagged with id <tt>flas-style-<i>name</i></tt> is preserved along with its children (unless otherwise processed).  The name may be referenced within the template definition for the application of styling and to connect event handlers.</p>
+    <p>During the processing of these elements, all of these <tt>id</tt>s are removed and "equivalent" <tt>data</tt> tags are inserted.  This ensures that there will never be duplicate <tt>id</tt>s in any of the application pages.</p>
+    <p>The key difference between a <tt>punnet</tt> and a <tt>container</tt> is that, while superficially similar, the <tt>punnet</tt> delegates to the system the task of finding and instantiating a card for an entity, which is then responsible for generating a template and handling its own events.  A card using a <tt>container</tt> knows what data it is expecting and has appropraite <tt>item</tt> templates to handle them.</p>
+  <h4 id="connecting-elements-to-cards">Connecting Elements to Cards</h4>
 <!-- should we have examples in this section? -->
-<p>Each card is expected to provide a <tt>template</tt> definition, which will reference a <tt>template-name</tt> found in a webzip file.  For cards that provide multiple template definitions, the first one is used for the card itself and must be of <tt>card</tt> type, and the others must be of <tt>item</tt> type.</p>
-<p>Each of the six item types can only be used in particular ways in a card based on its type.</p>
-<h5><tt>card</tt> and <tt>item</tt></h5> 
-<p>These two types are used as templates, and thus can only be used on the template declaration line.  Each of them can only be used once in any given card, although they may be reused in multiple cards.</p>
-<p>Only one template of the <tt>card</tt> type is allowed on a card.  It must be the first template.</p>
-<p>Every item template must be referenced by a previous template declaration before it is declared; that is, they must form some kind of directed graph rooted in the card declaration.  Cycles in the graph are allowed to support tree and graph structures.</p>
-<h5><tt>punnet</tt> and <tt>container</tt></h5>
-<p>These two types are used to hold zero or more other formatted things.  They may only be used as the left hand side of a binding.</p>
-<p>A punnet declaration identifies an area of the template that can hold nested cards; its source must be an entity or a croset containing entities (or envelopes).</p>
-<p>Punnets are intricately tied into the overall operation of the FLAS system, and will send requests to the runtime to identify and instantiate the most appropriate card for each entity.  These instantiated cards will then have their own lifecycle, but will be able to interact with the parent card (i.e. "this" card in some sense) through shared contracts.  Which contracts are available fundamentally depends on the type of the object, i.e. the type of the entity or envelope.</p>
-<p>On the other hand, containers identify an area of the template that can hold nested items.  Its source must be any structured item or a croset containing structured items.</p>
-<p>Because the system does not identify how to render these items, it is necessary to specify a template name as well in the binding.  This must be the name of a template defined on the card and that matches an item name in the webzip.</p> 
-<p>Items of <tt>object</tt> type present a special case, since these have the ability to render themselves; in this case the template name is not provided locally, but in the object definition.  However, the appearance of the binding is the same; it is just the location of the template that varies.</p>
-<p>If the value is null, or a croset is empty, no content will be rendered into the punnet or container.</p> 
-<h5><tt>content</tt> and <tt>style</tt></h5>
-<p>These two types are using to control individual areas of the template to supply values, handling styling (including hiding elements) and to trigger user events.</p>
-<p>The <tt>content</tt> declaration supports all the features of the <tt>style</tt> declaration.</p>
-<p>Thus both of these support styling and event handling.</tt>
-<p>Styles are specified by writing an "or"-like statement under the binding.  Each clause of the "or" adds classes that should be specified on the top-level element specified by this binding.</p>
+    <p>Each card is expected to provide a <tt>template</tt> definition, which will reference a <tt>template-name</tt> found in a webzip file.  For cards that provide multiple template definitions, the first one is used for the card itself and must be of <tt>card</tt> type, and the others must be of <tt>item</tt> type.</p>
+    <p>Each of the six item types can only be used in particular ways in a card based on its type.</p>
+  <h5><tt>card</tt> and <tt>item</tt></h5> 
+    <p>These two types are used as templates, and thus can only be used on the template declaration line.  Each of them can only be used once in any given card, although they may be reused in multiple cards.</p>
+    <p>Only one template of the <tt>card</tt> type is allowed on a card.  It must be the first template.</p>
+    <p>Every item template must be referenced by a previous template declaration before it is declared; that is, they must form some kind of directed graph rooted in the card declaration.  Cycles in the graph are allowed to support tree and graph structures.</p>
+  <h5><tt>punnet</tt> and <tt>container</tt></h5>
+    <p>These two types are used to hold zero or more other formatted things.  They may only be used as the left hand side of a binding.</p>
+    <p>A punnet declaration identifies an area of the template that can hold nested cards; its source must be an entity or a croset containing entities (or envelopes).</p>
+    <p>Punnets are intricately tied into the overall operation of the FLAS system, and will send requests to the runtime to identify and instantiate the most appropriate card for each entity.  These instantiated cards will then have their own lifecycle, but will be able to interact with the parent card (i.e. "this" card in some sense) through shared contracts.  Which contracts are available fundamentally depends on the type of the object, i.e. the type of the entity or envelope.</p>
+    <p>On the other hand, containers identify an area of the template that can hold nested items.  Its source must be any structured item or a croset containing structured items.</p>
+    <p>Because the system does not identify how to render these items, it is necessary to specify a template name as well in the binding.  This must be the name of a template defined on the card and that matches an item name in the webzip.</p> 
+    <p>Items of <tt>object</tt> type present a special case, since these have the ability to render themselves; in this case the template name is not provided locally, but in the object definition.  However, the appearance of the binding is the same; it is just the location of the template that varies.</p>
+    <p>If the value is null, or a croset is empty, no content will be rendered into the punnet or container.</p> 
+  <h5><tt>content</tt> and <tt>style</tt></h5>
+    <p>These two types are using to control individual areas of the template to supply values, handling styling (including hiding elements) and to trigger user events.</p>
+    <p>The <tt>content</tt> declaration supports all the features of the <tt>style</tt> declaration.</p>
+    <p>Thus both of these support styling and event handling.</tt>
+    <p>Styles are specified by writing an "or"-like statement under the binding.  Each clause of the "or" adds classes that should be specified on the top-level element specified by this binding.</p>
 <!--   | expr => "class" ... -->
-<p>Event handlers are written as a registered event name followed by an arrow and an invocation of a defined event method.  The actual invocation will also include an appropriately typed event object.</p>
+    <p>Event handlers are written as a registered event name followed by an arrow and an invocation of a defined event method.  The actual invocation will also include an appropriately typed event object.</p>
 <!--    event-name => event-handler-on-card <expr> ... -->
-<p>In addition to styles and events, <tt>content</tt> elements can be directly assigned values.  This is done by using the send syntax as in methods.</p>
-<p>The expression must have a scalar type (<tt>boolean</tt>, <tt>integer</tt> or <tt>string</tt>).  Expressions of type <tt>any</tt> will be accepted at compile time, but structured objects, along with null and error values, will be suppressed at runtime.</p>
-<h4>Editing content elements</h4>
- 
-   
-   
-<b>   envelopes and wrapping</b>
+    <p>In addition to styles and events, <tt>content</tt> elements can be directly assigned values.  This is done by using the send syntax as in methods.</p>
+    <p>The expression must have a scalar type (<tt>boolean</tt>, <tt>integer</tt> or <tt>string</tt>).  Expressions of type <tt>any</tt> will be accepted at compile time, but structured objects, along with null and error values, will be suppressed at runtime.</p>
+  <h4>Editing content elements</h4>
+  Questions to answer:
+    - am I in edit mode or not?  suggests we want a flag
+    - what to display?  value obviously vs some kind of template.  But does the value want to be styled?  in which case do we want to have two templates one for edit and one for not-edit?
+    - how to move into/out of edit mode?  We can easily have gadgets that set/unset the "edit" flag.  One gadget can control one or many fields.
+    - how do we specify all of this in the template?
 	</body>
 </html>
