@@ -28,6 +28,7 @@
   	<p>Separates similar items in a list.</p>
   </div><h3>CONTRACT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>contract</span><div class='lexical-description'>
   	<p>The <tt>contract</tt> keyword introduces a contract declaration.</p>
+  	<p>It is also used in unit tests to invoke a contract method on a card or service.</p>
   </div><h3>CRB</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\)</span><div class='lexical-description'>
   	<p>A closing round bracket delimits the end of an expression or pattern.</p>
   </div><h3>CSB</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\]</span><div class='lexical-description'>
@@ -42,8 +43,6 @@
   	<p>The <tt>up</tt> and <tt>down</tt> keywords indicate the sense in which a contract method is called.</p>
   </div><h3>DOCWORD</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[a-zA-Z_0-9]+</span><div class='lexical-description'>
     <p>Words that can appear in the documentation of a test case.</p>
-  </div><h3>DOSEND</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>send</span><div class='lexical-description'>
-  	<p>The <tt>send</tt> keyword is used in tests to send a message to a contract.</p>
   </div><h3>ENTITY</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>entity</span><div class='lexical-description'>
   	<p>The <tt>entity</tt> keyword introduces an entity definition.</p>
   </div><h3>ENVELOPE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>envelope</span><div class='lexical-description'>
@@ -62,6 +61,8 @@
   	<p>The <tt>handler</tt> keyword introduces a callback handler.</p>
   </div><h3>IMPLEMENTS</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>implements</span><div class='lexical-description'>
   	<p>The <tt>implements</tt> keyword introduces a contract implementation in a card.</p>
+  </div><h3>INVOKE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>invoke</span><div class='lexical-description'>
+  	<p>The <tt>invoke</tt> keyword is used in unit tests to invoke a method on an object.</p>
   </div><h3>METHOD</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>method</span><div class='lexical-description'>
   	<p>The <tt>method</tt> keyword introduces a standalone method definition.</p>
   </div><h3>NUMBER</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>[0-9.e+-]+</span><div class='lexical-description'>
@@ -756,7 +757,10 @@
 <span class='production-reference'>&lt;unit-event-action&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
-<span class='production-reference'>&lt;unit-send-action&gt;</span></div>
+<span class='production-reference'>&lt;unit-invoke-action&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;unit-contract-action&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-test-assert&gt;</span></div>
@@ -769,22 +773,27 @@
   <div class='production-op'>::=</div>
 <span class='production-token'>EVENT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>event-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(97)</div>
-  <div class='production-name'>unit-send-action</div>
+  <div class='production-number production-needs-testing'>(97)</div>
+  <div class='production-name'>unit-invoke-action</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>DOSEND</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
+<span class='production-token'>INVOKE</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(98)</div>
+  <div class='production-name'>unit-contract-action</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>CONTRACT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(99)</div>
   <div class='production-name'>unit-test-assert</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>ASSERT</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;expression&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(99)</div>
+  <div class='production-number production-needs-testing'>(100)</div>
   <div class='production-name'>unit-test-template</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEMPLATE</span></div>
 <div class='production-block'>
-  <div class='production-number'>(100)</div>
+  <div class='production-number'>(101)</div>
   <div class='production-name'>unit-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;unit-expr-data-declaration&gt;</span></div>
@@ -792,27 +801,27 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-fields-data-declaration&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(101)</div>
+  <div class='production-number'>(102)</div>
   <div class='production-name'>unit-expr-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number'>(102)</div>
+  <div class='production-number'>(103)</div>
   <div class='production-name'>unit-fields-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;&gt;</span><span class='production-reference'>&lt;unit-fields-data-initializer&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(103)</div>
+  <div class='production-number'>(104)</div>
   <div class='production-name'>unit-fields-data-initializer</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(104)</div>
+  <div class='production-number production-needs-testing'>(105)</div>
   <div class='production-name'>protocol-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(105)</div>
+  <div class='production-number production-needs-testing'>(106)</div>
   <div class='production-name'>system-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
@@ -1579,7 +1588,10 @@
 <span class='production-reference'>&lt;unit-event-action&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
-<span class='production-reference'>&lt;unit-send-action&gt;</span></div>
+<span class='production-reference'>&lt;unit-invoke-action&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;unit-contract-action&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-test-assert&gt;</span></div>
@@ -1592,17 +1604,22 @@
   <div class='production-op'>::=</div>
 <span class='production-token'>EVENT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>event-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(97)</div>
-  <div class='production-name'>unit-send-action</div>
+  <div class='production-number production-needs-testing'>(97)</div>
+  <div class='production-name'>unit-invoke-action</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>DOSEND</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
+<span class='production-token'>INVOKE</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(98)</div>
+  <div class='production-name'>unit-contract-action</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>CONTRACT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number'>(99)</div>
   <div class='production-name'>unit-test-assert</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>ASSERT</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;expression&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(99)</div>
+  <div class='production-number production-needs-testing'>(100)</div>
   <div class='production-name'>unit-test-template</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEMPLATE</span></div>
@@ -1617,10 +1634,14 @@
         <li>on the behaviour of a card event handler.</li>
         </ul>
         <p>In order to make all these cases easy, the unit test language allows values and messages to be easily defined and has special syntax for isolating and testing message outputs and template orchestration, independent of the actual template HTML provided.</p>
+        <p>The <tt>event</tt> action simulates a UI input event and dispatches it to the card.  The first argument is a variable which is a reference to the card to receive the event.  The second is the name of an event handler. The expression will probably construct an event, but it could also be a reference to a data object.</p>
+        <p>The <tt>invoke</tt> action invokes a method on an object.  This is just described as an "expression" but the semantics are that it must be a valid object method invocation.</p>
+        <p>The <tt>contract</tt> action is supposed to invoke a method in a contract on a card.  The first argument is a data variable which is a reference to the card to receive the event.  The second argument is the name of the contract which will have the event.  The third var is the name of the method to invoke on the contract.  The expressions are the data elements to send.</p>
+        <p>We still need to handle expectations.</p>
       </div>
 <h3>Unit Test Data</h3>
 <div class='production-block'>
-  <div class='production-number'>(100)</div>
+  <div class='production-number'>(101)</div>
   <div class='production-name'>unit-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;unit-expr-data-declaration&gt;</span></div>
@@ -1628,17 +1649,17 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-fields-data-declaration&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(101)</div>
+  <div class='production-number'>(102)</div>
   <div class='production-name'>unit-expr-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number'>(102)</div>
+  <div class='production-number'>(103)</div>
   <div class='production-name'>unit-fields-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;&gt;</span><span class='production-reference'>&lt;unit-fields-data-initializer&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(103)</div>
+  <div class='production-number'>(104)</div>
   <div class='production-name'>unit-fields-data-initializer</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
@@ -1649,7 +1670,7 @@
       </div>
 <h3>Protocol Tests</h3>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(104)</div>
+  <div class='production-number production-needs-testing'>(105)</div>
   <div class='production-name'>protocol-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
@@ -1663,7 +1684,7 @@
       </div>
 <h3>System Tests</h3>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(105)</div>
+  <div class='production-number production-needs-testing'>(106)</div>
   <div class='production-name'>system-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
