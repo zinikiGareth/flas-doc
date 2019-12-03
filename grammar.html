@@ -1637,7 +1637,11 @@
         <p>The <tt>event</tt> action simulates a UI input event and dispatches it to the card.  The first argument is a variable which is a reference to the card to receive the event.  The second is the name of an event handler. The expression will probably construct an event, but it could also be a reference to a data object.</p>
         <p>The <tt>invoke</tt> action invokes a method on an object.  This is just described as an "expression" but the semantics are that it must be a valid object method invocation.</p>
         <p>The <tt>contract</tt> action is supposed to invoke a method in a contract on a card.  The first argument is a data variable which is a reference to the card to receive the event.  The second argument is the name of the contract which will have the event.  The third var is the name of the method to invoke on the contract.  The expressions are the data elements to send.</p>
-        <p>We still need to handle expectations.</p>
+        <p>Expectations should be available on invoke, event and contract.  They should take the form of a nested block where each nested line is an expression.  These expressions hould be of the form contract.method &lt;args&gt;.
+           In these expressions you can specify an _ to say that you don't care what goes there and you can specify a function name which says that it is a matcher which takes one arg and returns a boolean.
+           If the pattern matches and true is returned, it's OK. If the patterns don't match and Error is returned, or the function explicitly returns false, the match fails.
+           Obviously, we expect exactly all of the expectations to happen.
+        </p>
       </div>
 <h3>Unit Test Data</h3>
 <div class='production-block'>
