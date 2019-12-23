@@ -53,6 +53,8 @@
   	<p>Defines the variable/function definition operator.</p>
   </div><h3>EVENT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>event</span><div class='lexical-description'>
   	<p>The <tt>event</tt> keyword introduces an event handler.</p>
+  </div><h3>EXPECT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>expect</span><div class='lexical-description'>
+  	<p>The <tt>expect</tt> keyword introduces a mock expectation.</p>
   </div><h3>FALSE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>false</span><div class='lexical-description'>
   	<p>The boolean literal <tt>false</tt>.</p>
   </div><h3>GUARD</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\|</span><div class='lexical-description'>
@@ -766,6 +768,9 @@
 <span class='production-reference'>&lt;unit-test-assert&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
+<span class='production-reference'>&lt;unit-test-expect&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-test-template&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(96)</div>
@@ -788,12 +793,17 @@
   <div class='production-op'>::=</div>
 <span class='production-token'>ASSERT</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;expression&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(100)</div>
+  <div class='production-number'>(100)</div>
+  <div class='production-name'>unit-test-expect</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>EXPECT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number production-needs-testing'>(101)</div>
   <div class='production-name'>unit-test-template</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEMPLATE</span></div>
 <div class='production-block'>
-  <div class='production-number'>(101)</div>
+  <div class='production-number'>(102)</div>
   <div class='production-name'>unit-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;unit-expr-data-declaration&gt;</span></div>
@@ -801,27 +811,27 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-fields-data-declaration&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(102)</div>
+  <div class='production-number'>(103)</div>
   <div class='production-name'>unit-expr-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number'>(103)</div>
+  <div class='production-number'>(104)</div>
   <div class='production-name'>unit-fields-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;&gt;</span><span class='production-reference'>&lt;unit-fields-data-initializer&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(104)</div>
+  <div class='production-number'>(105)</div>
   <div class='production-name'>unit-fields-data-initializer</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(105)</div>
+  <div class='production-number production-needs-testing'>(106)</div>
   <div class='production-name'>protocol-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(106)</div>
+  <div class='production-number production-needs-testing'>(107)</div>
   <div class='production-name'>system-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
@@ -1597,6 +1607,9 @@
 <span class='production-reference'>&lt;unit-test-assert&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
+<span class='production-reference'>&lt;unit-test-expect&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-test-template&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(96)</div>
@@ -1619,7 +1632,12 @@
   <div class='production-op'>::=</div>
 <span class='production-token'>ASSERT</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;expression&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(100)</div>
+  <div class='production-number'>(100)</div>
+  <div class='production-name'>unit-test-expect</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>EXPECT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
+<div class='production-block'>
+  <div class='production-number production-needs-testing'>(101)</div>
   <div class='production-name'>unit-test-template</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEMPLATE</span></div>
@@ -1637,15 +1655,17 @@
         <p>The <tt>event</tt> action simulates a UI input event and dispatches it to the card.  The first argument is a variable which is a reference to the card to receive the event.  The second is the name of an event handler. The expression will probably construct an event, but it could also be a reference to a data object.</p>
         <p>The <tt>invoke</tt> action invokes a method on an object.  This is just described as an "expression" but the semantics are that it must be a valid object method invocation.</p>
         <p>The <tt>contract</tt> action is supposed to invoke a method in a contract on a card.  The first argument is a data variable which is a reference to the card to receive the event.  The second argument is the name of the contract which will have the event.  The third var is the name of the method to invoke on the contract.  The expressions are the data elements to send.</p>
-        <p>Expectations should be available on invoke, event and contract.  They should take the form of a nested block where each nested line is an expression.  These expressions hould be of the form contract.method &lt;args&gt;.
-           In these expressions you can specify an _ to say that you don't care what goes there and you can specify a function name which says that it is a matcher which takes one arg and returns a boolean.
+        <p>The <tt>expect</tt> action allows expectations to be defined.  This specifies a contract, a method and the arguments that are expected.</p>
+        <p>Notes: Expectations should be available on invoke, event and contract. 
+           In these expressions you should be able to specify an _ to say that you don't care what goes there or specify a function name which says that it is a matcher which takes one arg and returns a boolean.
+           These functions should be nested within the expect block.
            If the pattern matches and true is returned, it's OK. If the patterns don't match and Error is returned, or the function explicitly returns false, the match fails.
            Obviously, we expect exactly all of the expectations to happen.
         </p>
       </div>
 <h3>Unit Test Data</h3>
 <div class='production-block'>
-  <div class='production-number'>(101)</div>
+  <div class='production-number'>(102)</div>
   <div class='production-name'>unit-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;unit-expr-data-declaration&gt;</span></div>
@@ -1653,17 +1673,17 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-fields-data-declaration&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(102)</div>
+  <div class='production-number'>(103)</div>
   <div class='production-name'>unit-expr-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number'>(103)</div>
+  <div class='production-number'>(104)</div>
   <div class='production-name'>unit-fields-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;&gt;</span><span class='production-reference'>&lt;unit-fields-data-initializer&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(104)</div>
+  <div class='production-number'>(105)</div>
   <div class='production-name'>unit-fields-data-initializer</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
@@ -1674,7 +1694,7 @@
       </div>
 <h3>Protocol Tests</h3>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(105)</div>
+  <div class='production-number production-needs-testing'>(106)</div>
   <div class='production-name'>protocol-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
@@ -1688,7 +1708,7 @@
       </div>
 <h3>System Tests</h3>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(106)</div>
+  <div class='production-number production-needs-testing'>(107)</div>
   <div class='production-name'>system-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
