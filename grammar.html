@@ -11,6 +11,8 @@
     <h2>Lexical Issues</h2>
   <h3>ACOR</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>acor</span><div class='lexical-description'>
   	<p>The <tt>acor</tt> keyword introduces an object accessor function.</p>
+  </div><h3>AGENT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>agent</span><div class='lexical-description'>
+  	<p>The <tt>agent</tt> keyword introduces an agent declaration.</p>
   </div><h3>APPLY</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\.</span><div class='lexical-description'>
   	<p>The apply operator.</p>
   </div><h3>ASSERT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>assert</span><div class='lexical-description'>
@@ -197,6 +199,9 @@
 <div class='production-or-block'>
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;service-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;agent-declaration&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;card-declaration&gt;</span></div>
@@ -635,7 +640,7 @@
   <div class='production-number'>(75)</div>
   <div class='production-name'>service-contents</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;service-scope&gt;</span></div>
+<span class='production-reference'>&lt;service-scope&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(76)</div>
   <div class='production-name'>service-scope</div>
@@ -656,21 +661,31 @@
 <span class='production-token'>PROVIDES</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;implementation-method&gt;</span></div></div>
 <div class='production-block'>
   <div class='production-number'>(79)</div>
+  <div class='production-name'>agent-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>AGENT</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;agent-contents&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(80)</div>
+  <div class='production-name'>agent-contents</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;service-scope&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number'>(81)</div>
   <div class='production-name'>card-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>CARD</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;card-contents&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(80)</div>
+  <div class='production-number'>(82)</div>
   <div class='production-name'>card-contents</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;many-templates&gt;</span>&nbsp;<span class='production-reference'>&lt;card-scope&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(81)</div>
+  <div class='production-number'>(83)</div>
   <div class='production-name'>card-scope</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;card-scope-unit&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number'>(82)</div>
+  <div class='production-number'>(84)</div>
   <div class='production-name'>card-scope-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;event-handler&gt;</span></div>
@@ -684,42 +699,42 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;service-scope-unit&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(83)</div>
+  <div class='production-number'>(85)</div>
   <div class='production-name'>requires-contract</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>REQUIRES</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;&nbsp;<span class='production-token'>var-name</span></div>
 <div class='production-block'>
-  <div class='production-number'>(84)</div>
+  <div class='production-number'>(86)</div>
   <div class='production-name'>implements-contract</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>IMPLEMENTS</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;implementation-method&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(85)</div>
+  <div class='production-number'>(87)</div>
   <div class='production-name'>implementation-method</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>var-name</span>&nbsp;&nbsp;<span class='production-reference'>&lt;argument-pattern-variable&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;implementation-result&gt;</span><span class='production-optional'>?</span>&nbsp;&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;method-actions&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(86)</div>
+  <div class='production-number'>(88)</div>
   <div class='production-name'>implementation-result</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>HANDLE</span>&nbsp;<span class='production-token'>var-name</span></div>
 <div class='production-block'>
-  <div class='production-number'>(87)</div>
+  <div class='production-number'>(89)</div>
   <div class='production-name'>event-handler</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>EVENT</span>&nbsp;&nbsp;<span class='production-reference'>&lt;method-definition&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(88)</div>
+  <div class='production-number'>(90)</div>
   <div class='production-name'>many-templates</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number'>(89)</div>
+  <div class='production-number'>(91)</div>
   <div class='production-name'>named-template-definition</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEMPLATE</span>&nbsp;<span class='production-token'>template-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-bind&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(90)</div>
+  <div class='production-number'>(92)</div>
   <div class='production-name'>template-bind</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>template-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-reference'>&lt;pass-to-template&gt;</span><span class='production-optional'>?</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-customization&gt;</span></div></div>
@@ -730,7 +745,7 @@
   <div class='production-or'>|</div>
 <span class='production-token'>template-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;&gt;</span><span class='production-reference'>&lt;template-customization&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(91)</div>
+  <div class='production-number'>(93)</div>
   <div class='production-name'>option-template-binds</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;option-template-bind&gt;</span><span class='production-many'>+</span>&nbsp;<span class='production-reference'>&lt;default-option-template-bind&gt;</span><span class='production-optional'>?</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-customization&gt;</span></div></div>
@@ -738,22 +753,22 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;default-option-template-bind&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-customization&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(92)</div>
+  <div class='production-number'>(94)</div>
   <div class='production-name'>option-template-bind</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-reference'>&lt;pass-to-template&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number'>(93)</div>
+  <div class='production-number'>(95)</div>
   <div class='production-name'>default-option-template-bind</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-reference'>&lt;pass-to-template&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number'>(94)</div>
+  <div class='production-number'>(96)</div>
   <div class='production-name'>pass-to-template</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>template-name</span></div>
 <div class='production-block'>
-  <div class='production-number'>(95)</div>
+  <div class='production-number'>(97)</div>
   <div class='production-name'>template-customization</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;template-style&gt;</span></div>
@@ -761,17 +776,17 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;template-event&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(96)</div>
+  <div class='production-number'>(98)</div>
   <div class='production-name'>template-style</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>STRING</span><span class='production-many'>+</span></div>
 <div class='production-block'>
-  <div class='production-number'>(97)</div>
+  <div class='production-number'>(99)</div>
   <div class='production-name'>template-event</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>event-name</span>&nbsp;<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number'>(98)</div>
+  <div class='production-number'>(100)</div>
   <div class='production-name'>unit-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;unit-test-declaration&gt;</span></div>
@@ -779,12 +794,12 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-data-declaration&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(99)</div>
+  <div class='production-number'>(101)</div>
   <div class='production-name'>unit-test-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEST</span>&nbsp;<span class='production-token'>DOCWORD</span><span class='production-many'>+</span>&nbsp;&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;unit-test-step&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(100)</div>
+  <div class='production-number'>(102)</div>
   <div class='production-name'>unit-test-step</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;unit-data-declaration&gt;</span></div>
@@ -807,37 +822,37 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-test-template&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(101)</div>
+  <div class='production-number'>(103)</div>
   <div class='production-name'>unit-event-action</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>EVENT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>event-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(102)</div>
+  <div class='production-number production-needs-testing'>(104)</div>
   <div class='production-name'>unit-invoke-action</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>INVOKE</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(103)</div>
+  <div class='production-number'>(105)</div>
   <div class='production-name'>unit-contract-action</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>CONTRACT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number'>(104)</div>
+  <div class='production-number'>(106)</div>
   <div class='production-name'>unit-test-assert</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>ASSERT</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;expression&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(105)</div>
+  <div class='production-number'>(107)</div>
   <div class='production-name'>unit-test-expect</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>EXPECT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(106)</div>
+  <div class='production-number production-needs-testing'>(108)</div>
   <div class='production-name'>unit-test-template</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEMPLATE</span></div>
 <div class='production-block'>
-  <div class='production-number'>(107)</div>
+  <div class='production-number'>(109)</div>
   <div class='production-name'>unit-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;unit-expr-data-declaration&gt;</span></div>
@@ -845,27 +860,27 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-fields-data-declaration&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(108)</div>
+  <div class='production-number'>(110)</div>
   <div class='production-name'>unit-expr-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number'>(109)</div>
+  <div class='production-number'>(111)</div>
   <div class='production-name'>unit-fields-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;&gt;</span><span class='production-reference'>&lt;unit-fields-data-initializer&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(110)</div>
+  <div class='production-number'>(112)</div>
   <div class='production-name'>unit-fields-data-initializer</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(111)</div>
+  <div class='production-number production-needs-testing'>(113)</div>
   <div class='production-name'>protocol-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(112)</div>
+  <div class='production-number production-needs-testing'>(114)</div>
   <div class='production-name'>system-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
@@ -945,6 +960,9 @@
 <div class='production-or-block'>
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;service-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;agent-declaration&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;card-declaration&gt;</span></div>
@@ -1474,7 +1492,7 @@
   <div class='production-number'>(75)</div>
   <div class='production-name'>service-contents</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;service-scope&gt;</span></div>
+<span class='production-reference'>&lt;service-scope&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(76)</div>
   <div class='production-name'>service-scope</div>
@@ -1496,24 +1514,38 @@
 <div class='section-description'>
 
       </div>
-<h3>Card</h3>
+<h3>Agent</h3>
 <div class='production-block'>
   <div class='production-number'>(79)</div>
+  <div class='production-name'>agent-declaration</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>AGENT</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;agent-contents&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(80)</div>
+  <div class='production-name'>agent-contents</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;service-scope&gt;</span></div>
+<div class='section-description'>
+
+      </div>
+<h3>Card</h3>
+<div class='production-block'>
+  <div class='production-number'>(81)</div>
   <div class='production-name'>card-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>CARD</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;card-contents&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(80)</div>
+  <div class='production-number'>(82)</div>
   <div class='production-name'>card-contents</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;state-declaration&gt;</span>&nbsp;<span class='production-reference'>&lt;many-templates&gt;</span>&nbsp;<span class='production-reference'>&lt;card-scope&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(81)</div>
+  <div class='production-number'>(83)</div>
   <div class='production-name'>card-scope</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;card-scope-unit&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number'>(82)</div>
+  <div class='production-number'>(84)</div>
   <div class='production-name'>card-scope-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;event-handler&gt;</span></div>
@@ -1531,7 +1563,7 @@
       </div>
 <h3>Requires Contract</h3>
 <div class='production-block'>
-  <div class='production-number'>(83)</div>
+  <div class='production-number'>(85)</div>
   <div class='production-name'>requires-contract</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>REQUIRES</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;&nbsp;<span class='production-token'>var-name</span></div>
@@ -1543,17 +1575,17 @@
       </div>
 <h3>Implements Contract</h3>
 <div class='production-block'>
-  <div class='production-number'>(84)</div>
+  <div class='production-number'>(86)</div>
   <div class='production-name'>implements-contract</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>IMPLEMENTS</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;implementation-method&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(85)</div>
+  <div class='production-number'>(87)</div>
   <div class='production-name'>implementation-method</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>var-name</span>&nbsp;&nbsp;<span class='production-reference'>&lt;argument-pattern-variable&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;implementation-result&gt;</span><span class='production-optional'>?</span>&nbsp;&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;method-actions&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(86)</div>
+  <div class='production-number'>(88)</div>
   <div class='production-name'>implementation-result</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>HANDLE</span>&nbsp;<span class='production-token'>var-name</span></div>
@@ -1562,7 +1594,7 @@
       </div>
 <h3>Events</h3>
 <div class='production-block'>
-  <div class='production-number'>(87)</div>
+  <div class='production-number'>(89)</div>
   <div class='production-name'>event-handler</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>EVENT</span>&nbsp;&nbsp;<span class='production-reference'>&lt;method-definition&gt;</span></div>
@@ -1574,12 +1606,12 @@
       </div>
 <h3>Templates</h3>
 <div class='production-block'>
-  <div class='production-number'>(88)</div>
+  <div class='production-number'>(90)</div>
   <div class='production-name'>many-templates</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;named-template-definition&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number'>(89)</div>
+  <div class='production-number'>(91)</div>
   <div class='production-name'>named-template-definition</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEMPLATE</span>&nbsp;<span class='production-token'>template-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-bind&gt;</span></div></div>
@@ -1591,7 +1623,7 @@
       </div>
 <h3>Template Bindings</h3>
 <div class='production-block'>
-  <div class='production-number'>(90)</div>
+  <div class='production-number'>(92)</div>
   <div class='production-name'>template-bind</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>template-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-reference'>&lt;pass-to-template&gt;</span><span class='production-optional'>?</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-customization&gt;</span></div></div>
@@ -1602,7 +1634,7 @@
   <div class='production-or'>|</div>
 <span class='production-token'>template-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;&gt;</span><span class='production-reference'>&lt;template-customization&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(91)</div>
+  <div class='production-number'>(93)</div>
   <div class='production-name'>option-template-binds</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;option-template-bind&gt;</span><span class='production-many'>+</span>&nbsp;<span class='production-reference'>&lt;default-option-template-bind&gt;</span><span class='production-optional'>?</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-customization&gt;</span></div></div>
@@ -1610,32 +1642,32 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;default-option-template-bind&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-customization&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(92)</div>
+  <div class='production-number'>(94)</div>
   <div class='production-name'>option-template-bind</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-reference'>&lt;pass-to-template&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number'>(93)</div>
+  <div class='production-number'>(95)</div>
   <div class='production-name'>default-option-template-bind</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-reference'>&lt;pass-to-template&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number'>(94)</div>
+  <div class='production-number'>(96)</div>
   <div class='production-name'>pass-to-template</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>template-name</span></div>
 <div class='section-description'>
 
         <p>Each binding is responsible for filling one slot in the template, which can be of type <tt>punnet</tt>, <tt>container</tt> or <tt>content</tt>.</p>
-        <p>The first case of rule (90) enables a value to be "assigned" to a slot in the template.  The exact semantics of this depend on the slot type; see <a href="index.html#connecting-elements-to-cards">connecting elements to cards</a> for details.</p>
-        <p>The second case allows the assignment to be conditional on another expression.  In this case, the conditional (first) expression of each case of rule (92), which must be of type boolean, is considered and the first one to evaluate to <tt>true</tt> is selected.  The value (second) expression is then used as the value.  The rule (93) may be used to specify a default assignment if none of the previous cases match.</p>
-        <p>The degenerate (third) case for rule (90) can only be used to customize <tt>style</tt> elements.  In this case the template name is provided and the styles and events are immediate descendants of this.</p>
-        <p>For <tt>container</tt> slots <i>only</i>, it is possible to specify an <tt>item</tt> template that the value should be passed to using rule (94).</p>
+        <p>The first case of rule (92) enables a value to be "assigned" to a slot in the template.  The exact semantics of this depend on the slot type; see <a href="index.html#connecting-elements-to-cards">connecting elements to cards</a> for details.</p>
+        <p>The second case allows the assignment to be conditional on another expression.  In this case, the conditional (first) expression of each case of rule (94), which must be of type boolean, is considered and the first one to evaluate to <tt>true</tt> is selected.  The value (second) expression is then used as the value.  The rule (95) may be used to specify a default assignment if none of the previous cases match.</p>
+        <p>The degenerate (third) case for rule (92) can only be used to customize <tt>style</tt> elements.  In this case the template name is provided and the styles and events are immediate descendants of this.</p>
+        <p>For <tt>container</tt> slots <i>only</i>, it is possible to specify an <tt>item</tt> template that the value should be passed to using rule (96).</p>
         <p>Styling and event handling may be added to all elements except <tt>punnet</tt>s, which hand off styling and event handling to their contained cards.  In general, this will also not be used with <tt>container</tt> slots.</p>
       </div>
 <h3>Template Customization</h3>
 <div class='production-block'>
-  <div class='production-number'>(95)</div>
+  <div class='production-number'>(97)</div>
   <div class='production-name'>template-customization</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;template-style&gt;</span></div>
@@ -1643,24 +1675,24 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;template-event&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(96)</div>
+  <div class='production-number'>(98)</div>
   <div class='production-name'>template-style</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>STRING</span><span class='production-many'>+</span></div>
 <div class='production-block'>
-  <div class='production-number'>(97)</div>
+  <div class='production-number'>(99)</div>
   <div class='production-name'>template-event</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>event-name</span>&nbsp;<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
 <div class='section-description'>
 
     			<p>For <tt>content</tt> and <tt>style</tt> elements, it is possible to <i>customize</i> the element by applying styling and adding event handlers.</p>
-    			<p>Rule (96) defines the behaviour for styling.  Any number of styling rules may be applied; each will match the <tt>expr</tt> and, if true, will add the classes identified by the strings to the element's class list.</p>
-    			<p>Rule (97) defines event handlers.  Each of the predefined events can be mapped exactly once per element.  The outcome will be the invocation of an event handler defined on the card as <tt>var-name</tt>.  It will receive a set of arguments along with an event object of a type appropriate for the named event.</p>
+    			<p>Rule (98) defines the behaviour for styling.  Any number of styling rules may be applied; each will match the <tt>expr</tt> and, if true, will add the classes identified by the strings to the element's class list.</p>
+    			<p>Rule (99) defines event handlers.  Each of the predefined events can be mapped exactly once per element.  The outcome will be the invocation of an event handler defined on the card as <tt>var-name</tt>.  It will receive a set of arguments along with an event object of a type appropriate for the named event.</p>
     		</div>
 <h3>Unit Test Files</h3>
 <div class='production-block'>
-  <div class='production-number'>(98)</div>
+  <div class='production-number'>(100)</div>
   <div class='production-name'>unit-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;unit-test-declaration&gt;</span></div>
@@ -1675,12 +1707,12 @@
       </div>
 <h3>Unit Tests</h3>
 <div class='production-block'>
-  <div class='production-number'>(99)</div>
+  <div class='production-number'>(101)</div>
   <div class='production-name'>unit-test-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEST</span>&nbsp;<span class='production-token'>DOCWORD</span><span class='production-many'>+</span>&nbsp;&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;unit-test-step&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(100)</div>
+  <div class='production-number'>(102)</div>
   <div class='production-name'>unit-test-step</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;unit-data-declaration&gt;</span></div>
@@ -1703,32 +1735,32 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-test-template&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(101)</div>
+  <div class='production-number'>(103)</div>
   <div class='production-name'>unit-event-action</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>EVENT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>event-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(102)</div>
+  <div class='production-number production-needs-testing'>(104)</div>
   <div class='production-name'>unit-invoke-action</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>INVOKE</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(103)</div>
+  <div class='production-number'>(105)</div>
   <div class='production-name'>unit-contract-action</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>CONTRACT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>type-name</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number'>(104)</div>
+  <div class='production-number'>(106)</div>
   <div class='production-name'>unit-test-assert</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>ASSERT</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;expression&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(105)</div>
+  <div class='production-number'>(107)</div>
   <div class='production-name'>unit-test-expect</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>EXPECT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(106)</div>
+  <div class='production-number production-needs-testing'>(108)</div>
   <div class='production-name'>unit-test-template</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEMPLATE</span></div>
@@ -1756,7 +1788,7 @@
       </div>
 <h3>Unit Test Data</h3>
 <div class='production-block'>
-  <div class='production-number'>(107)</div>
+  <div class='production-number'>(109)</div>
   <div class='production-name'>unit-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;unit-expr-data-declaration&gt;</span></div>
@@ -1764,17 +1796,17 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-fields-data-declaration&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(108)</div>
+  <div class='production-number'>(110)</div>
   <div class='production-name'>unit-expr-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number'>(109)</div>
+  <div class='production-number'>(111)</div>
   <div class='production-name'>unit-fields-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;&gt;</span><span class='production-reference'>&lt;unit-fields-data-initializer&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(110)</div>
+  <div class='production-number'>(112)</div>
   <div class='production-name'>unit-fields-data-initializer</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
@@ -1785,7 +1817,7 @@
       </div>
 <h3>Protocol Tests</h3>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(111)</div>
+  <div class='production-number production-needs-testing'>(113)</div>
   <div class='production-name'>protocol-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
@@ -1799,7 +1831,7 @@
       </div>
 <h3>System Tests</h3>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(112)</div>
+  <div class='production-number production-needs-testing'>(114)</div>
   <div class='production-name'>system-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
