@@ -1603,6 +1603,7 @@
         <p>An event handler is a special type of method on a card, which can respond to UI events.</p>
         <p>Although not part of the grammar, each event will receive an appropriate event object as its final argument.</p>
         <p>Event handlers are not called directly by the system but through the template mechanism (see some rule) and are generally curried, in that some arguments are presented as part of the configuration, and the event itself is provided by the system when called.</p>
+        <p>Although it is not captured in this grammar, event handlers must have exactly one argument, which must be a TypedPattern and the type must be a member of the Event class hierarchy.</p>
       </div>
 <h3>Templates</h3>
 <div class='production-block'>
