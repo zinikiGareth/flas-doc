@@ -95,6 +95,8 @@
   	<p>The SENDTO operator is used to pass things around in templates.</p>
   </div><h3>SERVICE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>service</span><div class='lexical-description'>
   	<p>The <tt>service</tt> keyword introduces a service declaration.</p>
+  </div><h3>SHOVE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>shove</span><div class='lexical-description'>
+  	<p>The <tt>shove</tt> keyword is used in unit tests to directly affect object or card state.</p>
   </div><h3>STATE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>state</span><div class='lexical-description'>
   	<p>The <tt>state</tt> keyword introduces a card or object state.</p>
   </div><h3>STRING</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>&quot;[^&quot;]*&quot;|'[^']*'</span><div class='lexical-description'>
@@ -823,6 +825,9 @@
 <span class='production-reference'>&lt;unit-test-assert&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
+<span class='production-reference'>&lt;unit-test-shove&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-test-expect&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
@@ -849,16 +854,21 @@
 <span class='production-token'>ASSERT</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;expression&gt;</span></div></div>
 <div class='production-block'>
   <div class='production-number'>(107)</div>
+  <div class='production-name'>unit-test-shove</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>SHOVE</span>&nbsp;<span class='production-reference'>&lt;member-path&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;expression&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(108)</div>
   <div class='production-name'>unit-test-expect</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>EXPECT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(108)</div>
+  <div class='production-number production-needs-testing'>(109)</div>
   <div class='production-name'>unit-test-match</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>MATCH</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;unit-test-match-category&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(109)</div>
+  <div class='production-number production-needs-testing'>(110)</div>
   <div class='production-name'>unit-test-match-category</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEXT</span></div>
@@ -866,7 +876,7 @@
   <div class='production-or'>|</div>
 <span class='production-token'>STYLE</span></div>
 <div class='production-block'>
-  <div class='production-number'>(110)</div>
+  <div class='production-number'>(111)</div>
   <div class='production-name'>unit-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;unit-expr-data-declaration&gt;</span></div>
@@ -874,27 +884,27 @@
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-fields-data-declaration&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(111)</div>
+  <div class='production-number'>(112)</div>
   <div class='production-name'>unit-expr-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number'>(112)</div>
+  <div class='production-number'>(113)</div>
   <div class='production-name'>unit-fields-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;&gt;</span><span class='production-reference'>&lt;unit-fields-data-initializer&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(113)</div>
+  <div class='production-number'>(114)</div>
   <div class='production-name'>unit-fields-data-initializer</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(114)</div>
+  <div class='production-number production-needs-testing'>(115)</div>
   <div class='production-name'>protocol-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(115)</div>
+  <div class='production-number production-needs-testing'>(116)</div>
   <div class='production-name'>system-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
@@ -1745,6 +1755,9 @@
 <span class='production-reference'>&lt;unit-test-assert&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
+<span class='production-reference'>&lt;unit-test-shove&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-test-expect&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
@@ -1771,16 +1784,21 @@
 <span class='production-token'>ASSERT</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;expression&gt;</span></div></div>
 <div class='production-block'>
   <div class='production-number'>(107)</div>
+  <div class='production-name'>unit-test-shove</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>SHOVE</span>&nbsp;<span class='production-reference'>&lt;member-path&gt;</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;!</span><span class='production-reference'>&lt;expression&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number'>(108)</div>
   <div class='production-name'>unit-test-expect</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>EXPECT</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-many'>*</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(108)</div>
+  <div class='production-number production-needs-testing'>(109)</div>
   <div class='production-name'>unit-test-match</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>MATCH</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-reference'>&lt;unit-test-match-category&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(109)</div>
+  <div class='production-number production-needs-testing'>(110)</div>
   <div class='production-name'>unit-test-match-category</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEXT</span></div>
@@ -1798,6 +1816,8 @@
         <li>on the behaviour of a card event handler.</li>
         </ul>
         <p>In order to make all these cases easy, the unit test language allows values and messages to be easily defined and has special syntax for isolating and testing message outputs and template orchestration, independent of the actual template HTML provided.</p>
+        <p>The <tt>assert</tt> action tests an expression and compares it to an expected value.  For convenience, this assertion allows the user to penetrate encapsulation and directly probe card or object state.</p>
+        <p>The <tt>shove</tt> action allows a user to directly update card or object state for test purposes.  Note that this may allow the test to put the object in a state which cannot be reached by normal operations.  This is both a "bug" and a "feature".</p>
         <p>The <tt>event</tt> action simulates a UI input event and dispatches it to the card.  The first argument is a variable which is a reference to the card to receive the event.  The second is the name of an event handler. The expression will probably construct an event, but it could also be a reference to a data object.</p>
         <p>The <tt>invoke</tt> action invokes a method on an object.  This is just described as an "expression" but the semantics are that it must be a valid object method invocation.</p>
         <p>The <tt>contract</tt> action is supposed to invoke a method in a contract on a card.  The first argument is a data variable which is a reference to the card to receive the event.  The second argument is the name of the contract which will have the event.  The third var is the name of the method to invoke on the contract.  The expressions are the data elements to send.</p>
@@ -1812,22 +1832,23 @@
 
 all based on the "match" command
 
-text or html or css
-allow an optional selector
+text or styles (the ones specified by the program)
+IT DOES NOT REFERENCE HTML
+allow an optional selector - which is a path through the fields in the split HTML
 allow the keyword "contains"
 Subsequent indented lines are white-space approximation of the content or value
 Examples:
 match text
 match html
 match html contains
-match html ".body" contains
-match css ".body['height']"
+match html ... contains
+match style ...
         
         </p>
       </div>
 <h3>Unit Test Data</h3>
 <div class='production-block'>
-  <div class='production-number'>(110)</div>
+  <div class='production-number'>(111)</div>
   <div class='production-name'>unit-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-reference'>&lt;unit-expr-data-declaration&gt;</span></div>
@@ -1835,17 +1856,17 @@ match css ".body['height']"
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;unit-fields-data-declaration&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number'>(111)</div>
+  <div class='production-number'>(112)</div>
   <div class='production-name'>unit-expr-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
 <div class='production-block'>
-  <div class='production-number'>(112)</div>
+  <div class='production-number'>(113)</div>
   <div class='production-name'>unit-fields-data-declaration</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>DATA</span>&nbsp;<span class='production-reference'>&lt;type-reference&gt;</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;&gt;</span><span class='production-reference'>&lt;unit-fields-data-initializer&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number'>(113)</div>
+  <div class='production-number'>(114)</div>
   <div class='production-name'>unit-fields-data-initializer</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>var-name</span>&nbsp;<span class='production-token'>SEND</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>EOL</span></div>
@@ -1856,7 +1877,7 @@ match css ".body['height']"
       </div>
 <h3>Protocol Tests</h3>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(114)</div>
+  <div class='production-number production-needs-testing'>(115)</div>
   <div class='production-name'>protocol-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
@@ -1870,7 +1891,7 @@ match css ".body['height']"
       </div>
 <h3>System Tests</h3>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(115)</div>
+  <div class='production-number production-needs-testing'>(116)</div>
   <div class='production-name'>system-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>GUARD</span></div>
