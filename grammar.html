@@ -797,7 +797,7 @@
   <div class='production-number'>(100)</div>
   <div class='production-name'>template-style</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>GUARD</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>STRING</span><span class='production-many'>+</span></div>
+<span class='production-token'>GUARD</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>STRING</span><span class='production-many'>+</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-customization&gt;</span></div></div>
 <div class='production-block'>
   <div class='production-number'>(101)</div>
   <div class='production-name'>template-event</div>
@@ -1729,7 +1729,7 @@
   <div class='production-number'>(100)</div>
   <div class='production-name'>template-style</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>GUARD</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>STRING</span><span class='production-many'>+</span></div>
+<span class='production-token'>GUARD</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span><span class='production-optional'>?</span>&nbsp;<span class='production-token'>SENDTO</span>&nbsp;<span class='production-token'>STRING</span><span class='production-many'>+</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;template-customization&gt;</span></div></div>
 <div class='production-block'>
   <div class='production-number'>(101)</div>
   <div class='production-name'>template-event</div>
@@ -1738,7 +1738,8 @@
 <div class='section-description'>
 
     			<p>For <tt>content</tt> and <tt>style</tt> elements, it is possible to <i>customize</i> the element by applying styling and adding event handlers.</p>
-    			<p>Rule (100) defines the behaviour for styling.  Any number of styling rules may be applied; each will match the <tt>expr</tt> and, if true, will add the classes identified by the strings to the element's class list.</p>
+    			<p>Rule (100) defines the behaviour for styling.  Any number of styling rules may be applied; each will match the <tt>expr</tt> if supplied and, if not supplied or true, will add the classes identified by the strings to the element's class list.</p>
+    			<p>Styles may then be furhter customized.</p>
     			<p>Rule (101) defines event handlers.  Each of the predefined events can be mapped exactly once per element.  The outcome will be the invocation of an event handler defined on the card as <tt>var-name</tt>.  It will receive a set of arguments along with an event object of a type appropriate for the named event.</p>
     		</div>
 <h3>Unit Test Files</h3>
