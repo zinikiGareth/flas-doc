@@ -1,0 +1,157 @@
+﻿@Chapter
+title=Actors
+
+
+In order to handle user interfaces, it is necessary to do more than just render templates.  It is also necessary to manage state and to handle user events.
+
+
+In this chapter, we present a simple application which builds upon "hello, world" to demonstrate how _cards_ can be used as _actors_ to manage state, handle events and update the UI.
+
+
+@Section
+title=HTML
+
+
+Interestingly, the HTML for this chapter is completely unchanged from the previous chapter.  Quite simply, the template we outlined there is entirely adequate to handle text that changes.
+
+
+@Section
+title=FLAS
+
+
+The $Message$ card builds on what we learnt in the "hello, world" example by defining a card with a template which presents a more generic "greeting" and allows this to be toggled between $hello$ and $goodbye$.
+
+
+&include 'toggle/org.zinapps.samples.toggle/togglemessage.fl' formatter='flas'
+
+
+In FLAS programs, indentation is everything: the initial indentation of a line must be a number of tabs (not spaces) and those tabs indicate the _indentation level_ of the line.  Lines are logically "included within" the previous line with one less tab of indentation.  Long lines can be broken by repeating the current indent level and then indenting (typically two) further spaces.
+
+
+Lines which are _not indented at all_ are considered comments and ignored, along with blank lines.  Additionally, as with C++, Java, JavaScript and a number of other languages, two consecutive slash characters ($//$) cause the rest of the line to be ignored.
+
+
+The first line here introduces a $card$ definition.  $card$ here is a keyword and may only appear at the top level (i.e. with exactly one tab of indentation).  The following token is the name of the card ($Message$ in this case).  Card names must start with an uppercase letter and have at least three characters in their name.
+
+
+This card has four component elements: a _state_, a _template_, an _event handler_ and a nested&footnote  _function definition_.
+
+
+&footnote
+Function definitions may appear at the top level along with cards; however, a function definition within a card is able to refer to the current state of the card by simply referring to the state members by name, whereas a global function definition would need to be passed the state members.
+
+
+The _state_ of a card is defined by a $state$ declaration.  Each element of the state declaration is indented one further level and consists of a _type_, a _name_ and an (optional) initializer.  In this case, the state member $greeting$ is declared to be of type $String$ and is initially set to the value $hello$.
+
+
+The _template_ identifies that the $message$ template in the HTML file should be selected and that the content area $message-area$ should be populated with the "current" value of $greeting$.
+
+
+$switchIt$ is defined to be an _event handler_ for the $click$ event - i.e. a boring mouse click.  The event object is passed to the handler as $ev$, although this is not actually used.
+
+
+An event handler is an example of a FLAS _method_.  In reality, a FLAS method is a function that maps input arguments to a list of _messages_.  However, methods may be given a special syntax so that it is clearer what is going on.  In this case, we use a simple _state assignment_ to create a message that says "update the state member $greeting$ to be the value of the function $newmessage$".
+
+
+And finally, $newmessage$ is a function that uses conditional logic to determine the new value of the message.  If the value of $greeting$ is currently $hello$, the value is $goodbye$; otherwise, it is $hello$.  The upshot of this, of course, is to toggle the message between $hello$ and $goodbye$ every time the card is clicked.
+
+
+@Section
+title=Assembly File
+
+
+As with the previous example, the assembly file gives the minimum amount of information necessary to turn what we already have into a web application.
+
+
+&include 'toggle/org.zinapps.samples.toggle/toggle.fa' formatter='flas'
+
+
+@Commentary
+@Section
+title=Cards and the Actor Model
+
+
+Returning to the MVC paradigm, we offer the _card_ as the basic unit of interaction and thus as our candidate for the _controller_.
+
+
+It's more complex than that, though.  A card is one of three _actors_ defined by the FLAS language.  Actors have a long history in Computer Science, but their history is often obscure.  They are derived from Simula 67 and formalised in the 1970s.  This work ended up laying the foundation for what we know today as Object-Oriented Programming.  However, as Alan Kay observed in the 1990s, it would have been better to call it "message-oriented programming" because the key concept is the message and how messages are distributed and processed; in Object-Oriented Programming, too much of the focus is on the objects and how they stand in relation to each other.
+
+
+While the obvious modern-day derivative is the common-or-garden _object_, an _actor_ should more realistically be thought of as akin to a microservice: it is something with an independent lifecycle - its own memory and processing cycle - that exclusively communicates with the outside world through message passing in a very strict form.  For those familiar with the concepts of programming languages, an actor exists essentially in its own _virtual machine_ with its only contact with the outside world being through message passing.
+
+
+In FLAS, actors follow this paradigm very strictly: in some instances, actors may even be literally isolated within a locked-down container (such as an $iframe$ or $WebWorker$ in JavaScript, or a standalone JVM in Java).  In every case, however, an actor _only_ does work to respond to an incoming message and responds by issuing a set of messages which have different side-effects, including updating the actor's internal state and any visual components.  But during the _processing_ of a message, no state changes happen, no messages are sent, no more messages may be received: the evaluation context is _purely functional_.
+
+
+There are many possible sources for messages within FLAS; over the course of this guide we will come across a number of them.  In this chapter, we looked at the _UI Event_ message: all UI events in a FLAS application are directed to the card that owns the screen real estate where they happened.  Some complex events (such as drag-and-drop) may involve multiple cards, but do so through message passing.
+
+
+At the start of the message processing loop, all the state members have a particular value: the first time through the loop it is the value they were initialized with (or else they are simply uninitialized); for subsequent messages, the state members have the value they were left with after the previous message was processed.  These values _remain unchanged_ during the processing of the message but may be updated _after_ the message has been processed.
+
+
+In this example, $switchIt$ requests that $greeting$ be updated with a new value.  But there is no need to consider _which_ value of $greeting$ is to be considered at any point during processing: whenever it is referenced (as it is in $newmessage$) it will always have the value that it had when the message arrived.
+
+
+_Contrariwise_, when considering the template, the value used for $greeting$ will be the value _after_ all the assignments have taken place.  It is reasonable to look on message processing as a five-step process as follows:
+
+
+* a message arrives;
+* the appropriate handler is dispatched, which returns a list of "response" messages;
+* the messages are processed, including updating local state and sending messages to remote actors;
+* the templates are re-evaluated to determine the new contents of the display;
+* the UI is updated accordingly, including changing any event handlers.
+
+
+@Section
+title=Event Handlers
+
+
+Event handlers are methods which react to user interface events.
+
+
+As stated above, a method is essentially a function that transforms input into output.
+
+
+Event handlers are a little bit special in the way in which they are invoked, however.  Event handling is innate to UI processing.  When a FLAS application sees a UI event it _has_ to handle it in some way.  One option, of course, is to ignore the event: this is what happens whenever no handler is defined for the event.
+
+
+But unlike most messages, very little information is conveyed along with an event: maybe a mouse position or button setting, maybe the key pressed on the keyboard.  In light of this, every event handler looks alike: they all accept exactly one argument which is some kind of event.
+
+
+It is possible, as we shall see in Chapter 4, to bind events to specific portions of the UI and have them respond appropriately; however, by default an event handler responds to the event anywhere on the card.
+
+
+@Section
+title=Functions
+
+
+Functions in FLAS are essentially the same as those in standard _functional_ programming languages such as Haskell.  They are pure, lazily-evaluated mappings from input parameters to a single output value.
+
+
+Functions may be specified in multiple parts using _pattern matching_ and then each part may be broken down into conditional cases as we have done here.  In every case, only one of the expressions on the right hand side (after the $=$) will be evaluated.
+
+
+Lazy evaluation means that once an expression has been selected, the _expression itself_ is returned as the value of the function, _unevaluated_.  Expressions are only evaluated when the actual _value_ is required.  This makes it easy and pleasant to handle infinite and cyclic data structures where only part of the value will be traversed.  For more information, see any introductory text on functional programming languages.
+
+
+In FLAS, two things drive evaluation:
+
+
+* pattern matching in function declarations;
+* storing values in state or sending them as part of messages.
+
+
+When passing an expression to another function, it is generally _head evaluated_: that is, enough of the structure is determined to see which pattern it matches (if any).  In some cases - particularly with builtin functions, but also with patterns such as $Number$, $String$ or constants, it is necessary to completely evaluate an expression in order to determine if it matches the pattern.
+
+
+When storing values (or passing them off as messages, which is much the same thing), it is necessary to fully evaluate an expression (although cycles may sometimes still be acceptable).  As much as anything, this is a design choice which reflects the desire to make message processing _atomic_ and _transactional_: if evaluation could be deferred, "your" errors could show up later while processing a different message.
+
+
+@Section
+title=State Member Initialization
+
+
+When initializers are provided for state members, these are evaluated before the card is truly created.  Consequently, they cannot reference the state of other members, nor can they obtain access to the outside world.  However, there are other mechanisms (such as the $Lifecycle$ contract we will use in Chapter 5) by which it is possible to         defer initialization until later in the cycle when more information is available.  This is particularly relevant when using Ziniki microservices.
+
+
+It is, however, perfectly acceptable to simply _not initialize_ fields.  If a field is referenced when uninitialized, an error will result but, errors being values like anything else, this will not cause the actor to fail, _per se_, although it is improbable that desirable results will follow.  As with any programming language, you need to be aware of the possible states your actors can be in and what actions are valid in the current state.

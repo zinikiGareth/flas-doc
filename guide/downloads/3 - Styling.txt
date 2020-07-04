@@ -1,0 +1,167 @@
+﻿@Chapter
+title=Styling
+
+
+For the past twenty years, a key to developing effective websites and web applications has been the recognition of the separation of content and styling, colloquially referred to as the "html/css divide".  HTML provides the content; CSS provides the styling.  In a number of ways, this separation reflects and informs the separation of concerns in FLAS between web design and application code.
+
+
+&review 'This feels that it is getting a little too philosophical too soon'
+While providing an abstraction over it, FLAS assumes a styling model consistent with HTML and CSS; that is, it assumes that each card is made up of a set of elements, or _areas_, each of which can be individually _styled_ using an abstract mechanism entirely consistent with CSS classes.  In other words, FLAS knows absolutely nothing about the real-world concerns of fonts, colors or layout, but it supports a "code book" of terms which it assumes _can be converted_ into those concerns.  On the FLAS side, these are simple strings; on the web design&footnote  side, these are CSS class names.
+
+
+&footnote
+This chapter describes styling from the perspective of web applications; in part, the abstraction exists precisely because there are alternatives with natively-rendered Mobile Application Frameworks.  However, these are beyond the scope of this guide.
+
+
+The CSS is written in the usual way: as a set of styles applied when certain elements are associated with certain classes.  While the two sides have their separate concerns, they are loosely coupled through the _names_ of the elements and the _names_ of the classes.
+
+
+This example builds on the previous example by taking a simple message and providing three buttons which allow it to be styled:
+
+
+* By default, the message is "normal size" and black;
+* $Bold$ always makes the message "large size" and red;
+* $Red$ toggles whether the message is black or red;
+* $Big$ toggles the size of the message. 
+
+
+@Section
+title=HTML
+
+
+This HTML is, understandably, considerably more complex than the previous HTML.  In the header it links to a CSS file (described in the next section) and the card contains a message and three buttons.
+
+
+&include "styling/ui/index.html" formatter='html'
+
+
+In the $head$ portion, the link is a perfectly normal link to a perfectly normal spreadsheet.  Note that this directive is not relevant to the FLAS system: it pulls the CSS files directly from the $ui$ directory and includes them.  It is your responsibility to make sure that they are consistent when all included at the same time.
+
+
+As with the previous cards, the $body$ defines one card which has the name $page$.  Within this are three buttons, each of which has a unique identifier starting with $flas-style-$.  This prefix tells the compiler that this element may be styled and have events added to it, but its content is not to be touched.  Finally, there is a $display$ element, which contains the usual "hello, world" message, waiting to be styled.
+
+
+@Section
+title=CSS
+
+
+Hopefully, this CSS is sufficiently simple that no real explanation is required.
+
+
+&include "styling/ui/styling.css" formatter='css'
+
+
+Essentially, elements that have the class "big" will have their text made larger; elements that have the class "red" will have their foreground color made red.
+
+
+Just in case there might be any confusion, let's be clear that the names "big" and "red" have no significance whatsoever; they are merely coupling between the code, the CSS file and the HTML.
+
+
+@Section
+title=FLAS
+
+
+Although the only truly new concept here is styling, this example feels like a step change from the previous two, so we are going to work through the example code step by step.
+
+
+At the top level, the card is defined and called $Styling$.  It has two state variables - both $Boolean$ values - which are initially set to $False$.  The idea is that they control (independently) whether the message is big, and whether it is red.
+
+
+&include 'styling/org.zinapps.samples.styling/styling.fl' formatter='flas'
+&remove from="template" what="outer"
+&remove from="event" what="outer"
+&remove from="event" what="outer"
+&remove from="event" what="outer"
+
+
+We can then control the display of the message by attaching the styles (or _classes_ in CSS) to it depending on these values.  We do this by first identifying a _coupling_ to an HTML element by name: in this case $display$ identifies the HTML element with the $id$ $flas-style-display$ - in other words, the message.
+
+
+We then apply two _conditional styling rules_ to it.  In FLAS, _all_ styling rules are, in fact, conditional, but the conditional may be specified as True - or simply omitted - in order to make the condition apply in all cases.
+
+
+In this case, each of our two rules uses one of the boolean variables defined in the state to select the corresponding style - simply a string - and apply it to the element.  FLAS takes care of combining all the various selections into a single class specification for the element.
+
+
+&include 'styling/org.zinapps.samples.styling/styling.fl' formatter='flas'
+&remove from="state" what="outer"
+&remove from="bold" what="outer"
+&remove from="big" what="outer"
+&remove from="red" what="outer"
+&remove from="event" what="outer"
+&remove from="event" what="outer"
+&remove from="event" what="outer"
+
+
+The rest of the template consists of attaching event handlers to the button elements.  Again, loose coupling is used to identify the elements in the HTML and then, for each one, an event handler binding is specified.  This limits the _target area_ of the event handler to this specific element in the card.
+
+
+&include 'styling/org.zinapps.samples.styling/styling.fl' formatter='flas'
+&remove from="state" what="outer"
+&remove from="display" what="outer"
+&remove from="event" what="outer"
+&remove from="event" what="outer"
+&remove from="event" what="outer"
+
+
+Once the template is defined, we can finish up by defining the event handlers themselves, much as we did in the last chapter.
+
+
+$makeBold$ always makes both $wantBig$ and $wantRed$ to be $True$, thus ensuring that every time this event handler is called, the text will be big and red.
+
+
+$makeBig$ inverts the value of $wantBig$, so that if the text was big before, it will become normal size; if it was normal before, it will become big.
+
+
+$makeRed$ works in the same way as $wantBig$, inverting the value of $wantRed$ and toggling between red and black.
+
+
+&include 'styling/org.zinapps.samples.styling/styling.fl' formatter='flas'
+&remove from="state" what="outer"
+&remove from="template" what="outer"
+
+
+@Commentary
+@Section
+title=Styling
+
+
+It is hard to overstate the importance of styling in web design.  Even the simplest HTML template can be transformed by the appropriate styling.  While this example is overly simplistic, we will build towards examples where, even with handwritten HTML and CSS, it is possible to see that bare HTML can be transformed through styling.
+
+
+It is vitally important, then, that FLAS supports the full power of CSS, but without the overhead of managing the complexity.  It does this by repeatedly and consistently applying the techniques of _loose coupling_, _separation of concerns_, _abstraction_ and _avoidance of repetition_,
+
+
+The main abstraction in styling is the notion of the _class_.  Many things which are possible in CSS are not supported by FLAS - styling on absolute elements defined by $id$, for example.  The reasons for this are largely technical - in a card-based environment, it is not reasonable to assume that _any_ $id$ that you would specify would be unique - but there is a more important, philosophical, point here too: you do not want to be that tightly coupled to your styling and your HTML.
+
+
+It might be argued that FLAS itself requires $id$s to be specified in order to obtain its coupling; but those $id$s are used during the translation process and _not_ at runtime.  The information is preserved as a $data$ attribute, however, and can be used if necessary in styling; however, alternative techniques would generally be preferred.
+
+
+&review 'somewhere, we should probably detail the translation more thoroughly, but possibly just in the reference manual'
+During the ingesting and translation phase, the input HTML is scraped and repackaged (the CSS files are passed through and included untouched).  While this has dramatic effects on some of the content, by and large, apart from removing $id$s from _all_ elements, any elements which do not have a $id$ beginning $flas-$ will be passed through untouched.  This means that you can wrap any FLAS $content$ or $style$ elements in an HTML element which you can label and style as you wish.
+
+
+Essentially, styling _in_ FLAS comes down to associating a list of styles with each element under its control - including the card itself.  This list of styles corresponds to a list of class names in CSS.  From there, all of the styling is handled in the usual way.
+
+
+Each styling definition is introduced by the condition symbol ($|$), followed by an optional condition (which may be any expression), and then, following the sendto operator ($=>$), it may have multiple styles, which may be strings, lists of strings, or any expression that evaluates to one of these.
+
+
+Styles may be applied directly to the card (by indenting them one tab stop under $template$), to any $content$ or $style$ binding (as with $display$ in this example) or to a parent style; that is, styling definitions in FLAS may be nested.  A nested styling definition will only apply if both the parent and nested conditions apply.
+
+
+@Section
+title=Event Targets
+
+
+When we used the click event to toggle the message in the last chapter, we allowed a click anywhere on the card.  Given that the message was the only thing in the card, this made no difference to specifically requesting the event be on the message.  But to make this example - with three separate buttons _and_ a message - work, it is necessary to more specifically identify the targets when the events apply.
+
+
+As with many other aspects of FLAS, we apply the _loose coupling_ and _avoidance of repetition_ techniques.  Event handlers are defined in one place on the card, are identified by the $event$ keyword, and are linked to a specific event by the (exactly one) parameter that they take.  If that event handler is not mentioned on _any_ template, it is assumed to apply to the whole card.  Otherwise, it applies to exactly the elements which define it.
+
+
+Event target definitions are much simpler than styling definitions, although they may appear in exactly the same set of places.  An event definition consists of the sendto operator ($=>$) followed by the name of the event handler.
+
+
+Because event handlers may be nested within style definitions, it follows that they may also be conditional; that is, the event handler will only be bound to the element if the style condition is true.

@@ -1,0 +1,16 @@
+﻿I feel we are missing some links in the chain
+
+
+More complex, conditional styling & binding
+And thus conditional event handlers
+The Repeater contract?
+5. Introduce objects as things in their own right
+6. Objects as UI components with templates and event handlers
+Something about contracts
+- introduce Lifecycle contract
+- possibly also Ajax contract
+  - if we wanted to do this, we could rework polytree to load its data from Ajax rather than inline
+
+
+More nuanced event handlers? (or is that covered in 4?)
+Drag and drop lists (possibly beyond patience)

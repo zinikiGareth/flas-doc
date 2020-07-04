@@ -1,0 +1,60 @@
+﻿@Chapter
+title=Bringing It All Together
+
+
+Having worked through all the building blocks of the basic FLAS system&footnote, it is now time to put them all together in an application of reasonable complexity.
+
+
+&footnote
+There are, in fact, more building blocks in FLAS but using them effectively requires a Ziniki back end and that is beyond the scope of this document.  For more information, see the Ziniki Programming Guide and the Ziniki Reference.
+
+
+We are going to implement a game of Patience (or Solitaire as it is often called).  While the rules often vary, since we are mainly focused on the didactic task of explaining _how_ to build a web application, not _what_ to build, we have chosen rules that are fairly simple to implement.  It is left as an exercise to the reader to improve and adapt the work that we have done.  Feel free to submit branch pull requests with your great ideas.
+
+
+In short, the game we are going to design has the following properties:
+
+
+* It is played with a standard deck of 52 playing cards which are shuffled before play starts;
+* 28 of the cards are dealt out in a right-justified triangle with 7 columns (called the "tableau");
+* The leftmost card in each column is dealt face up; the others are dealt face down;
+* Each row of cards overlaps the row above;
+* The remaining cards are placed face down in the top left corner (the "deck");
+* There are five (as yet empty) piles:
+** A "discard" pile where cards are placed when turned over from the deck;
+** 4 piles (one for each suit) where the player attempts to collect the cards in rank order (from A to K) as they become available;
+* On each turn a user may:
+** Move any uncovered, face up Ace to start the pile for that suit;
+** Move any uncovered, face up card onto the pile for its suit providing it is the rank above the top of that pile;
+** Move any entire "run" of face up cards in a single column to the bottom of another column provided that the rank of the top card is one less than the rank of the bottom card in the destination run AND that these two cards are of opposite colors;
+** Move the current card at the top of the discard pile into the tableau obeying the same rule above for moving cards within the tableau;
+** Turn over the top card in the deck and place it on the discard pile;
+** If the deck is empty, the discard pile may be turned over to make a new deck;
+* The game ends when either all the cards are in the ranked piles (victory) or no further cards can be moved, except for endless dealing of the deck into the discard pile (defeat).
+
+
+Hopefully, these rules are not too controversial for dedicated players&footnote  out there.  One thing that hopefully is clear at this point is that although this is a relatively simple game, it is most certainly _not_ a trivial one.  There is quite a lot of what is often called "business logic" here, as well as all the mechanics of keeping track of the current game state, displaying it and reacting to user interactions.
+
+
+&footnote
+On the other hand, hopefully the description we have given is not too confusing for those unfamiliar with the game.  For those who are, we would suggest that you head to&sp
+&link 'https://samples.zinapps.org/patience' 'samples.zinapps.org/patience'
+&sp and give it a few rounds to understand how the game is actually played, which will hopefully clarify the rules.
+
+
+We feel the need to apologize right now for any confusion that may arise between the use of the word "Card" to describe an organizational concept in FLAS and the word "card" to describe an element of this game.  While unintentional, it does reflect the fact that the terminology of FLAS comes from the physical realm where you can imagine building a UI from a tessellation of index cards of various sizes.
+
+
+Unlike previous samples, where we have presented all of the HTML followed by the FLAS code, this code is sufficiently large that it makes sense to present it in a more modular form.
+
+
+@Section
+title=Outline HTML
+
+
+&include 'patience/ui/index.html' formatter='html'
+&remove from="class='toprow'" what="inner"
+&remove from="id='flas-item-card-pile'" what="outer"
+
+
+then present the main card and Lifecycle initializer together with its constructor and repeater, although I think that is in Deck, and then present Deck in its entirety ….

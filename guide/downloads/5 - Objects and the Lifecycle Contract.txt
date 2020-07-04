@@ -1,0 +1,82 @@
+﻿@Chapter
+title=Objects and the Lifecycle Contract
+
+
+So far, we have mainly been discussing how FLAS works using Actors, although we have also seen examples of data types, both primitives such as $String$ and the more complex data structures introduced in the last chapter.
+
+
+But there is a need for something in between - an _object_ that can combine data and behavior while not providing an independent lifecycle and maintaining strict functional semantics.
+
+
+It's the last requirement that makes FLAS objects "feel" very different from objects in traditional object-oriented languages - and in this context, even JavaScript might be considered "traditional".
+
+
+Consider then, a list of items such as is commonly found in websites: say a list of message headers in a mail reader; a list of servers in a cluster; or a list of posts in a forum.  Each of these has some data, together with some controls, such as a "select" control and a "favorite" control.  There are also some operations - such as delete - which can either operate on individual items or on all the items that are "currently selected".
+
+
+&review 'please take a screenshot and include it here'
+
+
+We are going to build this using a single card encapsulating everything you see here with each item represented by a separate instance of a single object.  These objects can be created or deleted at will
+
+
+&review 'we could possibly expand this into a complete trivial "todo list" example by using a DnD crobag'
+&review 'that might be a good extension activity to introduce crobags when they are ready'
+
+
+@Section
+title=HTML
+
+
+As part of the abstraction offered by an object, it knows how to render itself - possibly in multiple ways - using the same template-based mechanism used by the card itself.  Thus, in addition to an HTML template for the overall card, we need an HTML template for the object.  But in line with the "bring your own HTML" model (in which the user delivers HTML which makes sense by itself), we don't expect users to provide two separate HTML files; rather, the user provides a single file which contains one template nested within the other: it is up to FLAS to figure it out.
+
+
+At the top level, the HTML looks like this:
+
+
+&review 'include html'
+
+
+Note the element with $id$ $flas-container-list$.  When the compiler ingests this, it will remove all its contents, and then this will be the "container" into which the object items will be put.
+
+
+&review 'we need a include/remove that ONLY shows the container'
+
+
+However, the ingestor looks inside the container, searching for other templates that it might find.  And it finds this one with $id$ $flas-item-header$.  This identifies the element as a template, similar, but not identical to a $card$ template.  The difference is simple: it can be used to render complex content _within_ a card, but cannot be used for a card itself.  This is the template that we will use for the object.
+
+
+&review 'include more header lines'
+
+
+Note that the original HTML may include more headers here, which look like they are the same as the template.  This allows the input HTML to contain multiple versions of the header line and to be reviewed as such; but only the first header has the magic $id$ which tells the compiler to ingest it and use it as a template - all the others are simply thrown away.
+
+
+@Section
+title=CSS
+
+
+@Section
+title=FLAS
+
+
+Now we need to actually write some code
+
+
+@Subsection
+title=Headers
+
+
+This is the card
+Needs a lifecycle handler to create the object
+Needs the event handler for "delete selected"
+Needs logic  to handle 'remove an item' from the list
+
+
+@Subsection
+title=SingleHeader
+
+
+This is the object
+Needs event handler for 'select' and 'favorite'
+Needs to handle 'delete'

@@ -1,0 +1,103 @@
+﻿@Chapter
+title=Introduction
+
+
+Programming is hard.  Programming for the web may be harder.  And none of it is made any easier by the tools at our disposal.
+
+
+FLAS and Ziniki are a systematic attempt to solve many of these problems.  There will always remain an _essential_ core of programming (what do you want and what will you call it?) that will remain complex, but FLAS and Ziniki are designed to strip away as much of the _inessential_ complexity as possible.
+
+
+Web applications consist of three separate entities:
+
+
+* visual elements usually presented in HTML and CSS;
+* browser-side code written in JavaScript;
+* server-side services written in a variety of languages.
+
+
+Among the problems encountered by web programmers on a daily basis are: the overlap and intermingling (quite often, it seems, intentional) between the visual presentation and browser-side code; the duplication of code on client and server sides because it cannot be effectively shared; a large body of code aimed exclusively at connecting client and server sides; a similar amount of code required to communicate knowledge between client and server; and a significant amount of "boilerplate" code needed to repeat patterns - particularly between applications.  All of this complexity pushes exciting, user-friendly features - such as continuous state updates and notifications - onto the "nice to have" list.
+
+
+FLAS and Ziniki address these problems systematically.
+
+
+* There is a clear separation of concerns: visual elements are delivered in HTML and CSS; the FLAS compiler scans the HTML to build a model of these and then allows them to be addressed in constructing template models in the program, written in FLAS.
+* Code can be easily shared between client and server because it is all written in the same programming language, FLAS; distinct constructs exist to create code which is specific to the client or server environment.
+* The Ziniki environment contains a peer-to-peer connector (subsuming the normal client-server relationship) which automatically handles all communication; the notion of message passing is built into the bedrock of the FLAS/Ziniki programming model.
+* Changes anywhere in the distributed Ziniki environment are automatically detected and passed to all interested parties.  Internally, the FLAS runtime is able to update client displays with little or no code intervention (the little is handling conflict resolution).
+* Ziniki inherently knows about concepts such as users, logins, security, access, privacy, sharing, money, deals, analytics and so on.  It automatically handles as much as is possible without programmer intervention.  When programmer intervention _is_ required, we claim that the right access points exist to make the intervention as smooth and easy as possible.
+
+
+Although complementary, FLAS and Ziniki are separate things: it is possible to write web applications in FLAS without using Ziniki.  This guide describes FLAS programming completely independently of the Ziniki network.
+
+
+In addition, we consider FLAS to be a modern, agile programming language:
+
+
+* it natively supports unit and system tests;
+* it is strongly typed, but uses type inference and supports the $Any$ type for simplicity and flexibility;
+* it is a lazy functional language from the ground up;
+* it produces code for the web, server applications and Android-compatible mobile applications.
+
+
+@Section
+title=Organization of this Guide
+
+
+This developer guide is presented as a series of challenges to be overcome.  Each chapter presents a challenge, the approach taken to solve it, the resulting HTML, CSS and FLAS code and then adds some commentary on the language and its features.
+
+
+&future 'it would be good to have chapter numbers be references'
+As is typical with programming languages, Chapter 1 describes a very simple "hello, world" application.  As with all such toys, it is mainly about getting you in a position where you can be confident that you have met the prerequisites and understand the toolset before trying to understand the language itself.
+
+
+Chapter 2 introduces the actor model and how cards can be created to store state and respond to user events, seamlessly updating the display.
+
+
+Chapter 3 extends this by showing how the state can be used to control the styling and interact with CSS.
+
+
+Chapter 4 puts a lot of this together to build a gadget that supports a "polymorphic tree" - a tree with multiple different types of nodes and leaves - and handles expanding and contracting the branches.
+
+
+&review 'some may claim that there is a bit of a leap to the final example'
+
+
+Chapter 5 attempts to demonstrate that it is possible to build something that most people would agree was a complete web application without getting into the complexities of needing a server: a fully-functional game of patience (or solitaire).  Approximately 400 lines of FLAS code combine with 50 lines of HTML and 150 of CSS (including blank lines) to make a complete, standalone, web game.
+
+
+The samples can all be downloaded from GitHub and can be run directly from the web.
+
+@Section
+title=Prerequisites
+
+
+The FLAS compiler is written in Java.  In order to use FLAS, you must have a Java runtime - at least version 11 - installed.  A Java Development Kit (JDK) is _not_ required.  Obviously, you must also download and install the latest FLAS compiler.
+
+
+Because everything in this guide is about web applications, you must have a browser installed.  While everything in FLAS is intended to be 100% HTML5 compliant, we develop with Chrome and recommend that environment.  Obviously, where possible, applications should be tested across an array of environments.
+
+
+While we claim that FLAS will reduce much of the _inessential_ complexity of programming, it _cannot_ remove the fundamental complexity that _is_ programming.  We assume that you are familiar with the concepts of programming and at least have some limited exposure to web programming, probably in JavaScript.
+
+
+Because FLAS builds on HTML and CSS, some familiarity with these technologies is required.  However, detailed knowledge - or the ability to write them by hand - most certainly is not.  FLAS takes a "bring-your-own-HTML" approach to building web applications and any design tool that spits out HTML and CSS and allows you to customize the $id$s of the HTML elements can be used to construct the web input to FLAS.  The simple examples shown in this book were all written by hand - precisely to keep them simple.  When building serious web applications, we use - and recommend - WebFlow.
+
+
+@Section
+title=Other Reading
+
+
+&review 'we need to link to resources in Other Reading'
+There should be a FLAS Reference Guide
+
+
+There should be a guide to the Expenses Demo
+
+
+&outrageousclaim
+There should be Ziniki manuals
+
+
+WebFlow

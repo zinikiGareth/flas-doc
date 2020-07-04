@@ -1,0 +1,122 @@
+﻿@Chapter
+title=Hello, World
+
+
+While we are not certain exactly where the tradition began, ever since Kernighan and Ritchie published "The C Programming Language" in 1978, it has been traditional to start every programming language text with a simple "Hello, World" program.  Who are we to break this tradition?
+
+
+Our "Hello, World" program consists of three parts:
+
+
+* the HTML needed to render a greeting;
+* the FLAS Card which amounts to a "program";
+* a small "assembly" file which tells the compiler how to build a web application from the parts.
+
+
+@Section
+title=HTML
+
+
+There is a limit to how trivial an HTML file is allowed to become.  According to the specification it must have an HTML container, a head and a body.  Aside from that, this HTML consists of a pair of nested $div$s, one to hold the overall "application" and one to hold the "greeting" itself.
+
+
+&include "hello/ui/cards.html" formatter='html'
+
+
+The important things to note here are the $id$ specifications on the $div$ elements.  Each $id$ must be unique within an HTML document; when present, FLAS uses these in the input document to identify the role that the element will play in the application.  The rules by which this works are somewhat complex
+&future 'it would be good to have this link to the right place'
+&outrageousclaim
+and are described in the reference manual.
+
+
+@Section
+title=FLAS
+
+
+The FLAS code builds on the HTML by defining a $Card$ which finds the appropriate $div$ and placing the 'hello, world' greeting in it.
+
+
+&include 'hello/org.zinapps.samples.hello/helloworld.fl' formatter='flas'
+
+
+@Section
+title=Assembly File
+
+
+We tried very hard to avoid all kinds of artificial packaging files and steps common in other programming environments where they have generally been added as an afterthought, but at the end of the day there is _some_ information which does describe how the application is "assembled" rather than what the application "is".  This, very limited, information needs to be placed in an assembly file.
+
+
+&include 'hello/org.zinapps.samples.hello/hello.fa' formatter='flas'
+
+
+Basically, an HTML application _needs_ to know two things: what _title_ should I put on the window or tab displaying this application; and which card (of the potentially many you have given me) should I treat as the "main" one?  These are the questions answered in this assembly file.
+
+
+@Section
+title=Compiling and running the program
+
+
+Before you can run this program, you need to compile it.  Before you can compile it, you need a compiler.
+
+
+Compiler packages can be downloaded from&sp
+&link 'https://www.ziniki.org/downloads' 'www.ziniki.org/downloads'
+, although currently the compiler package is only available for MacOS&footnote.  The download is in the form of a zip which you need to unpack to a directory somewhere on your computer and has nested $bin$, $lib$ and $flascklib$ subdirectories.  You should then ensure that the compiler is on your $PATH$.  As noted in the introduction, running the compiler also depends on you having Java installed.
+
+
+&footnote
+Although Java is essentially cross-platform, FLAS uses the JavaFX library to run JavaScript unit tests.  This library is platform-dependent.  The only obstacle to supporting other platforms is a packaging one.
+
+
+All of the samples described in this manual are available on github at&sp
+&link 'git@github.com:zinikiGareth/zinikiDemos.git' 'git@github.com:zinikiGareth/zinikiDemos.git'
+.
+
+
+If you use eclipse, you can install a plugin from the Ziniki P2 repository at
+&link 'https://p2.ziniki.org' 'not yet available'
+.
+
+
+Assuming you have done the above, you can change into the appropriate sample directory
+
+
+&tt $ cd zinikiDemos/samples/hello
+
+
+and compile and run the $hello$ sample
+
+
+&tt flas --web ui org.zinapps.samples.hello --html hello.html --open
+
+
+and after a little thinking and whirring, "hello, world" should appear in a new browser window.
+
+
+@Commentary
+
+
+@Section
+title=Bring Your Own HTML
+
+
+Separation of concerns is a very important part of any well-structured application.  The concerns of visual design and application development should be kept very separate and easily maintained independently, with only the minimal loose coupling between the two&footnote. In embedding this approach within the FLAS compiler, we gave it a name: "Bring your own HTML".
+
+
+&footnote
+This is not to say that they should be developed independently or by different teams.  In our opinion, the HTML and the application should be delivered alongside each other, by a single team although it is to be expected that there will be different specializations on the team.  But the team should develop the two portions independently using the appropriate tools.
+
+
+In most web applications I have worked on, the HTML and the code are intertwined.  This reaches its apogee in languages and tools such as PHP, ASP and JSP, where the code is literally written in and around each other.  Why do we think this is such a problem?
+
+
+Quite simply, programming languages and HTML have tools that operate on them.  If the two are mixed together, the result is programming language fragments that no longer have static meaning - the code has to be executed to produce either a complete set of HTML or a complete set of code - which means that the tools designed to work on either are useless, making the developers' jobs more difficult.
+
+
+Loose coupling is a well-established technique for connecting two distinct systems that nevertheless need to coordinate their activities.  FLAS uses loose coupling to reference the content of the HTML files from within a FLAS program.
+
+
+It does this using the concept of _templates_.  In the popular model-view-controller (MVC) paradigm for building web applications, a separation is made between the data (model) and the presentation (view).  In FLAS, the view is constructed hierarchically of a variety of elements, the two of which we have seen so far are the _card_ and the _template_.
+
+
+Each template in FLAS is introduced with the keyword $template$ and an identifying _name_.  The loose coupling is provided by the requirement that the HTML has a corresponding element with the $id$ $flas-card-_name_$.  FLAS automatically extracts and analyzes this element, recording any nested elements with appropriately named $id$s.  In this example, there is one nested element, the div $flas-content-message-area$.  This "content field" is called $message-area$ and is the one referenced by our program in setting the content to be "hello, world".

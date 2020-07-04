@@ -1,0 +1,9 @@
+﻿I feel we are missing some links in the chain
+
+
+5. Introduce objects as things in their own right
+6. Objects as UI components with templates and event handlers
+
+
+More nuanced event handlers? (or is that covered in 4?)
+Drag and drop lists (possibly beyond patience)

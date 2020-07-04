@@ -1,0 +1,331 @@
+﻿@Chapter
+title=Data
+
+
+Data is at the heart of complex programs.  To better support the _inherent_ complexity of programs, FLAS attempts to simplify data handling by offering varied and precise data constructs (and builtin data types) that avoid developers having to reinvent the wheel and continually write boilerplate code.  Furthermore, FLAS attempts to simplify development by using _type inference_ where possible to give all the advantages of both strong and dynamic typing.
+
+
+FLAS draws on a number of different underlying technologies, but core to its essence is _functional_ programming. Because functional programs do not concern themselves with mutable state, but rather with _values_, functional languages typically have highly expressive mechanisms for describing data.
+
+
+FLAS offers a number of such structures, but gives them a (possibly) more familiar terminology and syntax by describing the two most fundamental data structures as $struct$ and $union$.  A $struct$ describes a set of values constituting  the cross-product of a set of named, typed fields.  A $union$ represents the set of all values contained in a named set of $struct$ or $union$ types.  The builtin type $Any$ represents the set of all values.
+
+
+In common with most functional languages, FLAS then allows these types to be broken apart by functions through a mechanism known as _pattern matching_&footnote.  This allows a function to be specified in parts, each part describing how the function intends to handle _some part_ of the complete set of input values.  The FLAS compiler analyzes these declarations and identifies the overlaps and commonalities and comes up with a set of logic which traverses all the data structures to execute the correct portion of the function.
+
+
+&footnote
+This is very different from the sort of pattern matching which uses regular expressions and should not be confused with it.  If you are likely to be confused, pretend you have never heard the term _pattern matching_ before and read on.
+
+
+Furthermore, the FLAS compiler supports a similar technique for handling templates and allows values to be "placed" in content slots in a template, and then goes on to find the appropriate sub-template to use to render the value.
+
+
+This example is going to show something which can often be hard in programming languages and UI toolkits but is nevertheless quite a common requirement - to show a clickable tree with different content elements, each of which displays appropriately.
+
+
+Let's consider a company that wants to keep track of its worldwide assets.  It has some notion of "Organizational Unit" which can nest other organization units recursively.  We're going to call this a "Group" within the company and have a $struct$ to represent that. Along with sub-groups, each $Group$ can have a number of locations, so the contents of a $Group$ are a list of a $union$  we will call $Item$ which can either be a $Group$ or a $Location$.  Finally, each $Location$ has a list of associated assets.
+
+
+@Section
+title=HTML
+
+
+
+
+So, what we need to do is describe how to render not just the overall card - which contains the single top-level $Group$ but also each of $Group$, $Location$ and $Asset$; four templates in all.  But in line with the "bring your own HTML" model (in which the user delivers HTML files each of which looks like it _could_ be a page from the web application), we don't expect users to provide four separate HTML files but the FLAS compiler is expected to tease apart the relevant definitions from the single file provided by the user.
+
+
+The top level of the HTML looks like this:
+
+
+&include "polytree/ui/index.html" formatter='html'
+&remove from="flas-item-group-node"  what="outer"
+
+
+Aside from the boilerplate that we have seen before, this says that the top level of the card is a $container$.  In FLAS, $container$s have a number of different uses, but essentially this says that _something_ is going to go here.  In ingesting and tranforming this, the compiler "throws away" the contents of a container and just leaves this outer $div$ in the card.
+
+
+Of course, it doesn't completely throw away the contents: it scans them first for any nested template definitions.
+
+
+&include "polytree/ui/index.html" formatter='html'
+&select from="flas-container-entries" exdent="4"
+&remove from="flas-container-items" what="inner"
+
+
+In this case, there is only one element within the container, although it is perfectly reasonable to contain many.  And the one that is here is going to be "preserved": the $id$ $flas-item-group-node$ says that this element is an _item template_ and can be used to generate the HTML for _item_s that are going to be placed in a container.
+
+
+The item has three subelements: an expansion control ($flas-content-expander$), a display name ($flas-content-name$) and a $container$ for any nested trees ($flas-container-items$).  All three of these are tagged with FLAS-specific $id$s, so they will correspond to fields in the template.  As with the $container$ above, during processing $flas-container-items$ will be cleared and its nested contents processed and ingested as applicable.
+
+
+In this case, the container nests a location.
+
+
+&include "polytree/ui/index.html" formatter='html'
+&select from="flas-container-items" exdent="12"
+&remove from="flas-container-assets" what="inner"
+
+
+This looks remarkably similar to the previous $item$ definition.  Indeed, in this case, it would not be an unreasonable choice to reuse the $item$ template above to show locations as well.  But it will generally be the case that all of the items will be subtly different and reuse of templates for different data types will cause confusion if not outright complexity.  If you choose to represent your data with different data types, it makes sense to have different templates too.
+
+
+Again, this template "ends" when it reaches the $container$ for $flas-container-assets$, but not before scanning it to see if there are any more nested templates.
+&include "polytree/ui/index.html" formatter='html'
+&select from="flas-container-assets" exdent="20"
+
+
+This template shows the label and value of the asset.
+
+
+Altogether, this HTML defines four templates (one for the card, one for a $Group$, one for a $Location$ and one for an $Asset$).  In the HTML itself, these are nested one inside the other so that they appear to be a single web page.  But during the ingestion phase, they are untangled and four separate templates are recorded and ready to use.
+
+
+@Section
+title=CSS
+
+
+The CSS for this example is a little larger than previously, but nothing particularly stellar.
+
+
+&include "polytree/ui/polytree.css" formatter='css'
+
+
+Probably of most significance are the $.group-table.contracted$ and $.asset-table.contracted$ styles which specify how the contracted elements are elided from the display: they are hidden by setting their CSS $display$ style to $none$.
+
+
+@Section
+title=FLAS
+
+
+FLAS allows developers to group their code units largely as they please.  As with all programming languages, good style and readability generally suggest using separate files for significant definitions.  However, data type definitions in FLAS are very short - typically 5-10 lines - so it is often common to group them.  In this case, with only one complex definition in the codebase, everything has been grouped in one file, $polytree.fl$.
+
+
+@Subsection
+title=Data Types
+
+
+There are three $struct$ definitions, corresponding to the three basic concepts in our model: $Group$, $Location$ and $Asset$.  Hopefully these definitions should be fairly self explanatory.
+
+
+&include "polytree/org.zinapps.samples.polytree/polytree.fl" formatter='flas'
+&select from="struct Group"
+
+
+&include "polytree/org.zinapps.samples.polytree/polytree.fl" formatter='flas'
+&select from="struct Location"
+
+
+&include "polytree/org.zinapps.samples.polytree/polytree.fl" formatter='flas'
+&select from="struct Asset"
+
+
+Each of $Group$ and $Location$ contains a $List$ of nested elements.  The definition specifies a _generic_ type by enclosing the element type in brackets ($[...]$).
+
+
+The list included in $Group$ is a list of $Item$s.  An $Item$ is defined as _either_ a nested $Group$ or a $Location$ using a $union$:
+
+
+&include "polytree/org.zinapps.samples.polytree/polytree.fl" formatter='flas'
+&select from="union Item"
+
+
+Note that since a union is simply defining a set of values including all the values of all its element types, there is no need to provide a field name on any of these definitions; the type is enough.  Specific values must be extracted from a union using functional pattern matching.
+
+
+@Subsection
+title=Card Outline
+
+
+The card consists of three parts: a $state$ definition, four $template$ definitions and four $event$ handlers.
+
+
+&include "polytree/org.zinapps.samples.polytree/polytree.fl" formatter='flas'
+&select from='card PolyTree'
+&indents from='4' to='8'
+
+
+Each template has a name which corresponds to one of the template definitions in the HTML file.  It is an error for a template to be used in FLAS which has not been defined in the HTML, or to use a template more than once in the same context.
+
+
+@Subsection
+title=State
+
+
+The state of this card consists of just one variable and should be short.  The fact that it is not comes down to the fact that being sample code, it promptly loads all the data into the state rather than fetching it from more persistent storage - such as a database or web service.
+
+
+&include "polytree/org.zinapps.samples.polytree/polytree.fl" formatter='flas'
+&select from='card PolyTree'
+&stop at='template top' elide='true'
+
+
+This creates a "list" of exactly one item, the top-level Organizational Unit or $Group$.  Although the code supports a list of items, only one is provided because that matches my understanding of how organizations (should) work.  But the code would be perfectly happy to handle a conglomerate with no central management.
+
+
+@Subsection
+title=Templates
+
+
+The card defines a top-level template which uses the template defined by the HTML element $flas-card-top$.  This has a single container $flas-container-entries$, for which there is a _binding_.  This binding says that the container will be filled with the elements of  the list $items$.
+
+
+&include "polytree/org.zinapps.samples.polytree/polytree.fl" formatter='flas'
+&select from='card PolyTree'
+&remove from='state' what='outer'
+&stop at='template group-node' elide='true'
+
+
+How does this work?  FLAS knows that $entries$ is a container and that $items$ is a list.  It renders each element in the list and places the result into the container.  How does it know how to render the items in the list?  It looks at their type and then tries to find a "corresponding" definition among the card's templates.
+
+
+&include "polytree/org.zinapps.samples.polytree/polytree.fl" formatter='flas'
+&select from='card PolyTree'
+&remove from='state' what='outer'
+&remove from='template top' what='outer'
+&stop at='template show-asset' elide='true'
+
+
+There is an additional complication.  The elements of the $items$ list are all members of a union, so it is not clear _exactly_ what type they are; they could be nested $Group$ elements or they could be $Location$ elements.
+
+
+FLAS resolves this confusion by allowing the user to define one template for each member of the $union$, so long as they are precise about _which_ type is intended to be covered by the case.  FLAS ensures that all the cases have been covered and that there is no ambiguity.
+
+
+As noted when discussing the HTML, these two cases are very similar; the only real difference being the contained lists.  In each case, there is an expander which is a visual clue as to whether the node is expanded or contracted and is set based on the $expanded$ member of the $struct$.
+
+
+Clicking on the expander will invoke the appropriate method to contract or expand the group.
+
+
+$expander$ is bound _conditionally_; that is, there are two cases (more may be specified) which are considered in turn until one of the conditions evaluates to $True$.  In this case, the second condition is "default" which means that it will _always_ be $True$.  For any given binding, only one default is allowed and it must come last.
+
+
+The label ($name$ or $location$) is a simple, non-conditional binding.
+
+
+Finally, the nested list is shown.  In the $Group$ case it is much the same as with the top-level card: it puts a list of items in the $items$ container.  But the $Location$ case is different.  Because the $Location$ knows exactly what type its elements are, it can specifically name the template it wants to use, in this case $show-asset$.
+
+
+Finally, each of the lists is styled.  In every case, the list is given the $group-table$ or $asset-table$ style, and then, if the $expanded$ flag is not set, it is also given the $contracted$ style.  As we saw above, this causes the CSS to not display the table giving it the "contracted" feel.
+
+
+The final template shows the name and value of an asset.
+
+
+&include "polytree/org.zinapps.samples.polytree/polytree.fl" formatter='flas'
+&select from='card PolyTree'
+&remove from='state' what='outer'
+&remove from='template' what='outer'
+&remove from='template' what='outer'
+&remove from='template' what='outer'
+&stop at='event contractGroup' elide='true'
+
+
+This is relatively simple compared to the two that have gone before.  Note the use of the fields $what$ and $value$ which seem to appear randomly.  In fact, their type is inferred from the earlier use of the template - they are fields of the inferred $struct$ $Asset$.
+
+
+@Subsection
+title=Event Handlers
+
+
+Finally, we have the definitions of the event handlers.  These were bound in the templates to enable the expanders to be clicked to expand and contract the branches of the tree.
+
+
+&include "polytree/org.zinapps.samples.polytree/polytree.fl" formatter='flas'
+&select from='card PolyTree'
+&remove from='state' what='outer'
+&remove from='template' what='outer'
+&remove from='template' what='outer'
+&remove from='template' what='outer'
+&remove from='template' what='outer'
+
+
+These four event handlers are incredibly similar, and could in fact be replaced by a single one which inverted the value of $ev.source.expanded$.  They have been listed separately to increase clarity in this example.  Again, your experience will vary with the tradeoffs you have to make in any given situation.  In every case, $ev.source$ refers back to the $struct$ used to render the target area that was clicked.  A _target area_, in this sense means the smallest block rendered by a template in 
+
+
+The upshot of course, is that any time one of these event handlers is fired, its consequence is to invert the current value of the appropriate 
+
+
+@Commentary
+
+
+@Section
+title=Card and Item Templates
+
+
+It may seem that having separate templates for cards and items is an unnecessary complexity; sadly, it is an essential complexity.
+
+
+In popular parlance, _card_ is shorthand for "a small area of the screen that looks separate".  In FLAS, they are fundamental building blocks - actors.  Meanwhile, the need to manage "a small area of the screen" by itself having not gone away, there is a need for a concept to handle it - the _item_.
+
+
+It is possible to nest cards within cards, but in doing so it is necessary to introduce new actors into the system which, by definition, must be independent of their parents.  There are significant complexities in doing this to which we will return in
+&review 'we need a reference here, but basically when we talk about punnets'
+a later chapter.  For now, it is simply necessary to note that the _first_ template referenced in the card definition must be a $card$ template; _all_ the others must be $item$ templates.
+
+
+@Section
+title=Naming Templates and Handlers
+
+
+The rules for naming elements in FLAS are somewhat complicated because of the number of different models that are coming together in one place.  The rules are discussed thoroughly in the&sp
+&review 'could we have a precise reference and link, please? (type/variable/template names)'
+reference manual.
+
+
+In essence, function, constant and field names in FLAS must start with a lowercase letter and then contain letters, numbers and underscores.  Type names must start with an uppercase letter, be at least three characters long, and contain letters, numbers and underscores.  By convention, camelcase is used in both types of name to indicate the start of a word.
+
+
+Event handlers are considered functions and so follow this same rule.
+
+
+Template elements are different, though.  Because template names are _defined_ in HTML, they follow the HTML naming convention of lowercase letters with words separated by hyphens.  This obviously applies to both specifying a template and those occasions when templates are referenced.
+
+
+@Section
+title=The Template Nesting Chain
+
+
+A card template needs to be "context free"; that is, it needs to be able to be rendered with no information other than what can be found in the state of the card.
+
+
+This is not true for nested items: each item template is rendered in a specific context, depending on where it is referenced; it is the referencing site that defines the context.
+
+
+Once again, the rules by which this works are quite complex,&sp
+&review 'nesting chain rules should be defined in the reference manual and referenced here'
+but the important point is that it is possible to "inherit" context variables in a template as well as to acquire the value of a loop variable.  Additional context variables are just listed after the loop variable (if any).
+
+
+Context variables are, by default, matched by type, so only one such variable can be passed for each type.  In this sense the mechanism used by $location-node$, of explicitly specifying the template to use is more general, because it allows different templates to be used for the same item type.
+
+
+More complex situations may also arise, in which case, specific naming&sp
+&review 'specific naming is not yet implemented'
+can be used to address them, but that is beyond the scope of this guide
+&review 'when specific naming is implemented, we need a reference to the reference manual'
+.
+
+
+When the $location-node$ template specifically references $show-asset$, this ensures that the loop-element variable in $show-asset$ is defined to match the list element type (in this case $Asset$). Because the template does not explicitly set a template nesting chain, it is automatically populated.  If $show-asset$ is referenced on more than one occasion, all of the references will be checked to ensure that they all specify the same type.
+
+
+If the element type is specified, the element must be given a variable name and this must be used to dereference the fields in the template.  If the element type is not specified, then the field members can be used directly.
+
+
+@Section
+title=Event Sources and Traits
+
+
+A $ClickEvent$ is defined as a $struct$ in a standard way.  However, it is incredibly useful to be able to find the element which was the "target" for the event.  This can be accessed by referencing the $source$ parameter of the event.
+
+
+But what type is it?  Well, that's tricky and TBH, it's hacked at the moment, but I have a plan to define "traits" to sort this out.  What you want is for it to be the same as the "element type" that was used to render the template.
+
+
+A trait is kind of like an extra thing that gets tacked on to the struct at compile/reference time that knows because of the context what's going on.
+
+
+So you can reference your data item's members as if $ev.source$ just were that type.  Cool, right?
