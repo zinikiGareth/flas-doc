@@ -1,0 +1,202 @@
+﻿I want to have a lot of the words I want to say captured and presented as speaker notes
+I definitely need to have "alternative paths" listed
+But the presentation mainly wants to be pictures that illustrate things
+I would like it to be whizzy and animated as much as possible, whatever that means
+
+
+- Possibly slides flipping
+- Possibly things sliding across
+- Don't forget we're already paying for 3D
+
+
+| * slide label-for-referencing
+| ** title slide-title
+| ** image background-image
+| ** format slide-format-layout
+| *** slot <- value
+| ** commands on start
+| ** step
+| *** commands
+
+
+* slide begin
+** format title-slide
+*** name <- 'Gareth Powell'
+*** presentation <- 'Hubristically, Web 3.0'
+*** subtitle <- 'Cards, Containers and a service ecosystem'
+
+
+* slide history
+** title "How do we Account for Being Here?"
+** step
+*** speaker '1990 - the web'
+** step
+***  speaker '2006 - ajax, prototype => Web 2.0'
+
+
+* slide future
+** title 'Always in Motion is the Future'
+** step
+*** speaker 'around now, we expect Web 3.0, right?'
+
+
+* slide what-does-that-look-like
+** title 'what has changed since 2006?'
+** step
+*** speaker 'javascript has evolved and become ever-more-impossible'
+** step
+*** speaker 'functional language concepts have become mainstream'
+** step
+*** speaker 'static became dynamic has become reactive'
+
+
+* slide thats-where-I-come-in
+** speaker "And that's where I come in"
+** step
+*** speaker 'Background in functional (Ph.D. 1988-1991)'
+** step
+*** speaker 'crucible of reactive and event-driven (TIBCO 1993-2000)'
+** step
+*** speaker 'and web: front-end, back-end, full-stack, JS, HTML, Java'
+
+
+* slide web-30-feature-list
+** title "My Feature List"
+** speaker 'This is obviously personal, but what does it take to deliver that?'
+** step
+*** speaker 'we need components'
+*** speaker 'components'
+*** speaker 'cards'
+*** speaker 'microservices and beyond [img: buzz lightyear]'
+*** speaker 'common security'
+*** speaker 'hosted'
+*** speaker 'simple programming model'
+                        pick up and play
+                        but with all the power in the world
+                        extensible
+*** speaker 'and of course'
+                        flexible
+                        functional
+                        reactive
+*** speaker 'works anywhere'
+                        web
+                        android
+                        iphone
+                        roku?
+*** speaker 'More???? [img: oliver twist]'
+                        Well, yes, there is more but let's not overwhelm you
+
+
+// for things like this, I want to be able to have "animation steps"
+// so have a construct "step" that knows about that
+// it can have options such as time & delay & it also has "content"
+// it can also have an "effect"
+// which basically takes you back to the top level
+// These things include: "image" (an image to display) and "speaker" (a speaker message)
+// image can include not just the image but also options such as "position", "size", "scale", "rotation"
+// these will be its final attributes, after the animation stops, but will inform the animation
+
+
+// I'm not quite sure why I'm writing this here, but I think this might be a good slide to start on
+// A KEY, KEY THING is that it doesn't get too "in the weeds".  You should be able to easily say
+// step
+//   animate 'toss'
+//   img
+//      position 75% 35%
+//      rotation 45
+//   speaker 'message'
+
+
+// and it should just figure out the rest
+
+
+I would like this slide to just pile up with pictures of things
+
+
+* slide things-that-are-important-to-me
+** title 'My Core Values'
+** step
+*** img 'highway-code'
+*** speaker 'consistency'
+** step
+*** img 'man-scratching-head'
+*** speaker 'clear errors'
+** step
+*** speaker 'everything is either valid; or it is an error'
+** step
+*** speaker 'as much static analysis as possible'
+** step
+*** speaker 'solid type checking with minimal intervention'
+** step
+*** speaker 'avoiding inversions'
+** step
+*** speaker 'no surprises'
+*** speaker "in fact, what I'd really like is that if you write it, it's either an error or it works perfectly in the way you would expect; obviously, that isn't actually possible"
+** step
+*** speaker 'actor model'
+*** img 'harrison-ford'
+** step
+*** speaker 'not that actor model; this one'
+*** remove 'harrison-ford'
+*** img 'computing-actor-model'
+** step
+*** img 'queen-coronation'
+*** speaker 'minimal boilerplate and ceremony'
+** step
+*** img 'sloth'
+*** speaker 'true lazy functional evaluation'
+** step
+*** img 'alan-turing-statue-manchester'
+*** speaker 'formal semantics'
+** step
+*** speaker 'at least the ability to reason about programs - if not full proof'
+ 
+* slide hello-world
+** speaker "let's get started with something simple and concrete"
+                hello world
+                << show finished output in a browser >>
+                ok, that's not very interesting but what did we do
+                << show code >>
+                ok, where does that say "hello world"?
+
+
+* slide the-basic-architecture
+                split into two parts
+                (1) is the client side programming language which connects to the UI and does all that
+                        You can use this without thinking about the server
+                        although there are server implications around deployment
+                (2) is the server side interface which connects clients and servers and integrates the two
+                        we'll come back to that (or not if just talking to UI folks)
+                        but all with the same programming language
+                        just additional features
+
+
+* slide client-side-architecture
+                image of a food mixer that integrates HTML, CSS and FLAS
+                "Bring your own web design"
+                I use webflow to build what amounts to static content
+                [img of hello world in webflow]
+                The only magic is in the ids.
+                [zoom in to show the id field highlighted - flas-content-hello]
+The answer is "hello, world" is in the HTML.
+        [pan over to that]
+
+
+* slide handling-events
+        hello world is all well and good
+        but it's not very exciting
+        we want at least to be able to handle events
+        [toggle example on the screen]
+
+
+* slide actor-model
+** speaker 'explain what it means with an image of the basic architecture with an event loop inside and messages between'
+** speaker 'this is a new kind of abstraction'
+** speaker 'although new is relative - actors have been around since 1967'
+** speaker 'but they were diluted into classes and objects'
+** speaker 'the key is to have a VM like thing - memory, event loop/processor, input/output'
+I want a graphic with the three kinds of actors (cards, agents, services) with their various properties, and message passing
+In the center is "ACTOR"
+        these are all actors BUT they are not the same
+        cards also have UI that means they can interact with the user and receive events
+        mainly actors just receive messages
