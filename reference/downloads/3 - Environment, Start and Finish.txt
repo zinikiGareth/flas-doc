@@ -1,0 +1,43 @@
+﻿@Chapter
+title=Environment, Start and Finish
+
+
+In most programming languages, the start and finish conditions are very clear. Because of the actor model in FLAS, this is very much less clear and needs to be considered both in terms of the overall environment and at the individual actor level.
+
+
+&review 'this basically breaks down into two parts: in the environment we talk about startup of the actual app based on the FA declaration; we also need to talk about the implied container; for the actors, we basically want to discuss the Lifecycle contract'
+
+
+@Section
+title=Environment Start
+
+
+@Subsection
+title=Browser
+
+
+@Subsection
+title=App Clients
+
+
+@Subsection
+title=Embedded Ziniki Server
+
+
+&review 'this also applies to other embedded contexts'
+&review 'there is no lifecycle here which is why there is no state in services'
+
+
+@Section
+title=Actor Lifecycle
+
+
+@Subsection
+title=Actor Start
+
+
+@Subsection
+title=Actor Termination
+
+
+&review 'somewhere we must talk about resource management, but only in overview here'

@@ -1,0 +1,39 @@
+﻿@Chapter
+title=Introduction
+
+
+Programming languages can be broadly divided into two: _general purpose_ programming languages are intended to solve a wide array of problems; whereas _task specific_ programming languages are more finely tuned to the solution of a narrower class of problems.
+
+
+Although capable of addressing many problems, FLAS is unashamedly in the second category.  It aims to solve two problems well, one on either side of the web client/server divide.  On the client side, it aims to provide developers with the ability to create gorgeous, snappy, reactive applications with ease; and on the server side it assists them in building the kind of reactive microservices that underpin those client applications.
+
+
+Moreover, there is almost no area of programming about which FLAS is agnostic; it has strong opinions on almost every big debate in programming.  If you don't like that, then you probably want to go elsewhere.  But to avoid later confusion, we would like to state up front that these are deliberate, unquestionable opinions baked into FLAS:
+
+
+* *Testing at every level of scale* is an *absolute imperative* and it will be supported, encouraged and demanded of FLAS applications.
+* Programs should be *reactive*, *tell-don't-ask* and should *subscribe* to event sources; they should not use getters, request/response or synchronous technology or the appearance of synchronicity.
+* Logic should be *clear, transparent and provable* using functional, declarative semantics.
+* The *iteration length* of any action should be as short as possible, promoting comprehensibility of code blocks.
+* Programs should be *strongly typed* but with a minimum of declaration and a maximum of *inference*.
+* Programs should be *broken down* appropriately supported by suitable *building blocks*. 
+* Programs should be as *loosely coupled* as possible, and the *language* should have all the relevant *constructs* to support that.
+* *Program divisions* should, where possible, not be arbitrary but *flow naturally* from the information flow in the system.
+
+
+FLAS cannot be a general purpose programming language because it makes too many assumptions about the kinds of programs - or more specifically, _program units_ that you want to write.  It knows about three basic program units and assumes that you are working towards one of them:
+
+
+* _Cards_ support the construction of UI units, combining data and screen real estate while being connected into a wider ecosystem through _contracts_.
+* _Agents_ facilitate the coordination of cards by combining data with a network of connections to cards and services.
+* _Services_ support the construction of server-side _microservices_, embedded and deployed within Ziniki&footnote  servers.
+
+
+&footnote
+Technically, since FLAS generates JVM and JS code, services could be deployed within servers provided by any PAAS provider, but for obvious reasons, we will only consider FLAS services embedded in Ziniki servers.
+
+
+Supporting these three units are a number of other building blocks - _structs_, _unions_, _contracts_, _objects_ and _tests_ which provide the ability to build more general purpose units for program composition.
+
+
+FLAS programs are intended to have semantics that are detached from any implementation language.  Currently, it is possible to generate JavaScript and JVM bytecodes from FLAS, although technically there is no reason not to generate backends compatible with iOS, .NET, PHP or any other environment.

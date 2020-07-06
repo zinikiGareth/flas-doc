@@ -1,0 +1,184 @@
+﻿@Chapter
+title=Lexical Conventions
+
+
+FLAS programs are presented to the compiler as a set of _files_, grouped into _packages_ (directories).  The _directory name_ is used as a package prefix for all the definitions provided within that directory.
+
+
+For standard program units, the name of the file is not used in naming FLAS constructs, although it is used to partition test classes into different subpackages, where a variant of the file name is used as a nested package within the directory name.
+
+
+@Section
+title=Unit Translation Types.
+
+
+&grammar rule='file'
+
+
+For each file within a package, the file extension is used to determine how the contents of the file will be interpreted.
+
+
+* $.fl$ - a standard program unit, which may contain any normal definitions.
+* $.ut$ - a unit test file, containing unit test definitions.
+* $.pt$ - a protocol test file, defining tests that can be used to test the compliance of instances to the expectation of a contract.
+* $.st$ - a system test file, that is capable of simulating end-to-end system behaviors and asserting their correctness.
+* $.fa$ - an assembly file indicating how a deployable client or server unit can be built from components in this (and potentially other) packages.
+
+
+@Section
+title=Indentation
+
+
+Within a file, the nesting of definitions is determined by _indentation_ and _context_.  _Significant indentation_ is provided using leading $tab$ characters, while _continuation lines_ have the same number of $tab$ characters as the preceding line but additional $space$ characters to reach the desired continuation point.
+
+
+@Comment
+
+
+By convention, FLAS programs are presented with tab stops set at four spaces, but there is no significance to this.  It is hoped that tools (such as IDEs) will make the distinction between leading tabs and continuation spaces very clear and clearly present mismatched indentation as such.
+@/
+
+
+@Subsection
+title=Comments
+
+
+Blank lines, lines beginning with no tabs, and any portion of a line following two consecutive slash characters ($//$) are considered to be _comments_.  For all practical purposes, after making this determination, comments are ignored by the compiler.  They may, however, be used by other tools for the purpose of providing documentation or otherwise.
+
+
+@Comment
+
+
+Specifically, it is the designers' intent that _literate programming_ should be supported by tools.  To further this, comments that begin in column zero with no leading slashes should be considered _literate comments_.  These are the comments which would be used to construct documentation and narratives about the code.  On the other hand, comments beginning with a double slash will generally be considered side-notes by and to developers which are to be ignored by all tools.
+
+
+Comments with meta-tags (such as $TODO$) may at some point be considered by some tools to be special, but no guidance can be given at this time in the absence of such tools.
+@/
+
+
+@Subsection
+title=Nesting
+
+
+Top-level definitions are identified by having exactly one leading $tab$ character.  Any such definition has global visibility with its _package-qualified name_ and visibility within the package with its _simple name_.
+
+
+A definition may be nested within another definition provided it has exactly one more leading tab than the enclosing definition.  The rules of what may be nested within a definition depend on the kind of that definition, as do the rules of name scoping; but no nested definition is _directly visible_ outside the scope of its parent definition.
+
+
+@Comment
+
+
+The rules here are varied and complex, but fundamentally constants, functions and standalone methods are invisible outside their scope; things like fields and object methods are visible _within the context_ of a container of the enclosing type; and things such as conditional definitions are visible as _part of_ the enclosing definition.
+
+
+One implication of the "one more leading tab" rule is that each line in a FLAS program must have less, the same or exactly one more leading tab than the preceding line (ignoring comment lines).
+@/
+
+
+@Section
+title=Names
+
+
+FLAS supports four types of names with different lexical rules:
+
+
+* *field names* must start with a lowercase letter, followed by an arbitrary number of lowercase and uppercase letters, digits and underscores.  CamelCase is used to indicate word boundaries.
+* *type names* must start with an uppercase letter, be at least three characters long, and have the remaining characters be uppercase and lowercase letters, digits and underscores.  CamelCase is used to indicate word boundaries.
+* *polymorphic type variables* must be one or two characters long, the first of which must be an uppercase letter and the second may be an uppercase letter or a digit.
+* *template names* must start with a lowercase letter, followed by an arbitrary number of lowercase and uppercase letters, digits, hyphens and underscores.  While uppercase letters and underscores are permitted, lowercase letters and hyphens are generally preferred.  Hyphens are used to indicate word boundaries.
+
+
+These kinds of names are referenced as appropriate within this manual.
+
+
+@Section
+title=Constants
+
+
+Apart from named type constants, FLAS supports constants of the builtin primitives:
+
+
+* *String* constants are indicated by the use of single or double quotation marks.  These may be used interchangeably to indicate the start of a string, but they *must* be used in matched pairs: that is, a string beginning with a single quotation mark continues until a closing single quotation mark is encountered; and likewise with double quotation marks.  A terminating quotation mark may be embedded within a string by placing two consecutive marks in the string; one will be maintained and the string will continue.
+* *Integer* constants are indicated by a sequence of one or more digits.  Negative numbers are not supported as constants but rather as expressions using the unary minus operator and a positive integer constant.
+* *Floating point* constants are indicated by a sequence of zero or more digits, followed by a dot ($.$), followed by zero or more digits, optionally followed by an exponent symbol ($e$, $e-$,  $E$ or $E-$) and one or more digits.  One of the two mantissa portions must have at least one digit.
+
+
+Both integer and floating point constants are considered to be of type Number.
+
+
+@Comment
+
+
+FLAS tries to ride two horses with regards to numbers.  On the one hand, it prefers to assume (as does JavaScript) that there is just one number line and there is nothing really special about integers; on the other hand, it has to recognize that many applications (such as array indexing) _require_ integers and it is not reasonable to just ignore their existence.
+
+
+Integers are not formally defined in FLAS: the only recognized number type is $Number$ which roughly equates to the set of real numbers.  However, the implementation - particularly in the JVM world - is riddled with concern for the distinction between floating point numbers and integers.
+@/
+
+
+@Comment
+
+
+It is the designers' intent to directly support more primitive types, including monetary values, dates and intervals.  These will ultimately have the appropriate constant types.
+
+
+Complex numbers may also be supported as primitives if the need arises, but as was noted in the introduction, FLAS is not intended to be a general purpose programming language and complex numbers seem outside the intended applications of the language.
+@/
+
+
+@Section
+title=White Space
+
+
+The issues regarding leading white space have already been addressed.  This section only relates to white space found _after_ the first non-white-space character and _not_ in a comment.
+
+
+Within a line, any white space _not_ occurring within a string constant is considered to end the current token and introduce a new one. Within a line, multiple consecutive white space characters are considered equivalent to a single space.  Within a line, all white space characters are considered equivalent.
+
+
+When a line is continued by starting a new line which begins with the same number of tabs as the previous line and one or more non-tab space characters, the compiler internally joins the lines together, removing any newline ($CR$ and $LF) characters but preserving any other white space (tabs and spaces) originally present.
+
+
+An arbitrary number of continuation lines may be joined together in this way, all of which *must* have the same number of leading tabs; the first of which must have *no* subsequent white space; and all the others must have at least one space after the leading tabs.  There is no rule about the relative number of spaces following the leading tabs - that is left to the developer's sense of clarity and aesthetics.
+
+
+@Section
+title=Punctuation Characters
+
+
+In addition to names and constants, FLAS defines operators and punctuation characters.
+
+
+Punctuation characters stand alone and constitute a single symbol by themselves and may *not* be combined into larger symbol characters.
+
+
+The following characters are punctuation characters
+
+
+&review 'review list of punctuation characters'
+
+
+* Parentheses $($ and $)$
+* Brackets $[$ and $]$
+* Curly brackets ${$ and $}$
+* Comma $,$
+
+
+@Section
+title=Symbols and Operators
+
+
+The remaining characters are considered symbol characters and may be combined into composite _operators_.  An operator is either an individual symbol character or a sequence of symbol characters which have been defined to have meaning as an operator.  Some symbols may also be used in language constructs.
+
+
+Currently there is no mechanism by which users can introduce new operators.
+
+
+Operators may be used in expressions as well as in other contexts.  They are defined in the appropriate sections where they are used, along with their precedence (where appropriate).  Where symbol characters need to be placed in distinct operators which are adjacent to each other, intervening whitespace (or parentheses) must be used as appropriate.
+
+@Comment
+
+
+In the long run, it makes sense to allow new, user-defined operators.  These are essentially functions which can be given arity, precedence and associativity.  However, doing so in a truly extensible way (and supporting concepts such as ternary operators) is beyond the current scope.  Consequently, the set of operators is currently limited to the builtin operators.
+@/

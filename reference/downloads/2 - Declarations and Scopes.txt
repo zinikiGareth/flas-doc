@@ -1,0 +1,126 @@
+﻿@Chapter
+title=Declarations and Scopes
+
+
+Within FLAS, many different types of concept can be defined; furthermore, the language is intended to be extensible so as to support additional concepts, in particular to support concepts internal to Ziniki.  Each of these concepts has its own declaration syntax and then supports specific nested content.  The details of these declaration types will constitute much of this manual.
+
+
+However, these definitions can be broken down into "families" and these families will be discussed here.
+
+
+Most definitions and nested declarations are introduced by a keyword or key operator; the exceptions are:
+
+
+* when only one kind of declaration is allowed;
+* function definitions.
+
+
+@Comment
+
+
+FLAS has been designed from the outset to be a "family" of languages.  The core of the language is the ability to express functional transformations from state to state in conformance with the actor model.  Anywhere that this model is applicable represents a potential target domain for FLAS.
+
+
+In this regard, concepts like "cards" and "services" make sense in some contexts and not in others; more than that, in embedding FLAS in the Ziniki context, it is desirable to have more direct support for defining new concept types such as storable _entities_ with unique identifiers; _offers_ and _deals_ between parties and so on.  These are not part of the "core" language.
+
+
+Similarly, other embedded uses offer other extensions to the core model, but in all cases the fundamental design of the language remains the same.
+@/
+
+
+&grammar rule='top-level-unit'
+&review 'this should have all the ziniki defs in one block and we should remove that'
+&grammar rule='top-level-definition'
+&removeOption prod='entity-declaration'
+&removeOption prod='deal-declaration'
+&removeOption prod='offer-declaration'
+&grammar rule='function-scope'
+&grammar rule='function-scope-unit'
+
+
+@Section
+title=Functions
+
+
+At heart, FLAS is a _functional_ language, and functions are core to data manipulation in FLAS.  As with most modern functional languages, FLAS functions are mathematically defined mappings from domains of values to a range of values.  While not perfectly mathematical, the use of lazy evaluation ensures that the operational semantics are close to the declared semantics.
+
+
+The family of function declarations should be understood to include standalone and object _methods_ as well as event handlers and data callback handlers.
+
+
+Depending on how the function is defined, the immediate nested members of this family may be conditional cases, which in turn introduces a scope where functions may be defined.  For simple functions, defined on one line, the immediate nesting level allows functions to be defined.
+
+
+@Section
+title=Data Types
+
+
+The family of data type declarations includes $struct$, $union$ and $object$ definitions in core FLAS, as well as being subject to extension; Ziniki also defines $entity$, $deal$ and $offer$.
+
+
+For these types, the immediate nesting level defines fields.  Inner nesting levels allow constraints and metadata to be applied to the individual fields.
+
+
+@Section
+title=Contracts
+
+
+Contracts define a set of parallel methods to be implemented by an implementing actor or handler.
+
+
+Nested declarations are all declarations of methods to be implemented.  Nested definitions are not allowed.
+
+
+@Section
+title=Actors
+
+
+The family of actors includes agents and cards on the client side and services on the server side in core FLAS; it may also include other actors as appropriate in extension contexts.
+
+
+Nested lines may be acceptable nested definitions; nested declarations must be introduced with a suitable keyword such as $state$, $template$ or $implements$.
+
+
+@Section
+title=Templates
+
+
+WIthin templates, no nested definitions are allowed.  The nested declarations must all be binding, styling or event handling declarations.
+
+
+@Section
+title=Scoping
+
+
+Declarations at the top level of a file (with exactly one leading tab) are prefixed with the name of the enclosing package (the directory in which the file is found), unless the file is a test file of some kind, in which it is prefixed by the name of the enclosing package followed by some version of the test file name (usually including invalid characters to ensure its uniqueness).
+
+
+@Comment
+
+
+Unit test files ($.ut$ files) use the package __ut___name_.  Since the test cases themselves do not have names (just descriptions), the individual tests are given the names _ut0, _ut1 and so on.  Placing the tests within separate packages (based on the file name) ensures the uniqueness of the overall name.  Using underscores in the package and test names ensures that they cannot clash with names defined with FLAS, since these cannot contain underscores.
+@/
+
+
+Nested lines have a meaning that is imposed by the enclosing scope.
+
+
+In many cases, a nested line is constrained to provide a part of the definition of the enclosing scope.  For instance, inside a function definition, a line beginning with the condition operator ($|$) forms a function case, an inherent part of the function.
+
+
+However, when this is not the case, one or more definition types may be allowed; in most cases constant and function declarations are allowed wherever there is an inner scope.  In this case, the name of the inner definition is prefixed not only by the package prefix but also by the name of the enclosing definition.
+
+
+Within a given scope, a single name may not be used twice.  Specifically, a name introduced in a scope at a given level must be unique and must not be defined in any enclosing definition.  While this most obviously applies to function, type and actor names, it also applies to other names introduced into the scope such as parameter, field and type variable names.
+
+@Comment
+
+
+&review 'some examples needed'
+
+
+I feel this needs a few examples to make it absolutely crystal clear.
+@/
+
+
+Some declarations - such as actors and data types - may not be nested but must be placed at the top level.
