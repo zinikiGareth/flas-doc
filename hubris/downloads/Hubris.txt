@@ -7,11 +7,13 @@ I would like it to be whizzy and animated as much as possible, whatever that mea
 - Possibly slides flipping
 - Possibly things sliding across
 - Don't forget we're already paying for 3D
+-   except we're not when we're dealing with slide animation - that's 2d in overlay
 
 
 | * slide label-for-referencing
-| ** title slide-title
-| ** image background-image
+| ** aspect x y  // defaults to 16:9; defines coordinate system
+| ** img background-image
+| *** // how to trim the image
 | ** format slide-format-layout
 | *** slot <- value
 | ** commands on start
@@ -20,14 +22,25 @@ I would like it to be whizzy and animated as much as possible, whatever that mea
 
 
 * slide begin
+** aspect 12 12
+** img 'www.png'
+** background "indigo"
 ** format title-slide
+*** title <- 'Hubristically, Web 3.0'
+*** subtitle <- 'Cards, Containers and a Service Ecosystem'
 *** name <- 'Gareth Powell'
-*** presentation <- 'Hubristically, Web 3.0'
-*** subtitle <- 'Cards, Containers and a service ecosystem'
+*** company <- 'Ziniki Network'
 
 
 * slide history
-** title "How do we Account for Being Here?"
+** img 'Alan-turing-statue.png'
+** aspect 10 5.96
+** background "green"
+** format boring-slide
+*** image <- 'Alan-turing-statue-wide.jpg'
+*** title <- "How do we Account for Being Here?"
+// **** border <- 'white'
+**** box <- '#7f7f7f7f'
 ** step
 *** speaker '1990 - the web'
 ** step
@@ -35,13 +48,15 @@ I would like it to be whizzy and animated as much as possible, whatever that mea
 
 
 * slide future
-** title 'Always in Motion is the Future'
+** format boring-slide
+*** title <- 'Always in Motion is the Future'
 ** step
 *** speaker 'around now, we expect Web 3.0, right?'
 
 
 * slide what-does-that-look-like
-** title 'what has changed since 2006?'
+** format boring-slide
+*** title <- 'what has changed since 2006?'
 ** step
 *** speaker 'javascript has evolved and become ever-more-impossible'
 ** step
@@ -51,7 +66,8 @@ I would like it to be whizzy and animated as much as possible, whatever that mea
 
 
 * slide thats-where-I-come-in
-** speaker "And that's where I come in"
+** format boring-slide
+*** title <- "And that's where I come in"
 ** step
 *** speaker 'Background in functional (Ph.D. 1988-1991)'
 ** step
@@ -61,7 +77,8 @@ I would like it to be whizzy and animated as much as possible, whatever that mea
 
 
 * slide web-30-feature-list
-** title "My Feature List"
+** format boring-slide
+*** title <- "My Feature List"
 ** speaker 'This is obviously personal, but what does it take to deliver that?'
 ** step
 *** speaker 'we need components'
@@ -114,7 +131,8 @@ I would like this slide to just pile up with pictures of things
 
 
 * slide things-that-are-important-to-me
-** title 'My Core Values'
+** format boring-slide
+*** title <- 'My Core Values'
 ** step
 *** img 'highway-code'
 *** speaker 'consistency'
@@ -152,6 +170,7 @@ I would like this slide to just pile up with pictures of things
 *** speaker 'at least the ability to reason about programs - if not full proof'
  
 * slide hello-world
+** format boring-slide
 ** speaker "let's get started with something simple and concrete"
                 hello world
                 << show finished output in a browser >>
@@ -161,6 +180,7 @@ I would like this slide to just pile up with pictures of things
 
 
 * slide the-basic-architecture
+** format boring-slide
                 split into two parts
                 (1) is the client side programming language which connects to the UI and does all that
                         You can use this without thinking about the server
@@ -172,6 +192,7 @@ I would like this slide to just pile up with pictures of things
 
 
 * slide client-side-architecture
+** format boring-slide
                 image of a food mixer that integrates HTML, CSS and FLAS
                 "Bring your own web design"
                 I use webflow to build what amounts to static content
@@ -183,6 +204,7 @@ The answer is "hello, world" is in the HTML.
 
 
 * slide handling-events
+** format boring-slide
         hello world is all well and good
         but it's not very exciting
         we want at least to be able to handle events
@@ -190,6 +212,7 @@ The answer is "hello, world" is in the HTML.
 
 
 * slide actor-model
+** format boring-slide
 ** speaker 'explain what it means with an image of the basic architecture with an event loop inside and messages between'
 ** speaker 'this is a new kind of abstraction'
 ** speaker 'although new is relative - actors have been around since 1967'

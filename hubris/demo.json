@@ -1,0 +1,62 @@
+{"slides":[
+{"x":-0.8101725,"y":2.5671315,"z":4.643104,"title":"begin","img":"web30pres/images/www.png","item":{
+	"name":"begin",
+	"aspect": [12,12],
+	"background": "indigo",
+	"steps": [{
+		"slide": [
+			{"showText": {
+				"text": "Hubristically, Web 3.0",
+				"color": "yellow",
+				"origin": [0, 1.1], 
+				"pin": [0, 0],
+				"width": 11,
+				"height": 2
+			}},
+			{"showText": {
+				"text": "Cards, Containers and a Service Ecosystem",
+				"style": "italic",
+				"origin": [0, 0.5], 
+				"pin": [0, 0],
+				"width": 9,
+				"height": 1
+			}},
+			{"showText": {
+				"text": "Gareth Powell",
+				"origin": [4, -2.2], 
+				"pin": [1, 0],
+				"width": 5,
+				"height": 0.3
+			}},
+			{"showText": {
+				"text": "Ziniki Network",
+				"origin": [4, -2.6], 
+				"pin": [1, 0],
+				"width": 5,
+				"height": 0.3
+			}}
+		],
+		"speaker": ["Hubris", "Web 3.0"]
+	}]
+}},
+{"x":-1.3558016,"y":-8.001968,"z":12.878382,"title":"history","img":"web30pres/images/Alan-turing-statue.png","image":"web30pres/images/Alan-turing-statue-wide.jpg", "item":{
+	"name":"history",
+	"aspect": [10,5.96],
+	"background": "green",
+	"steps": [{
+		"slide": [
+			{"showText": {
+				"text": "History",
+				"color": "black",
+				"border": "white",
+				"box": "#00ff0080",
+				"origin": [0, 2],
+				"pin": [0, 1],
+				"width": 4,
+				"height": 1
+			}}
+		],
+		"speaker": ["talk about history of the web"]
+	}]
+}},
+{"x":10.802999,"y":0.31297696,"z":-10.3937845,"title":"future","item":{"name":"future"}},{"x":-9.579046,"y":2.979124,"z":10.419803,"title":"what-does-that-look-like","item":{"name":"what-does-that-look-like"}},{"x":-9.319034,"y":3.5212932,"z":3.4773903,"title":"thats-where-I-come-in","img":"web30pres/images/Alan-turing-statue.png","item":{"name":"thats-where-I-come-in"}},{"x":-6.3957253,"y":6.4099054,"z":-5.6390886,"title":"web-30-feature-list","img":"web30pres/images/Alan-turing-statue.png","item":{"name":"web-30-feature-list"}},{"x":9.962288,"y":-10.291939,"z":3.005645,"title":"things-that-are-important-to-me","img":"web30pres/images/Alan-turing-statue.png","item":{"name":"things-that-are-important-to-me"}},{"x":1.5207262,"y":-4.9882927,"z":3.7875428,"title":"hello-world","img":"web30pres/images/Alan-turing-statue.png","item":{"name":"hello-world"}},{"x":-1.5271873,"y":-6.893432,"z":-5.5441594,"title":"the-basic-architecture","img":"web30pres/images/Alan-turing-statue.png","item":{"name":"the-basic-architecture"}},{"x":3.1339324,"y":2.9403193,"z":-4.5386586,"title":"client-side-architecture","img":"web30pres/images/Alan-turing-statue.png","item":{"name":"client-side-architecture"}},{"x":2.1674738,"y":2.6498458,"z":14.189138,"title":"handling-events","img":"web30pres/images/Alan-turing-statue.png","item":{"name":"handling-events"}},{"x":3.1781893,"y":12.911275,"z":-3.7783399,"title":"actor-model","img":"web30pres/images/Alan-turing-statue.png","item":{"name":"actor-model"}}],"tunnels":[{"from":"begin","to":"history","color":[1.0,1.0,1.0,0.5]},{"from":"history","to":"future","color":[1.0,1.0,1.0,0.5]},{"from":"future","to":"what-does-that-look-like","color":[1.0,1.0,1.0,0.5]},{"from":"what-does-that-look-like","to":"thats-where-I-come-in","color":[1.0,1.0,1.0,0.5]},{"from":"thats-where-I-come-in","to":"web-30-feature-list","color":[1.0,1.0,1.0,0.5]},{"from":"web-30-feature-list","to":"things-that-are-important-to-me","color":[1.0,1.0,1.0,0.5]},{"from":"things-that-are-important-to-me","to":"hello-world","color":[1.0,1.0,1.0,0.5]},{"from":"hello-world","to":"the-basic-architecture","color":[1.0,1.0,1.0,0.5]},{"from":"the-basic-architecture","to":"client-side-architecture","color":[1.0,1.0,1.0,0.5]},{"from":"client-side-architecture","to":"handling-events","color":[1.0,1.0,1.0,0.5]},{"from":"handling-events","to":"actor-model","color":[1.0,1.0,1.0,0.5]}]}
