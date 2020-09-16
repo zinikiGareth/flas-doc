@@ -515,12 +515,12 @@
 <span class='production-token'>OCB</span>&nbsp;<span class='production-token'>CCB</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
-<span class='production-token'>OCB</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>COLON</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-reference'>&lt;comma-object-member&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>CCB</span></div>
+<span class='production-token'>OCB</span>&nbsp;<span class='production-reference'>&lt;object-member&gt;</span>&nbsp;<span class='production-reference'>&lt;comma-object-member&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>CCB</span></div>
 <div class='production-block'>
   <div class='production-number'>(53)</div>
   <div class='production-name'>object-member</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>COMMA</span>&nbsp;<span class='production-reference'>&lt;object-key&gt;</span>&nbsp;<span class='production-token'>COLON</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<span class='production-reference'>&lt;object-key&gt;</span>&nbsp;<span class='production-token'>COLON</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(54)</div>
   <div class='production-name'>object-key</div>
@@ -533,7 +533,7 @@
   <div class='production-number'>(55)</div>
   <div class='production-name'>comma-object-member</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;object-member&gt;</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<span class='production-token'>COMMA</span>&nbsp;<span class='production-reference'>&lt;object-member&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(56)</div>
   <div class='production-name'>handler-definition</div>
@@ -1384,12 +1384,12 @@
 <span class='production-token'>OCB</span>&nbsp;<span class='production-token'>CCB</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
-<span class='production-token'>OCB</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>COLON</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span>&nbsp;<span class='production-reference'>&lt;comma-object-member&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>CCB</span></div>
+<span class='production-token'>OCB</span>&nbsp;<span class='production-reference'>&lt;object-member&gt;</span>&nbsp;<span class='production-reference'>&lt;comma-object-member&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-token'>CCB</span></div>
 <div class='production-block'>
   <div class='production-number'>(53)</div>
   <div class='production-name'>object-member</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>COMMA</span>&nbsp;<span class='production-reference'>&lt;object-key&gt;</span>&nbsp;<span class='production-token'>COLON</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<span class='production-reference'>&lt;object-key&gt;</span>&nbsp;<span class='production-token'>COLON</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(54)</div>
   <div class='production-name'>object-key</div>
@@ -1402,7 +1402,7 @@
   <div class='production-number'>(55)</div>
   <div class='production-name'>comma-object-member</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;object-member&gt;</span>&nbsp;<span class='production-reference'>&lt;expression&gt;</span></div>
+<span class='production-token'>COMMA</span>&nbsp;<span class='production-reference'>&lt;object-member&gt;</span></div>
 <div class='section-description'>
 
       We need to include . notation for fields, along with the fact that it has very high priority, so should probably be somewhere around the literal stage.
