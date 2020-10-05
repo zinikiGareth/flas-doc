@@ -26,8 +26,6 @@
   	<p>The <tt>card</tt> keyword introduces a card definition.</p>
   </div><h3>CCB</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\}</span><div class='lexical-description'>
   	<p>A closing curly bracket delimits the end of a constructor pattern or object creation.</p>
-  </div><h3>CLEANUP</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>cleanup</span><div class='lexical-description'>
-  	<p>The system test keyword <tt>cleanup</tt>.</p>
   </div><h3>COLON</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>:</span><div class='lexical-description'>
   	<p>Can be an operator or can be used to define object literals.</p>
   </div><h3>COMMA</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>,</span><div class='lexical-description'>
@@ -65,14 +63,14 @@
   	<p>The <tt>expect</tt> keyword introduces a mock expectation.</p>
   </div><h3>FALSE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>False</span><div class='lexical-description'>
   	<p>The boolean literal <tt>False</tt>.</p>
+  </div><h3>FINALLY</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>finally</span><div class='lexical-description'>
+  	<p>The system test keyword <tt>finally</tt>.</p>
   </div><h3>GUARD</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>\|</span><div class='lexical-description'>
   	<p>Defines the variable/function definition operator.</p>
   </div><h3>HANDLE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>-&gt;</span><div class='lexical-description'>
   	<p>The HANDLE operator is used to assign subscription handles to handle variables.</p>
   </div><h3>HANDLER</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>handler</span><div class='lexical-description'>
   	<p>The <tt>handler</tt> keyword introduces a callback handler.</p>
-  </div><h3>HEADER</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>header</span><div class='lexical-description'>
-  	<p>The ajax system test keyword <tt>header</tt>.</p>
   </div><h3>IMPLEMENTS</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>implements</span><div class='lexical-description'>
   	<p>The <tt>implements</tt> keyword introduces a contract implementation in a card.</p>
   </div><h3>INVOKE</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>invoke</span><div class='lexical-description'>
@@ -99,8 +97,6 @@
   	<p>The <tt>provides</tt> keyword introduces a block indicating that the service portion of a contract will be provided.</p>
   </div><h3>PUMP</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>pump</span><div class='lexical-description'>
   	<p>The ajax system test keyword <tt>pump</tt>.</p>
-  </div><h3>QUERY</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>query</span><div class='lexical-description'>
-  	<p>The ajax system test keyword <tt>query</tt>.</p>
   </div><h3>REQUIRES</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>requires</span><div class='lexical-description'>
   	<p>The <tt>requires</tt> keyword identifies a variable which is bound to a service of the specified contract.</p>
   </div><h3>RESPONSES</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>responses</span><div class='lexical-description'>
@@ -187,7 +183,7 @@
   <div class='production-number production-needs-testing'>(5)</div>
   <div class='production-name'>system-test-file</div>
   <div class='production-op'>::=</div>
-&nbsp;<span class='production-reference'>&lt;system-test-configure&gt;</span>&nbsp;<span class='production-reference'>&lt;system-test-unit&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;system-test-clean&gt;</span></div>
+&nbsp;<span class='production-reference'>&lt;system-test-configure&gt;</span>&nbsp;<span class='production-reference'>&lt;system-test-unit&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;system-test-finally&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(6)</div>
   <div class='production-name'>top-level-unit</div>
@@ -956,57 +952,58 @@
   <div class='production-number production-needs-testing'>(118)</div>
   <div class='production-name'>system-test-configure</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>CONFIGURE</span></div>
+<span class='production-token'>CONFIGURE</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;system-configure-step&gt;</span></div></div>
 <div class='production-block'>
   <div class='production-number production-needs-testing'>(119)</div>
+  <div class='production-name'>system-configure-step</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;unit-data-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;ajax-configure-step&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number production-needs-testing'>(120)</div>
+  <div class='production-name'>ajax-configure-step</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>AJAX</span>&nbsp;<span class='production-token'>CREATE</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>STRING</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;ajax-create-handler&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number production-needs-testing'>(121)</div>
   <div class='production-name'>system-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEST</span>&nbsp;<span class='production-token'>DOCWORD</span><span class='production-many'>+</span>&nbsp;&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;system-test-step&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(120)</div>
+  <div class='production-number production-needs-testing'>(122)</div>
   <div class='production-name'>system-test-step</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;unit-test-step&gt;</span></div>
+<span class='production-reference'>&lt;unit-test-assert&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;ajax-test-step&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(121)</div>
+  <div class='production-number production-needs-testing'>(123)</div>
   <div class='production-name'>ajax-test-step</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>AJAX</span>&nbsp;<span class='production-token'>CREATE</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>STRING</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;ajax-create-handler&gt;</span></div></div>
-<div class='production-or-block'>
-  <div class='production-or'>|</div>
 <span class='production-token'>AJAX</span>&nbsp;<span class='production-token'>PUMP</span>&nbsp;<span class='production-token'>var-name</span></div>
-<div class='production-or-block'>
-  <div class='production-or'>|</div>
-<span class='production-token'>AJAX</span>&nbsp;<span class='production-token'>ASSERT</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(122)</div>
+  <div class='production-number production-needs-testing'>(124)</div>
   <div class='production-name'>ajax-create-handler</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>SUBSCRIBE</span>&nbsp;<span class='production-token'>STRING</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;ajax-http-options&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(123)</div>
+  <div class='production-number production-needs-testing'>(125)</div>
   <div class='production-name'>ajax-http-options</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>QUERY</span>&nbsp;<span class='production-token'>STRING</span>&nbsp;<span class='production-token'>HANDLE</span>&nbsp;<span class='production-token'>introduce-var</span></div>
-<div class='production-or-block'>
-  <div class='production-or'>|</div>
-<span class='production-token'>HEADER</span>&nbsp;<span class='production-token'>STRING</span>&nbsp;<span class='production-token'>HANDLE</span>&nbsp;<span class='production-token'>introduce-var</span></div>
-<div class='production-or-block'>
-  <div class='production-or'>|</div>
 <span class='production-reference'>&lt;ajax-http-response-list&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(124)</div>
+  <div class='production-number production-needs-testing'>(126)</div>
   <div class='production-name'>ajax-http-response-list</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>RESPONSES</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;object-literal&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(125)</div>
-  <div class='production-name'>system-test-clean</div>
+  <div class='production-number production-needs-testing'>(127)</div>
+  <div class='production-name'>system-test-finally</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>CLEANUP</span></div>
+<span class='production-token'>FINALLY</span></div>
 <h2>Definitions</h2>
 <h3>Files</h3>
 <div class='production-block'>
@@ -1042,7 +1039,7 @@
   <div class='production-number production-needs-testing'>(5)</div>
   <div class='production-name'>system-test-file</div>
   <div class='production-op'>::=</div>
-&nbsp;<span class='production-reference'>&lt;system-test-configure&gt;</span>&nbsp;<span class='production-reference'>&lt;system-test-unit&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;system-test-clean&gt;</span></div>
+&nbsp;<span class='production-reference'>&lt;system-test-configure&gt;</span>&nbsp;<span class='production-reference'>&lt;system-test-unit&gt;</span><span class='production-many'>*</span>&nbsp;<span class='production-reference'>&lt;system-test-finally&gt;</span></div>
 <div class='production-block'>
   <div class='production-number'>(6)</div>
   <div class='production-name'>top-level-unit</div>
@@ -2029,57 +2026,58 @@ match style ...
   <div class='production-number production-needs-testing'>(118)</div>
   <div class='production-name'>system-test-configure</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>CONFIGURE</span></div>
+<span class='production-token'>CONFIGURE</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;system-configure-step&gt;</span></div></div>
 <div class='production-block'>
   <div class='production-number production-needs-testing'>(119)</div>
+  <div class='production-name'>system-configure-step</div>
+  <div class='production-op'>::=</div>
+<span class='production-reference'>&lt;unit-data-declaration&gt;</span></div>
+<div class='production-or-block'>
+  <div class='production-or'>|</div>
+<span class='production-reference'>&lt;ajax-configure-step&gt;</span></div>
+<div class='production-block'>
+  <div class='production-number production-needs-testing'>(120)</div>
+  <div class='production-name'>ajax-configure-step</div>
+  <div class='production-op'>::=</div>
+<span class='production-token'>AJAX</span>&nbsp;<span class='production-token'>CREATE</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>STRING</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;ajax-create-handler&gt;</span></div></div>
+<div class='production-block'>
+  <div class='production-number production-needs-testing'>(121)</div>
   <div class='production-name'>system-test-unit</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>TEST</span>&nbsp;<span class='production-token'>DOCWORD</span><span class='production-many'>+</span>&nbsp;&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;system-test-step&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(120)</div>
+  <div class='production-number production-needs-testing'>(122)</div>
   <div class='production-name'>system-test-step</div>
   <div class='production-op'>::=</div>
-<span class='production-reference'>&lt;unit-test-step&gt;</span></div>
+<span class='production-reference'>&lt;unit-test-assert&gt;</span></div>
 <div class='production-or-block'>
   <div class='production-or'>|</div>
 <span class='production-reference'>&lt;ajax-test-step&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(121)</div>
+  <div class='production-number production-needs-testing'>(123)</div>
   <div class='production-name'>ajax-test-step</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>AJAX</span>&nbsp;<span class='production-token'>CREATE</span>&nbsp;<span class='production-token'>var-name</span>&nbsp;<span class='production-token'>STRING</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;ajax-create-handler&gt;</span></div></div>
-<div class='production-or-block'>
-  <div class='production-or'>|</div>
 <span class='production-token'>AJAX</span>&nbsp;<span class='production-token'>PUMP</span>&nbsp;<span class='production-token'>var-name</span></div>
-<div class='production-or-block'>
-  <div class='production-or'>|</div>
-<span class='production-token'>AJAX</span>&nbsp;<span class='production-token'>ASSERT</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(122)</div>
+  <div class='production-number production-needs-testing'>(124)</div>
   <div class='production-name'>ajax-create-handler</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>SUBSCRIBE</span>&nbsp;<span class='production-token'>STRING</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;ajax-http-options&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(123)</div>
+  <div class='production-number production-needs-testing'>(125)</div>
   <div class='production-name'>ajax-http-options</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>QUERY</span>&nbsp;<span class='production-token'>STRING</span>&nbsp;<span class='production-token'>HANDLE</span>&nbsp;<span class='production-token'>introduce-var</span></div>
-<div class='production-or-block'>
-  <div class='production-or'>|</div>
-<span class='production-token'>HEADER</span>&nbsp;<span class='production-token'>STRING</span>&nbsp;<span class='production-token'>HANDLE</span>&nbsp;<span class='production-token'>introduce-var</span></div>
-<div class='production-or-block'>
-  <div class='production-or'>|</div>
 <span class='production-reference'>&lt;ajax-http-response-list&gt;</span></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(124)</div>
+  <div class='production-number production-needs-testing'>(126)</div>
   <div class='production-name'>ajax-http-response-list</div>
   <div class='production-op'>::=</div>
 <span class='production-token'>RESPONSES</span>&nbsp;<div class='production-nested-block'><span class='production-nested'>&gt;&gt;</span><span class='production-reference'>&lt;object-literal&gt;</span></div></div>
 <div class='production-block'>
-  <div class='production-number production-needs-testing'>(125)</div>
-  <div class='production-name'>system-test-clean</div>
+  <div class='production-number production-needs-testing'>(127)</div>
+  <div class='production-name'>system-test-finally</div>
   <div class='production-op'>::=</div>
-<span class='production-token'>CLEANUP</span></div>
+<span class='production-token'>FINALLY</span></div>
 <div class='section-description'>
 
       <p>System tests define end-to-end storyboard tests.</p>
