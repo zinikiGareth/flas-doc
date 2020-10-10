@@ -2,5 +2,9 @@
 1GuQ82i0byIbAsIEPB12BqwoTUEy8TvIGh5-9Ws95IDY 1 - Lexical Conventions.txt
 1J7Sgz8awiiPKsMtxvEduQuGIgU3sDUSESqB-n6rdED4 2 - Declarations and Scopes.txt
 11dCpux3dGku2Jm6zZ5KiuDHoJOjx0qSJAtjBbZxzXPs 3 - Environment, Start and Finish.txt
-14iSlNnTjT9jGy1SJyHBzhKMB-gWjyVYYYSPBUSGJFm0 6 - Structs and Unions.txt
+1ZfGO2BxEQ2hkJKznsLsYV5x1kTpS4botJ2Mm9a-Rry4 4 - Expressions.txt
+14iSlNnTjT9jGy1SJyHBzhKMB-gWjyVYYYSPBUSGJFm0 5 - Structs, Entities and Unions.txt
+11M5I34PdtGqNEpPVcxHmo4cnL3Zw_XUBfGIWf7XpUr8 6 - Crobags.txt
+1J7IzS5rOG2pUsDdnmVC2ChE0sjoJ4OcDysRDsU2jHqc 7 - Functions.txt
 --excluded--
+1UcH5hYo4ajRbvOSHtH1kdm4Z0WpiZkVSpE375UvobaY 8 - Type Checking and Inference.txt

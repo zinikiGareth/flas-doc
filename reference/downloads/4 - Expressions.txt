@@ -1,0 +1,181 @@
+﻿@Chapter
+title=Expressions
+
+
+Expressions form the building blocks of FLAS programs.
+
+
+&grammar rule='expression'
+
+
+FLAS is a strictly typed language with type inference.  Every expression has an associated type.
+
+
+@Section
+title=Literals
+
+
+The simplest expressions are literal values.
+
+
+&grammar rule='literal'
+&grammar rule='list-literal'
+&review 'rename object literals in the grammar to hash'
+&grammar rule='object-literal'
+&grammar rule='object-member'
+&grammar rule='object-key'
+&grammar rule='comma-object-member'
+&review 'remove True and False from the grammar … they are structs'
+&review 'add the expr to create a struct to the grammar'
+&review 'that includes creating a struct from a hash'
+
+
+@Subsection
+title=Numeric Literals
+
+
+Numbers are expressed according to the regular expression $[0-9.e+-]+$.
+
+
+&review 'should we improve the regexp for numeric constants?'
+
+
+All numeric literals are non-negative. Negative numbers are expressed using the unary negation operator applied to a numeric literal.
+
+
+All numeric literals are of the primitive type $Number$.  The FLAS type system does not distinguish between integers and floating point numbers, although runtime checks are performed when integers are required.
+
+
+@Subsection
+title=String Literals
+
+
+Strings are quoted and must have balanced quotes on a single line.  Literals that need to be broken can be placed on separate lines and concatenated using the $++$ operator.
+
+
+Either single ($'$) or double ($"$) quotes may be used to define strings, but they may not be mixed.
+
+
+A duplicated quotation mark within the string allows the quotation mark to be included in the string.
+
+
+String literals are of type $String$.
+
+
+@Comment
+
+
+A string literal such as
+
+
+$$
+'hello ''world'''
+$$
+
+
+will evaluate to
+
+
+$$
+hello 'world'
+$$
+
+
+although of course it is much clearer to write
+
+
+$$
+"hello 'world'"
+$$
+@/
+
+
+@Subsection
+title=List Literals
+
+
+Lists may be defined directly by writing expressions within square brackets ($[...]$) and separating items with commas ($,$).
+
+
+The empty list literal ($[]$) is of type $Nil$; all other list literals are of the type $Cons[T]$ where $T$ is a polymorphic type variable most accurately describing the types of the members.  If no better type can be determined, $Any$ will be used for the value of $T$.
+
+
+@Subsection
+title=Tuples
+
+
+A tuple is a group of two or more values whose types may be unrelated.
+
+
+They are typed as $TupleN[A,B,C…]$ where $N$ is the number of values in the tuple and $A$, $B$, $C$... are the types of the tuple values.
+
+
+@Subsection
+title=Hash Literals
+
+
+Hash literals may be specified using JSON-like notation.
+
+
+The keys may be string literals or variable names.  If variable names are used, they will be converted into the corresponding string literal as if they had been placed in quotes.
+&review 'is this true or do we evaluate them?'
+
+
+All hash literals are of the type $Hash$.
+
+
+@Comment
+
+
+The use of variable names as keys is a convenience as provided in JavaScript.  However, the range of names is not limited to those which can be expressed as FLAS variable names, so the range of possible keys using string literals is greater than that of variable names.
+@/
+
+
+@Section
+title=Function Calls
+
+
+Functions expressions are written as the name of the function followed by zero or more arguments.  No additional syntax is required.
+
+
+Function argument binding has the highest precedence in FLAS, so when it is desired to have an expression be an argument, it must be placed in parentheses.
+
+
+A function of no arguments is a constant.
+
+
+All function definitions must be strongly typed, although it is possible to define mutually recursive functions whose types are inferred together.  The type of a function call is the result of applying the function to its arguments.  If the arguments are not of compatible types, the resultant type will be an error.
+
+
+It is perfectly acceptable for the result of a function call to be a function type.
+
+
+@Section
+title=Unary Operators
+
+
+Unary operators are followed by a single expression and have a specific precedence (but which will always be lower than functions and parentheses).
+
+
+Otherwise, they are identical to a function call of one argument.
+
+
+@Section
+title=Binary Operators
+
+
+Binary operators are placed between two expressions and have a specific precedence (but which will always be lower than functions and parentheses).  Precedence and associativity will be used to determine the exact meaning of an expression.
+
+
+Otherwise, they are identical to a function call of two arguments.
+
+
+@Section
+title=Parenthetical Expressions
+
+
+It is possible to group an expression in parentheses $(...)$ in order to make the expression so enclosed have the precedence of a single term.  The value and type of the expression remain unchanged.
+
+
+&review 'we don't have tuple expressions although we do have tuple definitions'
+&review 'do we really support the COLON expression we have in the grammar? How is this not a binop?'

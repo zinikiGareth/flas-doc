@@ -1,43 +1,200 @@
 ﻿@Chapter
-title=Environment, Start and Finish
+title=Lifecycle
 
 
-In most programming languages, the start and finish conditions are very clear. Because of the actor model in FLAS, this is very much less clear and needs to be considered both in terms of the overall environment and at the individual actor level.
+In most programming languages, there is a concept of an application and some amount of code which is considered to be "initialization" code, such as a $main()$ method.
 
 
-&review 'this basically breaks down into two parts: in the environment we talk about startup of the actual app based on the FA declaration; we also need to talk about the implied container; for the actors, we basically want to discuss the Lifecycle contract'
+In FLAS, there are two components which have a lifecycle: $card$s and $agent$s. Other component instances which may be included within these are initialized by them.  In the code, no card is marked in any way as being responsible for application initialization.
+
+
+@Comment
+
+
+For simplicity, consider a $card$.  It may be embedded within another card, or it may be started at the top level.  Most cards will have an expectation about which they are going to be, but in the end, they simply can't tell.
+
+
+The default runtime container considers the configuration defined in a $.fa$ file and looks for the main card.  This is the one which it will start at the top level.
+
+
+However, it is also perfectly reasonable to imagine a situation in which another website links to an environment which sets up a card and runs that as if it were at the top level.  Providing all the services are put in place, it is unable to tell the difference.
+@/
+
+
+In Ziniki, $service$s may be considered to have a lifecycle, but because they do not have state, they also do not implement the $Lifecycle$ contract.
+
+
+@Comment
+
+
+Because $service$s represent multi-threaded microservice objects, they cannot have independent state and therefore do not need initialization _per se_.  They do, of course, need to be instantiated and connected to other services using the $requires$ construct but this is handled invisibly.
+@/
 
 
 @Section
-title=Environment Start
+title=Wiring up
+
+
+When a $card$ or $agent$ is first created, its storage is created and any state initializers are evaluated.
+
+
+Any services it requests through $requires$ directives are located and handles provided.
+
+
+Services which cannot be found are initialized to appropriate $NoSuchService$ services.
+
+
+@Comment
+
+
+A $NoSuchService$ service handles all of the requests for the service but never responds.  It does, however, report on the system log that an appropriate service could not be found.  Depending on the environment, the system log may not be visible.
+
+
+It should be possible to test if a service has connected successfully and to react accordingly.
+
+
+&review 'it is not yet possible to test for unbound services'
+@/
+
+
+@Section
+title=Lifecycle contract
+
+
+$card$s and $agent$ may choose to implement the $Lifecycle$ contract.
+
+
+&review 'add ref to appendix'
+
+
+The $Lifecycle$ has four initialization methods and one termination method, which are called by the container synchronously after the card has been wired up but before it can start processing any requests.
+
+
+@Subsection
+title=$Lifecycle.init$
+
+
+The $init$ method is called immediately after the services have been wired up.
+
+
+The result of the $init$ method is fully processed before any more methods are called.
+
+
+@Subsection
+title=$Lifecycle.load$
+
+
+The $load$ method may or may not be called.  The $load$ method is called if there is data to present to the card.  If the method is called, it will be passed an $entity$ which will be the root entity which the card is expected to render.
+
+
+The result of the $load$ method is fully processed before any more methods are called.
+
+
+@Subsection
+title=$Lifecycle.state$
+
+
+Cards may choose to store state _about_ the rendering of an object, for example, to remember the options associated with user controls on the card which it is not appropriate to store in the entity itself.  If an entity has been loaded using the $load$ method *and* this card has previously recorded state about this entity, then the $state$ method will be called after the $load$ method with an entity representing the stored state of the object.
+
+
+The result of the $state$ method is fully processed before any more methods are called.
+
+
+&review 'routing contract?'
+
+
+@Subsection
+title=$Lifecycle.ready$ 
+
+
+Once the result of the $state$ method has been fully processed, the card will be ready to respond to user messages.
+
+
+@Comment
+
+
+In general, an actor will arrange its lifecycle in such a way that the $ready$ method will be responsible for most of its configuration.  The $init$ method is only generally used to do default configuration which might be overruled by later considerations in the $data$ or $state$ methods.
+@/
+
+
+@Subsection
+title=$Lifecycle.closing$
+
+
+When a card or agent is being disposed, the $closing$ method will be called to allow the card to take any last minute actions.  These actions *may not* interact with the user.
+
+
+@Comment
+
+
+The subject of resource management is discussed elsewhere, but in general cards and agents are disposed when one of two situations occurs:
+
+
+* the browser (or browser window) is closed and the entire application is going away, or equivalent actions in other environments;
+* the card is part of a punnet in a parent window that is being emptied or closed.
+
+
+In particular, cards expect to be nested and punnets will hold nested cards.  When the user selects a different view, or different entity to view, the current set of nested cards will be closed and new ones opened.
+
+
+&review 'where is resource management discussed'
+@/
+
+
+@Commentary
+
+
+@Section
+title=Containing Environments
+
+
+FLAS is agnostic as to how the containing environments initialize the system and create the cards.
+
+
+The only consideration from a FLAS perspective is when the $card$, $agent$ or $service$ comes into being, it has been correctly connected (abstractly) to the external services it requested.  It is likewise agnostic with regards to whether those services are local or remote.  Indeed, much of the power and simplicity of the FLAS model comes from this very ignorance of the wider world.
+
+
+But it is worth spending at least a moment considering the different environments in which FLAS can be deployed.
 
 
 @Subsection
 title=Browser
 
 
-@Subsection
-title=App Clients
+The most common deployment for FLAS is the ubiquitous browser.  By providing a suitable HTML wrapper, any $card$ or $agent$ can be deployed in a browser running JavaScript, either as the main window or within an iframe.  It is also possible to load the code for individual cards into another web application.
+
+
+@Subsection 
+title=Phone Apps
+
+
+FLAS has been designed with portability and efficiency in mind.  It is possible to generate JVM bytecodes from FLAS and then assemble an Android app using an appropriate container library.  This allows combinations of cards to be deployed as applications and individual cards to be deployed in a manner which is interoperable with these applications.
+
+
+The same approach could be used for Apple iPhones, but there are issues with clearing the hurdles to provide such applications through the AppStore.
 
 
 @Subsection
-title=Embedded Ziniki Server
+title=Microservice Containers
 
 
-&review 'this also applies to other embedded contexts'
-&review 'there is no lifecycle here which is why there is no state in services'
+Although $card$s and $agent$s cannot be deployed into microservice containers for performance and threading reasons, it is possible to deploy $service$s in this way.
 
 
-@Section
-title=Actor Lifecycle
+The container would obviously need to support the configuration of $service$s and provide the appropriate downstream services on which the $service$ object depends.
 
 
-@Subsection
-title=Actor Start
+Ziniki is the recommended microservice container for this purpose.
 
 
 @Subsection
-title=Actor Termination
+title=Embedded in Applications
 
 
-&review 'somewhere we must talk about resource management, but only in overview here'
+Because FLAS offers a code abstraction, it is possible to use it in other applications if they have been designed to interact through contracts.
+
+
+Typically, such applications will prefer to interact with $agent$s, but there are use cases where the template support of $card$s might be desirable.
+
+
+Ziggrid, Modeller and WebPresenter are examples of applications that can embed $card$s and $agent$s.

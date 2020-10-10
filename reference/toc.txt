@@ -1,0 +1,71 @@
+Introduction
+1 Lexical Conventions
+  1.1 Unit Translation Types.
+  1.2 Indentation
+    Comments
+    Nesting
+  1.3 Names
+  1.4 Constants
+  1.5 White Space
+  1.6 Punctuation Characters
+  1.7 Symbols and Operators
+2 Declarations and Scopes
+  2.1 Functions
+  2.2 Data Types
+  2.3 Contracts
+  2.4 Actors
+  2.5 Scoped Names
+3 Lifecycle
+  3.1 Wiring up
+  3.2 Lifecycle contract
+    $Lifecycle.init$
+    $Lifecycle.load$
+    $Lifecycle.state$
+    $Lifecycle.ready$
+    $Lifecycle.closing$
+  3.1c Containing Environments
+    Browser
+    Phone Apps
+    Microservice Containers
+    Embedded in Applications
+4 Expressions
+  4.1 Literals
+    Numeric Literals
+    String Literals
+    List Literals
+    Tuples
+    Hash Literals
+  4.2 Function Calls
+  4.3 Unary Operators
+  4.4 Binary Operators
+  4.5 Parenthetical Expressions
+5 Structs, Entities and Unions
+  5.1 $struct$
+  5.2 $entity$
+  5.3 $union$
+6 Crobags
+  6.1 API
+    $ctor new$
+    $method put key value$
+    $method insert key value$
+    $method upsert key value$
+  6.1c A Language Feature
+  6.2c Use in Templates
+  6.3c Collision Resistance
+  6.4c Client-Side Caching
+  6.5c Natural and Arbitrary Ordering
+  6.6c Favorites
+  6.7c Events
+  6.8c Usage Patterns
+7 Functions
+  7.1 Pattern Matching
+  7.2 Guarded Equations
+  7.3 Function Nesting
+  7.4 Tuple Definitions
+  7.5 Standalone Methods
+  7.6 Functions with State
+  7.1c Evaluation
+    Pattern Matching
+    Guards
+  7.2c Scoping
+  7.3c Standalone Methods

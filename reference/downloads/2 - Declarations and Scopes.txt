@@ -5,7 +5,7 @@ title=Declarations and Scopes
 Within FLAS, many different types of concept can be defined; furthermore, the language is intended to be extensible so as to support additional concepts, in particular to support concepts internal to Ziniki.  Each of these concepts has its own declaration syntax and then supports specific nested content.  The details of these declaration types will constitute much of this manual.
 
 
-However, these definitions can be broken down into "families" and these families will be discussed here.
+However, these definitions can be broken down into "families" and an overview of these families will be discussed here.
 
 
 Most definitions and nested declarations are introduced by a keyword or key operator; the exceptions are:
@@ -55,7 +55,7 @@ Depending on how the function is defined, the immediate nested members of this f
 title=Data Types
 
 
-The family of data type declarations includes $struct$, $union$ and $object$ definitions in core FLAS, as well as being subject to extension; Ziniki also defines $entity$, $deal$ and $offer$.
+The family of data type declarations includes $struct$, $union$ and $object$ definitions in core FLAS; Ziniki also defines $entity$, $envelope$, $deal$ and $offer$, along with the entity mapper declaration $wraps$.  The $state$ of $object$s and $card$s can be considered very similar.
 
 
 For these types, the immediate nesting level defines fields.  Inner nesting levels allow constraints and metadata to be applied to the individual fields.
@@ -65,62 +65,87 @@ For these types, the immediate nesting level defines fields.  Inner nesting leve
 title=Contracts
 
 
-Contracts define a set of parallel methods to be implemented by an implementing actor or handler.
+Contracts define an abstract mechanism by which interactions between cards and services can be defined (similar to interfaces or protocols in other programming languages).  Because they are simple declarations, they are generally very simple.
 
 
-Nested declarations are all declarations of methods to be implemented.  Nested definitions are not allowed.
+One level of nesting is permitted to contracts to define the individual methods supported by the contract.
 
 
 @Section
 title=Actors
 
 
-The family of actors includes agents and cards on the client side and services on the server side in core FLAS; it may also include other actors as appropriate in extension contexts.
+The family of actors includes $agent$s and $card$s on the client side and $service$s within microservice providers.
 
 
+The top level of nesting within these definitions describes the individual elements that make up the overall definition.  These inner definitions are defined in the grammar.
+
+
+Arbitrary function and standalone methods may also be included at the top level of nesting.
+Each of these is defined using a series of block
 Nested lines may be acceptable nested definitions; nested declarations must be introduced with a suitable keyword such as $state$, $template$ or $implements$.
 
 
 @Section
-title=Templates
+title=Scoped Names
 
 
-WIthin templates, no nested definitions are allowed.  The nested declarations must all be binding, styling or event handling declarations.
+In order to ensure that names are globally unique, the _simple_ name of any definition is prefixed with the current scope name.
 
 
-@Section
-title=Scoping
+At the top level, the scope name is the package name.
 
 
-Declarations at the top level of a file (with exactly one leading tab) are prefixed with the name of the enclosing package (the directory in which the file is found), unless the file is a test file of some kind, in which it is prefixed by the name of the enclosing package followed by some version of the test file name (usually including invalid characters to ensure its uniqueness).
 
 
 @Comment
 
 
-Unit test files ($.ut$ files) use the package __ut___name_.  Since the test cases themselves do not have names (just descriptions), the individual tests are given the names _ut0, _ut1 and so on.  Placing the tests within separate packages (based on the file name) ensures the uniqueness of the overall name.  Using underscores in the package and test names ensures that they cannot clash with names defined with FLAS, since these cannot contain underscores.
+The source of test files ($.ut$, $.pt$ and $.st$ files) are collocated with the main ($.fl$) files.  However, they do not have individual names and instead are placed into test-specific sub-packages of the main package, each of which is given a name derived from the file name (e.g. __ut___file_).  Since the test cases themselves do not have names (just descriptions), the functions generated for these are given the names _ut0, _ut1 and so on. 
+
+
+Placing the tests within separate packages (based on the file name) ensures the uniqueness of the overall name.  Using underscores in the package and test names ensures that they cannot clash with names defined with FLAS.  These names are never accessed externally but only by the test runner.
 @/
 
 
-Nested lines have a meaning that is imposed by the enclosing scope.
+Nested definitions use the enclosing definition name as the scope name.
 
-
-In many cases, a nested line is constrained to provide a part of the definition of the enclosing scope.  For instance, inside a function definition, a line beginning with the condition operator ($|$) forms a function case, an inherent part of the function.
-
-
-However, when this is not the case, one or more definition types may be allowed; in most cases constant and function declarations are allowed wherever there is an inner scope.  In this case, the name of the inner definition is prefixed not only by the package prefix but also by the name of the enclosing definition.
-
-
-Within a given scope, a single name may not be used twice.  Specifically, a name introduced in a scope at a given level must be unique and must not be defined in any enclosing definition.  While this most obviously applies to function, type and actor names, it also applies to other names introduced into the scope such as parameter, field and type variable names.
 
 @Comment
 
 
-&review 'some examples needed'
+So, for example, if there is a simple $struct$ definition in package $test.my$:
 
 
-I feel this needs a few examples to make it absolutely crystal clear.
+$$
+        struct Thing
+                String name
+$$
+
+
+the $struct$ will be given the qualified name $test.my.Thing$ and the field $name$ will have the qualified name $test.my.Thing.name$.
 @/
 
 
-Some declarations - such as actors and data types - may not be nested but must be placed at the top level.
+The simple name introduced in a scope must be unique and must not be defined in any enclosing definition.  
+Function definitions may, however, be defined in multiple clauses at the same level provided such definitions are consecutive; this does not violate this rule because these clauses are combined to form a single definition.
+
+
+@Comment
+
+
+While this most obviously applies to function, type and actor names, it also applies to other names introduced into the scope such as parameter, field and type variable names.
+
+
+For example, in the following definition, the parameter $x$ conflicts with the enclosed definition of $x$, creating an ambiguity and is therefore disallowed:
+
+
+$$
+        f x = y
+                y = 2 * x
+                        x = 14
+$$
+
+
+In the definition of $y$, which use of $x$ was intended?
+@/

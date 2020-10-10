@@ -1,0 +1,261 @@
+﻿@Chapter
+title=Functions
+
+
+Functions map a set of values to a single result value.
+
+
+&grammar rule='function-case-definition'
+&grammar rule='simple-function-case-definition'
+&grammar rule='degenerate-guarded-function-case-definition'
+
+
+Functions are defined as a set of cases, each of which identifies a pattern for each of the input values it accepts and a result value if those patterns match.
+
+
+If no patterns are specified, then the function is a _constant_, and only one case may be specified.
+
+
+If more than one case is defined, each case must specify the same (non-zero) number of patterns.
+
+
+The cases may be presented in any order, and the patterns may overlap arbitrarily, but for each possible combination of values exactly one case must be a unique _best match_.  If guards are used, the value of the function will be determined by evaluating the guards for this best match case as below; otherwise, the single equation associated with this best match case will be used to determine the value of the function.
+&review 'should link to guards'
+
+
+The type of a given function is determined by inference as discussed in the next chapter.
+&review 'we need a reference to typechecking'
+
+
+@Section
+title=Pattern Matching
+
+
+In each case of the function, each formal function argument is specified as a pattern.  FLAS supports three types of patterns.
+
+
+&grammar rule='argument-pattern'
+&grammar rule='argument-pattern-variable'
+&grammar rule='argument-pattern-list'
+&grammar rule='comma-argument-pattern'
+&grammar rule='argument-pattern-typed'
+&grammar rule='argument-pattern-ctor'
+&grammar rule='field-argument-pattern'
+&grammar rule='comma-field-argument-pattern'
+
+
+A simple _variable_ pattern consists of just a variable name which has not been previously defined in this scope.  This specifies no new information about the argument.
+
+
+A _typed_ pattern must be written in parentheses with a single type reference and a single variable name.  The variable is restricted to being of the designated type.
+
+
+A _constructor match_ pattern matches some or all of the fields of a $struct$ or $entity$ definition.  If the $struct$ or $entity$ has no arguments, then the constructor name serves as a match by itself.  Otherwise, the pattern must be enclosed in parentheses and the constructor name is followed by a hash construct which matches field names to sub-patterns.  By itself, a constructor match pattern constrains the types that the case can handle but does not introduce any new variables into the scope.  However, any nested patterns are constrained to belong to the appropriate types for the fields they match.
+
+
+@Section
+title=Guarded Equations
+
+
+In addition to pattern matching, it is possible to choose between expressions by using guards.
+
+
+&grammar rule='guarded-function-case-definition'
+&grammar rule='guarded-equations'
+&grammar rule='guarded-expression'
+&grammar rule='guarded-default-expression'
+
+
+In order to use guarded equations, the function name and patterns must be presented on one line and the guarded equations in a nested block.
+
+
+The last guarded equation may be just an equation introduced by ($=$), and not containing a guard.  Otherwise, a guarded equation consists of a guard, introduced by ($|$), and an equation introduced by ($=$).
+
+
+Each of the guards must be of type $Boolean$.
+
+
+Each of the guards is evaluated in the order presented until one of them evaluates to $True$.  The value of the function is then defined by the corresponding equation.
+
+
+If none of the guards evaluate to $True$, the default equation will be used if present.  If no default equation is present, the value of the function is an $Error$.
+
+
+@Section
+title=Function Nesting
+
+
+Function cases may include a nested scope consisting of the immediately following lines indented one tab deeper.
+
+
+Each case may have its own nested scope.  Nothing is shared between these scopes.  When guarded equations are used, the nested scope must appear after the final equation nested a further level of indentation.  The nested scope is shared across all the equations of the case.
+
+
+The nested scope may define functions, tuples, standalone methods and $handler$s.  These definitions are only visible to the enclosing function and definitions in the nested scope.
+&review 'need a ref to handlers'
+&review 'also standalone methods'
+
+
+Definitions in the nested scope may not define names that are defined in a containing scope.
+
+
+All the definitions in all containing scopes are visible to definitions in the nested scopes, including parameters defined in patterns.
+
+
+@Section
+title=Tuple Definitions
+
+
+Tuple definitions allow the elements of a tuple value to be extracted into a scope.
+
+
+&grammar rule='tuple-definition'
+&grammar rule='comma-var-name'
+
+
+A tuple definition is identical to a set of parallel constant function definitions.  No patterns are permitted.  The expression and inner scope of the tuple definition may not refer to the names defined by the tuple definition.
+
+
+@Section
+title=Standalone Methods
+
+
+Standalone methods are pure functions defined using method syntax.
+
+
+&grammar rule='standalone-method-definition'
+&grammar rule='object-method-definition'
+&grammar rule='method-definition'
+
+
+The method syntax is covered in another place.
+&review 'need ref to method syntax'
+
+
+@Section
+title=Functions with State
+
+
+Functions defined within actors ($cards$ and $agents$) may access the state members of the actor.
+&review 'ref to actor state'
+
+
+Functions defined within $handler$s may access the lambda values of the $handler$.
+&review 'ref to handler lambdas'
+
+
+@Commentary
+
+
+@Section
+title=Evaluation
+
+
+The specification above describes formally how a FLAS program should be understood from a mathematical perspective.  However, it is also important to understand how evaluation is actually performed.
+
+
+The expression results of functions do not perform any evaluation - they simply record that a function or operator will be applied to a set of sub-expressions at some later time.  This expression construct - called a _closure_ - is the physical return value of a function.  In order to be evaluated, this must be passed to a mechanism that will determine its value.
+
+
+FLAS is a _lazy_ functional language because it has the ability to create such expressions that will never actually be evaluated.
+
+
+Evaluation of an expression happens in one of two cases: either if the value is used "at the top level" (in an initializer, a template, a guard or as the return value of a method called from the container) or if the value is subjected to pattern matching.
+
+
+The vast majority of evaluations in FLAS are driven by pattern matching.
+
+
+@Subsection
+title=Pattern Matching
+
+
+In order to determine which case of a function to apply, it is necessary to resolve enough of the structure of the various arguments to make an unambiguous decision which of the cases applies.
+
+
+The first rule is that for every value there must _be_ an unambiguous correct decision.  The compiler will generate an error if two cases are identical. For example, given:
+
+
+$$
+f 0 = 1
+f 0 = 2
+$$
+
+
+It is impossible to unambiguously define the value of $f 0$.
+
+
+However, it is acceptable to have cases overlap provided that one case is clearly "more precise" than the other, regardless of the order in which they are presented.  For instance, with:
+
+
+$$
+g 0 = 1
+g (Number n) = 2
+$$
+
+
+It is possible to say that $g 0$ has the value $1$ and $g 0$ has the value $2$.  This would be the same for the function $h$ with the cases defined in the other order:
+
+
+$$
+h (Number n) = 2
+h 0 = 1
+$$
+
+
+Only as much of the structure of the argument as is required to determine the case needs to be evaluated.  For instance, it is possible to determine the emptiness or not of a list without determining the whole list:
+
+
+$$
+isEmpty Nil = True
+isEmpty (Cons h t) = False
+$$
+
+
+Even if applied to an infinite list, say $isEmpty allPrimeNumbers$, this is able to complete in finite time because it is _not_ necessary to evaluate all the prime numbers before determining if there are any (the first is sufficient).
+
+
+It is _not_ a compile-time error to have some cases by uncovered.  For example, with:
+
+
+$$
+k 0 = 1
+k 1 = 2
+$$
+
+
+It is possible to determine that the case $k 2$ is not covered.  This will, however, generate a runtime error if $k 2$ is ever evaluated.
+
+
+It is a compile-time error to have an argument with an unclear type.  This is discussed in the next chapter.
+
+
+@Subsection
+title=Guards
+
+
+Guards are processed in order.  Each guard that is processed must be fully evaluated to either return $True$ or $False$.  However, when a guard returns $True$, the corresponding expression is selected and no further guards will be evaluated.  Because of this, thought should be given not just to the correct logic in deciding the order of guards but also to the relative cost of evaluation (if this can be determined).
+
+
+@Section
+title=Scoping
+
+
+The rules concerning scoping may seem complex at first, but they are well founded.
+
+
+The idea is to permit complex expressions to be broken down by use of locally named subexpressions.  It is very common in scoped definitions to use constant definitions which abstract some of the complexity of the main calculation.  In general, however, these are not actually constant because they depend on names inherited from enclosing scopes.
+
+
+The rules regarding names are simply to ensure that there is no ambiguity about what a name means.  In any scope where a name appears, it must have exactly one meaning.  Given that all names from the outer scope - and all names defined in the patterns of the current case - are incorporated into a nested scope, it is not permitted to define new functions or parameters reusing these names since that would create an ambiguity.
+
+
+@Section
+title=Standalone Methods
+
+
+Although standalone methods _look_ like contract or handler methods, they are fundamentally different.  In reality, all methods are somewhat illusory - they are a function mapping arguments to messages.  But for most methods, they must conform to a specified contract and their values are immediately interpreted by the system.  These are fundamental language features.
+&review 'should reference the relevant chapter'
+
+
+On the other hand, standalone methods are just there as syntactic sugar to make it easier to define functions returning a list of messages.  They may have an arbitrary number of cases and patterns and perform pattern matching in the same way as functions.  They may be nested inside methods and functions.

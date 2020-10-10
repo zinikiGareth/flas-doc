@@ -1,0 +1,234 @@
+﻿@Chapter
+title=Crobags
+
+
+$Crobag$s are a collision-resistant ordered bag of pairs of keys and entities.
+
+
+They can be persistently stored with an identity.  If so, managing the identity is an implementation detail.
+
+
+A $Crobag$ is a polymorphic type and is constrained by the type of entity which it contains
+
+
+The keys are always strings.  They may be encoded in UTF-8 except for the first character which must always be ASCII #21-#7E.
+
+
+@Comment
+
+
+It may be helpful to think of a $Crobag$ as a map, but they are richer than that.  It resembles a map in that internally, its keys are unique, each of which has a value, but it is possible to add duplicate keys in such a way that they are made unique during addition.
+@/
+@Comment
+
+
+The restriction on the opening character of the key is to ensure that $!$ (#21) and $~$ (#7E) can be reserved for the favorites feature.  Note that the key is only used internally and is never displayed to users.
+@/
+@Comment
+
+
+The contents of a $Crobag$ must always be entities because the $Crobag$ is represented on a server as a list of entity $id$s.
+@/
+
+
+
+
+@Section
+title=API
+
+
+A $Crobag$ has semantics as if it were an $Object$ definition.
+&review 'should have a ref to the object chapter'
+
+
+Entities may be added to, removed from or replaced in the $Crobag$ by methods.
+
+
+@Subsection
+title=$ctor new$
+
+
+A $Crobag$ can be created using the constructor $new$.
+&review 'we should say or comment on how it obtains an identity and when and why it is stored'
+&review 'I presume that you need a DataStore contract and push it'
+&review 'do we actually need two constructors - natural and arbitrary - to determine if we want drag and drop?'
+
+
+@Subsection
+title=$method put key value$
+
+
+It is possible to place an entity in a $Crobag$ with a specific key by using $put$.  This guarantees that the value associated with the specific key is the specified entity until it is changed
+
+
+@Comment
+
+
+Note (as in the commentary following) that a key property of $Crobags$ is _collision resistance_.  That is, if two clients make similar, but different, changes, the $Crobag$ will resolve the inconsistency.  The $put$ method is intentionally _not_ collision resistant: the change that arrives at the store of record last will determine the ultimate value of the entry associated with the key.
+@/
+
+
+@Subsection
+title=$method insert key value$
+
+
+It is possible to place an entity in a $Crobag$ somewhere around the specified key using $insert$.  This guarantees that a new entry will be created in the $Crobag$ with the specified value and it will sort with other entries with similar keys.
+
+
+@Comment
+Being precise about exactly what happens in a highly distributed, parallel system is always difficult.  In this case, the system will eventually come to a consistent state where there is a new entry in the $Crobag$ with the specified value.  It will either have exactly the requested key or it will have a key whose prefix is the specified key.
+
+
+Because there are no particular limits on what keys clients will choose to use, there is no guarantee that there will not be other entries with different intended keys interspersed with the entries for this intended key.
+
+
+Consider:
+
+
+$$
+bag.insert "pre" e1
+bag.insert "pre" e2
+bag.insert "prefix" e3
+$$
+
+
+The system guarantees that the entries for $e1$ and $e2$ will start with the string $"pre"$ but makes no other guarantees.  It could choose to use the exact string $"pre"$ for $e1$ and $"pre_1"$ for $e2$.  Likewise, it could use $"prefix"$ exactly for $e3$.  In this case, the entries would sort as follows:
+
+
+$$
+pre -> e1
+prefix -> e3
+pre_1 -> e2
+$$
+
+
+which, while it might not be what you would expect, respects the concept that $e1$ and $e2$ "sort together": that is, all three appear in the set of entries beginning with $"pre"$.
+@/
+
+
+@Subsection
+title=$method upsert key value$
+
+
+It is possible to ensure that the entity in a $Crobag$ associated with the specified key has the given value using $upsert$.  If the key already exists, the fields in $value$ will be used to update the current entity; if the key does not currently exist, the entity itself will be inserted precisely at the key.
+
+
+@Comment
+The semantics of $upsert$ again need careful attention to detail.  In an event driven system, the operation described may be applied multiple times (once on the client and once on each replicated server).  The same semantics need to be applied on each occasion and the system needs to be eventually consistent.
+
+
+Consider a case in which two clients attempt to $upsert$ the (previously absent) key $"welcome"$ at approximately the same moment (sufficiently that neither sees the other's update before communicating their own message to the server).
+
+
+In each client, there is no such entry in the $Crobag$ when the operation is performed locally.  Consequently, the specified value is inserted at the specified key.  Both clients then report to the server that the new (key, value) pair should be $upsert$ed.
+
+
+One will be processed first and will again be treated as a $put$ operation and the entity - with its internally managed $id$ - will be placed in the $Crobag$.  When the second operation arrives, it will attempt to update the entity.  Note that this update will happen regardless of whether the $id$ or $version$ matches.
+
+
+If the intent is simply to update the value of an entity already known to be in the $Crobag$, updating and saving the value is sufficient - the $Crobag$ already has the entity's $id$ and that is all it actually stores.
+@/
+
+
+&review 'we still have more of the Crobag API to design and document'
+
+
+@Commentary
+
+
+@Section
+title=A Language Feature
+
+
+In spite of the brevity of this section, $Crobag$s are a language feature - and not just part of the standard library - because the runtime (on both client and server) is intimately aware of them and handles them as special cases.  If they did not exist, it would not be possible to replicate their functionality in application code.
+
+
+@Section
+title=Use in Templates
+
+
+Because $Crobag$s are ordered, they can be used as lists.  Inside $card$ definitions, it is possible to assign a $Crobag$ value to a $container$.
+&review 'need a ref to card templates'
+
+
+When used in a template, the $Crobag$ will respond to user gestures to select the appropriate entries to display based on a sliding window and provide infinite scroll to the container.
+&review 'although the card should be able to offer opinions'
+
+
+For $Crobag$ which support arbitrary ordering, the container will also support dynamic reordering using drag and drop.
+
+@Section
+title=Collision Resistance
+
+
+Standalone FLAS programs fail to realize much of the benefit of using a $Crobag$.  The key benefits come from their properties of collision resistance and client-side caching.
+
+
+_Collision resistance_ is a property of collections which says that when two clients attempt to perform operations without having seen the results of the previous clients' operations, the server is able to process both operations in either order and come out with consistent results.
+
+
+For comparison, the act of storing "the current contents of this list" on a server is not collision resistant because a change by one client would simply overwrite the changes of the other.  Likewise, mindlessly replicating the operations on a list (such as "delete the fifth element") might not perform the right operation if the elements have changed order (for example because of an insert) before the operation is processed on the server.
+
+
+$Crobag$s are collision resistant because if two clients attempt to perform operations at the same time, the server will resolve the apparent contradiction by taking into account the clients' intentions as specified by the operations they chose to use and then notify both clients as to the outcome.  Because FLAS and Ziniki are notification based, both clients will end up with a consistent view of the entire $Crobag$.
+
+
+As noted in the API section, it is important to understand the semantics of the individual operations to ensure that the correct intention is adequately described.  The API has been carefully designed to give managed and expected behaviors, but it is important to choose the right operation for the situation in mind.
+
+
+@Section
+title=Client-Side Caching
+
+
+$Crobag$s are often used in scenarios where the total contents of the $Crobag$ can be vast, approaching infinite.  Examples might be the contents of email folders, archives of newspaper articles, or historical stock prices.
+
+
+In all these cases, it is possible to store _all_ the data on a (sufficiently large) server cluster; it is not generally feasible to store it on - or transfer it to - a client.
+
+
+$Crobag$s are capable of storing a $window$ of data elements which the user is interested in and leaving the rest on the server to be dynamically loaded in response to a query or scroll event.
+
+
+Clients cannot tell if a $Crobag$ is stored persistently or transiently.  Examples of transient $Crobag$s are the results of queries (such as messages in an email folder from a particular individual).  Such transient $Crobag$ objects will always be backed by a persistent $Crobag$.
+
+
+@Section
+title=Natural and Arbitrary Ordering
+
+
+$Crobag$s will frequently have a _natural_ ordering - for example, stock prices might be ordered by date and ticker symbol.  This enables the client to determine a unique key and use the $put$ and $upsert$ operations.
+
+
+On other occasions, the contents of a $Crobag$ might have no such ordering.  In this case it is possible to ask the $Crobag$ itself for keys at the beginning or end of the $Crobag$ or somewhere between two existing entries.  In these cases the $insert$ operation should always be used.
+
+
+@Section
+title=Favorites
+
+
+$Crobag$s have native support for favorites.  In the case where an arbitrary ordering is used this will generally not be necessary, although it is still a possibility.  However, when a natural ordering is used, any keys starting with $!$ will automatically appear at the front of the list and any keys starting with $~$ will appear at the end of the list.
+&review 'crobag favorites aren't done yet'
+&review 'there should be startFavorite and endFavorite methods to generate keys'
+
+
+There is nothing magic about this: these characters are simply at the beginning and end of the range of acceptable key starting characters and are guaranteed not to be generated by the $start$ and $end$ key generating methods, but are generated by the $firstFavorite$ and $lastFavorite$ methods.
+
+
+&review 'what firstFavorite and lastFavorite methods?'
+
+
+@Section
+title=Events
+
+
+All the $Crobag$ operations are methods but in accordance with FLAS method semantics, do not directly update the state of the $Crobag$.  Instead, they generate events which cause the $Crobag$ to be updated immediately after the current method ends; the same events are then sent over to the server for processing there.
+
+
+Additional internal events are sent from the server to the client to inform it of changes performed for consistency purposes (for example, if a key allocated for use with $insert$ had already been allocated by another client).  These are handled internally without reference to the application code, which does not need to be aware of them.
+
+
+@Section
+title=Usage Patterns
+
+
+&review 'I think we should probably witter on a little bit about the different ways in which we can use these.'

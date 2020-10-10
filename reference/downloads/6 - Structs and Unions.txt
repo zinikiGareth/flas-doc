@@ -2,13 +2,13 @@
 title=Structs and Unions
 
 
-FLAS offers two data types as standard&footnote.
+FLAS offers two standard types of data declarations&footnote.
 
 
 &footnote
 More are defined in the Ziniki extensions, see&sp
 &review 'reference to Ziniki Extensions'
-some reference.
+some reference.  Although in fact entities are defined sooner.
 
 
 @Section
@@ -16,6 +16,5 @@ title=Struct Definitions
 
 
 &grammar rule='struct-declaration'
-&grammar rule='struct-field-list'
 &grammar rule='struct-field-decl'
 &grammar rule='union-declaration'

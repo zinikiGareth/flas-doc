@@ -29,7 +29,7 @@ For each file within a package, the file extension is used to determine how the 
 title=Indentation
 
 
-Within a file, the nesting of definitions is determined by _indentation_ and _context_.  _Significant indentation_ is provided using leading $tab$ characters, while _continuation lines_ have the same number of $tab$ characters as the preceding line but additional $space$ characters to reach the desired continuation point.
+Within a file, the nesting of definitions is determined by _indentation_ and _context_.  _Significant indentation_ is provided using leading $tab$ characters, while _continuation lines_ have the same number of $tab$ characters as the initial line but additional $space$ characters to reach the desired continuation point.
 
 
 @Comment
@@ -60,19 +60,29 @@ Comments with meta-tags (such as $TODO$) may at some point be considered by some
 title=Nesting
 
 
-Top-level definitions are identified by having exactly one leading $tab$ character.  Any such definition has global visibility with its _package-qualified name_ and visibility within the package with its _simple name_.
+Top-level definitions are identified by having exactly one leading $tab$ character.  Any such definition can be referenced from any scope using its fully qualified _package name_ and from within the package using its _simple name_.
 
 
-A definition may be nested within another definition provided it has exactly one more leading tab than the enclosing definition.  The rules of what may be nested within a definition depend on the kind of that definition, as do the rules of name scoping; but no nested definition is _directly visible_ outside the scope of its parent definition.
+A definition may be nested within another definition provided it has exactly one more leading tab than the enclosing definition.  The grammar defines which constructs may be nested in which context.
+
+
+Some definitions (such as $struct$s) may include sub-definitions in indented lines which are accessible in expressions which have first identified the enclosing definition.
+
+
+Otherwise, nested definitions are not visible from outside the scope of the enclosing definition.
 
 
 @Comment
 
 
 The rules here are varied and complex, but fundamentally constants, functions and standalone methods are invisible outside their scope; things like fields and object methods are visible _within the context_ of a container of the enclosing type; and things such as conditional definitions are visible as _part of_ the enclosing definition.
+@/
 
 
-One implication of the "one more leading tab" rule is that each line in a FLAS program must have less, the same or exactly one more leading tab than the preceding line (ignoring comment lines).
+@Comment
+
+
+A further implication of the "one more leading tab" rule is that each line in a FLAS program must have less, the same or exactly one more leading tab than the preceding line (ignoring comment lines).
 @/
 
 
@@ -83,7 +93,7 @@ title=Names
 FLAS supports four types of names with different lexical rules:
 
 
-* *field names* must start with a lowercase letter, followed by an arbitrary number of lowercase and uppercase letters, digits and underscores.  CamelCase is used to indicate word boundaries.
+* *variable names* and *field names* must start with a lowercase letter, followed by an arbitrary number of lowercase and uppercase letters, digits and underscores.  CamelCase is used to indicate word boundaries.
 * *type names* must start with an uppercase letter, be at least three characters long, and have the remaining characters be uppercase and lowercase letters, digits and underscores.  CamelCase is used to indicate word boundaries.
 * *polymorphic type variables* must be one or two characters long, the first of which must be an uppercase letter and the second may be an uppercase letter or a digit.
 * *template names* must start with a lowercase letter, followed by an arbitrary number of lowercase and uppercase letters, digits, hyphens and underscores.  While uppercase letters and underscores are permitted, lowercase letters and hyphens are generally preferred.  Hyphens are used to indicate word boundaries.
@@ -100,8 +110,7 @@ Apart from named type constants, FLAS supports constants of the builtin primitiv
 
 
 * *String* constants are indicated by the use of single or double quotation marks.  These may be used interchangeably to indicate the start of a string, but they *must* be used in matched pairs: that is, a string beginning with a single quotation mark continues until a closing single quotation mark is encountered; and likewise with double quotation marks.  A terminating quotation mark may be embedded within a string by placing two consecutive marks in the string; one will be maintained and the string will continue.
-* *Integer* constants are indicated by a sequence of one or more digits.  Negative numbers are not supported as constants but rather as expressions using the unary minus operator and a positive integer constant.
-* *Floating point* constants are indicated by a sequence of zero or more digits, followed by a dot ($.$), followed by zero or more digits, optionally followed by an exponent symbol ($e$, $e-$,  $E$ or $E-$) and one or more digits.  One of the two mantissa portions must have at least one digit.
+* *Numeric* constants are indicated by a sequence of zero or more digits, followed by a dot ($.$), followed by zero or more digits, optionally followed by an exponent symbol ($e$, $e-$,  $E$ or $E-$) and one or more digits.  One of the two mantissa portions must have at least one digit.
 
 
 Both integer and floating point constants are considered to be of type Number.
@@ -113,17 +122,14 @@ Both integer and floating point constants are considered to be of type Number.
 FLAS tries to ride two horses with regards to numbers.  On the one hand, it prefers to assume (as does JavaScript) that there is just one number line and there is nothing really special about integers; on the other hand, it has to recognize that many applications (such as array indexing) _require_ integers and it is not reasonable to just ignore their existence.
 
 
-Integers are not formally defined in FLAS: the only recognized number type is $Number$ which roughly equates to the set of real numbers.  However, the implementation - particularly in the JVM world - is riddled with concern for the distinction between floating point numbers and integers.
+Integers are not formally defined in FLAS: the only recognized number type is $Number$ which roughly equates to the set of real numbers.  However, the implementation frequently resorts to testing whether a number is an integer before carrying out integer-only operations.
 @/
 
 
 @Comment
 
 
-It is the designers' intent to directly support more primitive types, including monetary values, dates and intervals.  These will ultimately have the appropriate constant types.
-
-
-Complex numbers may also be supported as primitives if the need arises, but as was noted in the introduction, FLAS is not intended to be a general purpose programming language and complex numbers seem outside the intended applications of the language.
+There are more builtin, primitive types (such as $Instant$, $Interval$, $Currency$ and $Money$).  However, these do not have any associated constants but must be constructed using the appropriate functions.
 @/
 
 

@@ -1,0 +1,67 @@
+﻿@Chapter
+title=Structs, Entities and Unions
+
+
+In addition to primitive types, lists and hashes, FLAS offers the ability to build composite types.
+
+
+Three basic methods of composition will be discussed here: $struct$, $entity$ and $union$.
+
+
+@Section
+title=$struct$
+
+
+A $struct$ allows a set of values to be combined into a single value in a well-defined and type-safe manner.
+
+
+&grammar rule='struct-declaration'
+&grammar rule='struct-field-decl'
+
+
+Each of the field definitions in a $struct$ defines a slot for a single value of a named type.  The field name may be used to extract the value from the $struct$ value later.
+
+
+All values constructed using this method have the type of the $struct$.
+
+
+$struct$ definitions may be polymorphic.  In this case, one or more polymorphic type variables may be specified after the $struct$ name and may then be used in the definition of the fields.
+
+
+$struct$ fields may be of any type, including recursive references to the type being defined or to other type definitions which reference the $struct$.
+
+
+Individual fields in the $struct$ may have initializers.  An initializer is used to populate the value of the field when the $struct$ is created, although it may be overridden by creating the struct with a hash value.
+
+
+@Section
+title=$entity$
+
+
+An $entity$ is similar to a $struct$, but it has a unique _identity_.
+
+
+&grammar rule='entity-declaration'
+
+
+Because they have a unique identity, $entity$ values may be stored reliably in data stores, updated, referenced and retrieved.
+
+
+The actual identity of the entity is an implementation detail not exposed to programs.
+
+
+&review 'does it limit what you can store?  functions?  objects?'
+&review 'we probably want to point out (in a comment) that there are things you can only do with entities - such as store them in Crobags'
+
+
+@Section
+title=$union$
+
+
+A $union$ represents the set of values contained in the union of a collection of other types.
+
+
+&grammar rule='union-declaration'
+
+
+A $union$ may be polymorphic.  In this case, one or more polymorphic type variables may be specified after the $union$ name and may then be used in the definition of the fields.
