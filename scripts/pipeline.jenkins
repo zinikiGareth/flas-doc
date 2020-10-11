@@ -12,10 +12,16 @@ pipeline {
         }
         stage('guide') {
             steps {
-                withEnv(["PATH+JAVA=/opt/jdk-11.0.6+10/bin", "JAVA_HOME=/opt/jdk-11.0.6+10", "LINUX_IDENTITY_1=/home/jenkins/.ssh/id_rsa"]) {
+                withEnv(["PATH+JAVA=/opt/jdk-11.0.6+10/bin", "JAVA_HOME=/opt/jdk-11.0.6+10", "SSHID=/home/jenkins/.ssh/id_rsa"]) {
                     dir('guide') {
                         sh 'java -jar /home/formatter/formatter.jar guide.cfg'
                     }
+                }
+            }
+        }
+        stage('reference') {
+            steps {
+                withEnv(["PATH+JAVA=/opt/jdk-11.0.6+10/bin", "JAVA_HOME=/opt/jdk-11.0.6+10", "SSHID=/home/jenkins/.ssh/id_rsa", "ZINIKI=/home/jenkins/workspace/Build Ziniki/"]) {
                     dir('reference') {
                         sh 'java -jar /home/formatter/formatter.jar reference.cfg'
                     }
