@@ -1,0 +1,207 @@
+﻿@Chapter
+title=Templates
+
+
+Templates bridge the gap between data and interaction, providing a means of combining visual display elements with $card$ or $object$ data.
+
+
+@Section
+title=Template Definitions
+
+
+Each card may have one or more template definitions.
+
+
+&grammar rule='named-template-definition'
+&grammar rule='define-template-chain'
+&grammar rule='template-chain-var'
+
+
+Each template definition must have a corresponding visual element defined.
+
+
+@Comment
+
+
+The exact nature of the visual element definitions depends on the system being targeted. The default is HTML and the visual elements are defined in standard HTML files annotated with element $id$s indicating their role in the system.
+
+
+These notations are described in an appendix.
+&review 'ref the appendix on HTML splitter notations'
+@/
+
+
+The first template definition describes the visual appearance of the entire card.  All subsequent template definitions describe the visual appearance of a sub-element of the card.
+
+
+The first definition may not be referenced by any templates.
+
+
+All other definitions must be referenced by a template before they are used.  These may also be referenced (mutually recursively) by subsequent definitions.
+
+
+&review 'item definitions may also have binding chains'
+
+
+A template definition consists of a set of bindings indicating how the data is to be used to prepare the visual elements.
+
+
+@Section
+title=Template Fields
+
+
+Abstractly, the visual design is reduced to a set of template and field definitions.  There are six kinds of definitions: each definition must have a name and be of one of these kinds.  The visual design mechanism must have a way of indicating the kind and name.
+
+
+@Subsection
+title=Templates
+
+
+*Card Templates* are blocks of visual design containing the entire layout for a card.
+
+
+*Item Templates* are blocks of visual design containing the layout for a compound element within a card.
+
+
+@Subsection
+title=Containers
+
+
+A *Container* is a block of visual design which is capable of holding zero or more items.
+
+
+A *Punnet* is a block of visual design which is capable of holding zero or more nested cards.
+
+
+@Subsection
+title=Content
+
+
+A *Content* definition is a block whose content is set and styled by the template mapping.  It may also have event handlers attached.
+
+
+A *Style* definition is a block whose content is determined by the visual designer but whose styling may be determined by the template mapping and to which event handlers may be attached.
+
+
+@Section
+title=Template Bindings
+
+
+A template binding indicates how the appropriate block of the template is to be populated.
+
+
+&grammar rule='template-bind'
+&grammar rule='option-template-binds'
+&grammar rule='option-template-bind'
+&grammar rule='default-option-template-binds'
+&grammar rule='pass-to-template'
+
+
+Bindings are defined by specifying the name of a template field as a destination and a value to use to configure that field.
+
+
+A template name may not be used as the field in a binding.
+
+
+A style field may not be used for binding.
+
+
+A value bound to a content field must be of type $String$.
+
+
+A value bound to a punnet field must be of type $Crobag$.
+
+
+&review 'the container case is complicated'
+
+
+@Section
+title=Template Styling
+
+
+Styling may be applied to content and style fields only.
+&grammar rule='template-customization'
+&grammar rule='template-style'
+
+
+Styles may be applied conditionally or unconditionally.
+
+
+Conditional styles may be nested.  A nested conditional style is only applied if all the nesting conditions are true.
+
+
+@Comment
+
+
+This mechanism does not provide any additional functionality than would be present without it.  However, the ability to nest conditional styles makes it easier to understand the relations between styles and removes duplicated conditions.
+@/
+
+
+A conditional style consists of a condition and a set of styles.  The condition must be of type $Boolean$.  If it is $True$, the styles will be applied and nested blocks considered; otherwise they are all ignored.
+
+
+Styles must be of type $String$ or $List[String]$.  Constants and variables may both be used.
+
+
+All of the matching and unconditional styles will be reduced to a single set of styles that will be applied.
+
+
+@Section
+title=Template Events
+
+
+Event handlers may be attached to content and style elements.
+&review 'I don't see why they can't actually be attached anywhere, but does it depend on the handler and type of event?'
+
+
+&grammar rule='template-event'
+
+
+The specification of a handler is the $SENDTO$ operator ($=>$) followed by the name of the event handler.
+
+
+Event handlers may be included within conditional styling blocks.  In this case, the event handler is only registered on the appropriate element if the conditional style is applied.
+
+
+@Commentary
+
+
+@Section
+title=MVC
+
+
+FLAS uses a variant on the MVC (*M*odel, *V*iew, *C*ontroller) pattern.  In this pattern, there is a unique source of truth about data values (the Model), which is the state of the actor.  The templates determine what is shown to the user (the View) by taking the provided visual elements (usually HTML) and combining them according to the instructions in the template and the data in the model.  The operations supported by the actor (contracts and events) constitute the Controller. 
+
+
+The main intent of this design is to present a separation of concerns.  In particular, by having very loose coupling between the visual elements and the data (a binding, mainly based on kind and name of slot), it is easy to separate the process of visual design from the process of coding.  This is _not_ an attempt to introduce silos, but the reality is that these processes _are_ distinct and have distinct tools.
+
+
+@Section
+title=Development Cycle
+
+
+To facilitate close working of cross-functional teams, FLAS works hard to make it very easy to reliably, repeatedly and automatically combine the output of visual design with the ongoing code development.
+
+
+The latest version of the visual design is always processed and analyzed along with the code in every build (including from IDEs). The visual design may either be presented as a directory or as a $ZIP$ file.
+
+
+Commands are offered to directly import from visual design tools.  In particular, it is possible to download the latest version of the visual design from $webflow$ at the touch of a button inside VSCode.
+&review 'make this statement true'
+&review 'link to webflow'
+
+
+@Section
+title=Intelligent Redisplay
+
+
+While the main focus of this feature is the separation of concerns, it is also important to provide efficient and simple redisplay.
+
+
+This template mechanism provides the opportunity to move all of the complex redisplay code from the user and place it in the system runtime environment.
+
+
+Wherever possible, the system optimizes the redisplay of items so as to make the minimal number of changes to the display.  This is beneficial both for efficiency and for the user's visual experience.
+
+
+Theoretically, redisplay occurs between each full message cycle to the card; however, for efficiency reasons, multiple message cycles may be processed before the display is updated.  However, it is to be expected that the display (and in particular, event handling) will not be allowed to lag noticeably.

@@ -6,5 +6,7 @@
 14iSlNnTjT9jGy1SJyHBzhKMB-gWjyVYYYSPBUSGJFm0 5 - Structs, Entities and Unions.txt
 11M5I34PdtGqNEpPVcxHmo4cnL3Zw_XUBfGIWf7XpUr8 6 - Crobags.txt
 1J7IzS5rOG2pUsDdnmVC2ChE0sjoJ4OcDysRDsU2jHqc 7 - Functions.txt
---excluded--
 1UcH5hYo4ajRbvOSHtH1kdm4Z0WpiZkVSpE375UvobaY 8 - Type Checking and Inference.txt
+1fM8ssxWRazrypAQuMoCH3qy5gc0tZ1EYFgL4ox7YYpA 17 - Templates.txt
+1obUsqrH6VlehKxgq7AjiFKW6s9Fm2pekSCCTuj4h31E A4 - HTML Visual Designs.txt
+--excluded--

@@ -69,3 +69,22 @@ Introduction
     Guards
   7.2c Scoping
   7.3c Standalone Methods
+8 Type Checking and Inference
+  8.1 Type Declarations
+  8.2 Type Checking
+  8.3 Type Inference
+  8.4 Overriding the Type Mechanism
+  8.1c Type Inference Algorithm
+9 Templates
+  9.1 Template Definitions
+  9.2 Template Fields
+    Templates
+    Containers
+    Content
+  9.3 Template Bindings
+  9.4 Template Styling
+  9.5 Template Events
+  9.1c MVC
+  9.2c Development Cycle
+  9.3c Intelligent Redisplay
+10 HTML Visual Designs

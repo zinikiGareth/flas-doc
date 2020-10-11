@@ -1,2 +1,142 @@
 ﻿@Chapter
 title=Type Checking and Inference
+
+
+FLAS is a strongly typed language.  Every value is defined as belonging to a specific type and these types are tracked during compilation and at runtime.
+
+
+FLAS tries to minimize the number of type declarations, requiring them in type declarations and at code boundaries (in $contract$s and $handler$s).
+
+
+Some contexts require values of specific types.  In these situations, the type of the value will be determined and an error emitted if it is incorrect.
+
+
+In all other situations, the existing type information will be evaluated and, if possible, the types of remaining symbols will be determined.  If no determination can be made, an error will result. 
+
+
+@Section
+title=Type Declarations
+
+
+In $struct$ and similar declarations, each field is given a name and a type.  Whenever the field is subsequently referenced, it will be of the specified type.
+
+
+In $contract$ method declarations, each formal method argument must be a _typed pattern_.  All implementations of this contract method must have the same number of arguments, each of which has the same type as that defined by the corresponding contract argument.
+&review 'ref to typed pattern'
+
+
+@Section
+title=Type Checking
+
+
+Values used in equation guards must always be of type $Boolean$.
+&review 'ref to equation guards'
+
+
+Values placed in template content cells, or used as template styles, must be of type $String$.
+&review 'ref to template content'
+&review 'ref to template styles'
+
+
+Values used in template conditional styles must of type $Boolean$.
+&review 'ref to template conditional styles'
+
+
+Values returned from methods must be $Message$, $List[Message]$ or a compatible value.
+&review 'ref to methods'
+
+
+@Section
+title=Type Inference
+
+
+The types of function, standalone method, tuple and parameter values can be inferred from the context.  This is done automatically and the resultant types stored and, if applicable, exported.
+
+
+The most general type - including polymorphism - will be calculated.
+
+
+If no single type can be deduced, an error will result indicating the set of symbols which seem to have mutually contradictory type expectations.
+
+
+@Section
+title=Overriding the Type Mechanism
+
+
+The $cast$ operator acts as a function of two arguments.  The first argument is the desired type; the second argument is a value of unknown or wider type.  The result is the same value but of the desired type.
+
+
+The actual type will be preserved at runtime and will be checked against the desired type.  A runtime error will be generated if the value is not of the specified type.
+
+
+@Comment
+
+
+In general, the $cast$ operator is used when a value has type $Any$ due to circumstances outside the program's control.  Some contracts - not knowing the inner workings of the program - specify that values are of type $Any$ because they cannot do better.  Some data structures - such as $Hash$ and $List[Any]$ - return values of type $Any$.
+
+
+In all these cases, $cast$ is the simplest and most reliable way of bringing the value back into the type safe world.  It should be used as close to the offending interface as possible.
+
+
+Using $cast$ in most other circumstances should be considered a code smell, and is likely to cause runtime errors.
+@/
+
+
+@Comment
+
+
+I'm not really sure how much more to actually say in the specification.
+@/
+
+
+@Commentary
+
+
+@Section
+title=Type Inference Algorithm
+
+
+Type checking is easy.  Type inference is hard.
+
+
+Type inference in FLAS is based on the Hindley-Milner algorithm.  The algorithm works from what is known to what is unknown.  The first step is to deduce the dependencies between names in the program and break all the definitions into groups of functions which depend only on either what has gone before or on each other.
+&review 'ref the original paper'
+&review 'also ref Hancock or whoever in SLPJ'
+
+
+Each such group of functions will be tackled together, along with all of the formal parameters deduced from patterns.
+
+
+Nested functions cause a particular problem, especially when (as they usually do) they reference parameters from an enclosing scope.
+
+
+The essence of the algorithm is to determine the input types of a function by taking a union of all the patterns.  Complicated by having union types.  Try and find the minimal union type which fits.  Can be helped/resolved by having the "catch-all" case specify the type you want rather than just having a variable.
+
+
+Can use "Any" to say you want to accept everything.
+
+
+Can accept "Error" and not have it show up in the type.
+
+
+The output type of the function is handled by dealing with each expression in turn and figuring out what type it is, and then doing a minimal union of all those values.  $Any$ is not an acceptable answer unless one of the cases resolves to type $Any$.
+
+
+This is fine if the group has just one function depending only on things that have been previously defined. It gets more complicated when the group has multiple members.
+
+
+In this case, a _type variable_ is introduced for each unknown in the group:
+* each function name
+* each standalone method name
+* each tuple variable name
+* each parameter name that is not clearly typed
+* each polymorphic type used in the definitions of the function parameters.
+
+
+Note that a single polymorphic type name used within a single function definition maps to the same type variable.  But if the same name is used in _different_ function definitions, one type variable will be introduced for each function.
+
+
+Once the type algorithm has processed, the type variables will have collected information about all the constraints that are required of them and a unification process is run which deduces the maximal types which fulfill all the constraints for all the variables.  The resulting types are then inserted in the appropriate places to complete the type definitions.
+
+
+If one or more of the type variables does not have a consistent solution, an error is reported indicating the problem and the usages that led to it.  These messages are inherently complex, but it is hoped that over time they will become more easily comprehended.
