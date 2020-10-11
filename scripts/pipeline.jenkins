@@ -1,0 +1,26 @@
+#!/usr/bin/env groovy
+
+pipeline {
+    agent any
+    stages {
+        stage('check out sources') {
+            steps {
+                dir('documentation') {
+                    git credentialsId: 'ssh-gmmapowell', url: 'git@github.com:zinikiGareth/flas-doc.git', branch: 'source'
+                }
+            }
+        }
+        stage('guide') {
+            steps {
+                withEnv(["PATH+JAVA=/opt/jdk-11.0.6+10/bin", "JAVA_HOME=/opt/jdk-11.0.6+10", "LINUX_IDENTITY_1=/home/jenkins/.ssh/id_rsa"]) {
+                    dir('guide') {
+                        sh 'java -jar /home/formatter/formatter.jar guide.cfg'
+                    }
+                    dir('reference') {
+                        sh 'java -jar /home/formatter/formatter.jar reference.cfg'
+                    }
+                }
+            }
+        }
+    }
+}
