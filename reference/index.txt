@@ -7,6 +7,9 @@
 11M5I34PdtGqNEpPVcxHmo4cnL3Zw_XUBfGIWf7XpUr8 6 - Crobags.txt
 1J7IzS5rOG2pUsDdnmVC2ChE0sjoJ4OcDysRDsU2jHqc 7 - Functions.txt
 1UcH5hYo4ajRbvOSHtH1kdm4Z0WpiZkVSpE375UvobaY 8 - Type Checking and Inference.txt
+1-EGYQFXDmIDXUx-7dyo8EnlZmSxFTdPNs06uijeq3co 9 - Contracts.txt
+1_l1S9lGmKuat88QQRBro8PIgi_yVIUbLQ2uLNQqtOQU 10 - Objects.txt
+1UVdxIbdbxHHDAF_v5xuZdwqhmsekE7cDuX9mbitUdo4 11 - Methods.txt
 1fM8ssxWRazrypAQuMoCH3qy5gc0tZ1EYFgL4ox7YYpA 17 - Templates.txt
 1obUsqrH6VlehKxgq7AjiFKW6s9Fm2pekSCCTuj4h31E A4 - HTML Visual Designs.txt
 --excluded--

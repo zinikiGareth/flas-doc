@@ -1,0 +1,121 @@
+﻿@Chapter
+title=Objects
+
+
+Objects in FLAS provide the ability to encapsulate data and methods in a single structure.
+
+
+Objects can only be created within the scope of an actor.
+
+
+Objects may be used to encapsulate entities, thus giving the (data-only) entity the appearance of being a persistent object.
+
+
+&grammar='object-declaration'
+&grammar='object-scope-unit'
+
+
+@Section
+title=Object State
+
+
+Objects may have a state definition.
+
+
+The fields in the state definition may be initialized provided that the initialization code does not have any external dependencies or generate any messages.  All other initialization code must be put in constructors.
+
+
+The state members are only visible to code definitions within the object.  Tests have special permission to access state fields using the $assert$ and $shove$ operations.
+
+
+&grammar='state-declaration'
+
+
+@Section
+title=Object Constructors
+
+
+Objects are constructed using named _constructors_.
+
+
+An object must have at least one constructor.
+
+
+&grammar='object-ctor-definition'
+
+
+The constructor definition is preceded by the keyword $ctor$.
+
+
+A constructor has a name and zero or more arguments
+
+
+The creation of a new object is implicit; the constructor method returns messages which initialize it.
+
+
+If no initialization is necessary, the constructor may have an empty body.
+
+
+The constructor is called by using the type name, followed by a $DOT$ ($.$), followed by the constructor name and any arguments.
+
+
+Because constructors may return messages along with the new object, they may only be called from contexts in which message methods are allowed.
+
+@Section
+title=Object Methods
+
+
+Objects may declare read-only methods, called _accessors_.  Accessors are pure functions that map values to values.  They may reference state members.
+
+
+Objects may declare update methods which return messages.  Update methods may wish to also return a value.  In this case, the method must return a value of type $ReturnWithMessages$.
+&review 'check how RWM really works'
+&review 'and say more about it'
+
+
+&grammar='object-acor-definition'
+&grammar='object-method-definition'
+
+
+These definitions are accessible to clients of the object using the member expression syntax: a variable name (of the appropriate object type), followed by $DOT$ ($.$), followed by the accessor or method name.
+
+
+Accessors may be referenced from any context; methods may only be referenced from a message method context.
+
+
+&review 'I don''t think the member expr syntax is in the grammar'
+
+
+@Section
+title=Services
+
+
+&review 'how do we pass services to objects again?'
+
+
+@Section
+title=Nested Scope
+
+
+Objects may nest arbitrary functions and handlers.
+
+
+These nested definitions are only visible to definitions within the object definition.
+
+
+These definitions may access the object state.
+ 
+@Commentary
+
+
+@Section
+title=Not an Object-Oriented Language
+
+
+Although it contains the $object$ definition, FLAS is not, and makes no claims to be, an object-oriented language and you will suffer heartache if you try to treat it as one.
+
+
+The main building blocks in FLAS are actors, and their primary means of communication is through contracts.  The main data representation structures are (transient) $struct$s and (persistent) $entity$s.  Objects are an adjunct to this to make some abstractions and encapsulations easier to write and maintain.
+
+
+In general, $object$s are written as wrappers around $entity$s, thus providing the appearance of behavior on something which is really just data.

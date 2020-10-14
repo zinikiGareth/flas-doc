@@ -57,10 +57,10 @@ Abstractly, the visual design is reduced to a set of template and field definiti
 title=Templates
 
 
-*Card Templates* are blocks of visual design containing the entire layout for a card.
+&sp *Card Templates* are blocks of visual design containing the entire layout for a card.
 
 
-*Item Templates* are blocks of visual design containing the layout for a compound element within a card.
+&sp *Item Templates* are blocks of visual design containing the layout for a compound element within a card.
 
 
 @Subsection
@@ -93,7 +93,7 @@ A template binding indicates how the appropriate block of the template is to be 
 &grammar rule='template-bind'
 &grammar rule='option-template-binds'
 &grammar rule='option-template-bind'
-&grammar rule='default-option-template-binds'
+&grammar rule='default-option-template-bind'
 &grammar rule='pass-to-template'
 
 
@@ -151,7 +151,7 @@ title=Template Events
 
 
 Event handlers may be attached to content and style elements.
-&review 'I don't see why they can't actually be attached anywhere, but does it depend on the handler and type of event?'
+&review 'I don''t see why they can''t actually be attached anywhere, but does it depend on the handler and type of event?'
 
 
 &grammar rule='template-event'

@@ -177,5 +177,5 @@ title=Parenthetical Expressions
 It is possible to group an expression in parentheses $(...)$ in order to make the expression so enclosed have the precedence of a single term.  The value and type of the expression remain unchanged.
 
 
-&review 'we don't have tuple expressions although we do have tuple definitions'
+&review 'we don''t have tuple expressions although we do have tuple definitions'
 &review 'do we really support the COLON expression we have in the grammar? How is this not a binop?'

@@ -1,4 +1,5 @@
 ﻿@Chapter
+style=appendix
 title=HTML Visual Designs
 
 

@@ -9,7 +9,7 @@ For standard program units, the name of the file is not used in naming FLAS cons
 
 
 @Section
-title=Unit Translation Types.
+title=Unit Translation Types
 
 
 &grammar rule='file'

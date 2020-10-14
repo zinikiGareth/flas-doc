@@ -76,6 +76,8 @@ It is possible to place an entity in a $Crobag$ somewhere around the specified k
 
 
 @Comment
+
+
 Being precise about exactly what happens in a highly distributed, parallel system is always difficult.  In this case, the system will eventually come to a consistent state where there is a new entry in the $Crobag$ with the specified value.  It will either have exactly the requested key or it will have a key whose prefix is the specified key.
 
 
@@ -114,6 +116,8 @@ It is possible to ensure that the entity in a $Crobag$ associated with the speci
 
 
 @Comment
+
+
 The semantics of $upsert$ again need careful attention to detail.  In an event driven system, the operation described may be applied multiple times (once on the client and once on each replicated server).  The same semantics need to be applied on each occasion and the system needs to be eventually consistent.
 
 
@@ -207,7 +211,7 @@ title=Favorites
 
 
 $Crobag$s have native support for favorites.  In the case where an arbitrary ordering is used this will generally not be necessary, although it is still a possibility.  However, when a natural ordering is used, any keys starting with $!$ will automatically appear at the front of the list and any keys starting with $~$ will appear at the end of the list.
-&review 'crobag favorites aren't done yet'
+&review 'crobag favorites aren''t done yet'
 &review 'there should be startFavorite and endFavorite methods to generate keys'
 
 

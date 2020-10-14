@@ -31,7 +31,6 @@ Similarly, other embedded uses offer other extensions to the core model, but in 
 &grammar rule='top-level-unit'
 &review 'this should have all the ziniki defs in one block and we should remove that'
 &grammar rule='top-level-definition'
-&removeOption prod='entity-declaration'
 &removeOption prod='deal-declaration'
 &removeOption prod='offer-declaration'
 &grammar rule='function-scope'

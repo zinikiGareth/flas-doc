@@ -1,0 +1,90 @@
+﻿@Chapter
+title=Methods
+
+
+Methods are syntactic sugar for functions that map values to messages.
+
+
+Methods may exist in a number of scopes and this determines how they are introduced.
+&review 'ref all the places that this is true - standalone, event, implementation, handler'
+
+
+In each case, the body of the method is the same.
+
+
+&grammar rule='method-guards-or-actions'
+&grammar rule='method-guards'
+&grammar rule='method-guard'
+&grammar rule='method-actions'
+&grammar rule='method-action'
+&grammar rule='method-message-action'
+&grammar rule='service-method'
+&grammar rule='maybe-handled'
+&grammar rule='method-assign-action'
+
+
+@Section
+title=Guards
+
+
+Methods may be guarded.  Guards in methods work exactly as in functions.
+&review 'need to ref functions'
+
+
+@Section
+title=Sending Messages
+
+
+@Section
+title=Updating State
+
+
+@Commentary
+
+
+@Section
+title=Messages
+
+
+FLAS is a pure functional language wrapped in an actor model.  Each interaction represents a mapping from one system state to another, and this can be expressed as a set of messages.  During the evaluation of the interaction, _the actor state does not change_, no actor has access to the internal state of any other system component and the state of an actor never changes _except through an explicit interaction_.  In this way, the apparent state of an actor is always consistent and it is possible to reason logically about both the actor state and the overall system state.
+
+
+FLAS can be considered to be _transactional_ in that the interaction either generates a set of messages or it does not, and then either all of those messages are consumed or none of them are.  Of course, it takes more than that to make a system truly transactional in an ACID sense
+
+
+Messages are just values.  The $Message$ type is a $union$ consisting of various nested message types.  A function can create values of these types.
+
+
+A method is simply a function that is called from a context in which it is possible to directly harness the messages being returned.  There are three such locations:
+
+
+* within implementations of contracts inside actors;
+* within the event handlers of cards or objects;
+* within any existing method declaration.
+
+
+Standalone methods are exactly syntactic sugar for moving between methods and functions and may only be called from other methods or functions.
+&review 'ref to standalone methods'
+
+
+@Section
+title=Conflicts
+
+
+It should not be possible to attempt to update the state of an object or actor inconsistently.  It should, however, be apparent that it is possible:
+
+
+$$
+object Obj
+        state
+                Number n <-0
+        method wrong
+                n <- 1
+                n <- 2
+$$
+
+
+And, indeed, in this trivial case, it is easy to spot (even at compile time), but it is clear that there are more complex cases where more subtle conflicts can arise, including updating a value nested within a value which is removed from the actor state by another update.
+
+
+It is anticipated that as time passes, the algorithm for detecting such conflicts (especially at compile time) will be improved, but in the meantime it is important to try and write code to minimize conflicts.

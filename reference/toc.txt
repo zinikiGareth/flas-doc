@@ -1,6 +1,6 @@
 Introduction
 1 Lexical Conventions
-  1.1 Unit Translation Types.
+  1.1 Unit Translation Types
   1.2 Indentation
     Comments
     Nesting
@@ -75,16 +75,34 @@ Introduction
   8.3 Type Inference
   8.4 Overriding the Type Mechanism
   8.1c Type Inference Algorithm
-9 Templates
-  9.1 Template Definitions
-  9.2 Template Fields
+9 Contracts
+  9.1 Contract Methods
+  9.1c Role of Contracts
+  9.2c Directionality
+  9.3c Testing
+10 Objects
+  10.1 Object State
+  10.2 Object Constructors
+  10.3 Object Methods
+  10.4 Services
+  10.5 Nested Scope
+  10.1c Not an Object-Oriented Language
+11 Methods
+  11.1 Guards
+  11.2 Sending Messages
+  11.3 Updating State
+  11.1c Messages
+  11.2c Conflicts
+12 Templates
+  12.1 Template Definitions
+  12.2 Template Fields
     Templates
     Containers
     Content
-  9.3 Template Bindings
-  9.4 Template Styling
-  9.5 Template Events
-  9.1c MVC
-  9.2c Development Cycle
-  9.3c Intelligent Redisplay
-10 HTML Visual Designs
+  12.3 Template Bindings
+  12.4 Template Styling
+  12.5 Template Events
+  12.1c MVC
+  12.2c Development Cycle
+  12.3c Intelligent Redisplay
+13 HTML Visual Designs

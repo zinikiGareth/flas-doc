@@ -1,0 +1,70 @@
+﻿@Chapter
+title=Contracts
+
+
+Contracts define the protocols by which actors communicate with each other.
+
+
+Contracts come in three varieties: _implementation_ contracts handle "downward" or "nested" communication to contained _agents_ or _cards_; _service_ contracts handle "upward" or "outward" communication from contained actors to service providers; and _handler_ contracts define the structure of responses.
+
+
+Contracts are defined with a kind, a name and a set of methods.
+
+
+&grammar='contract-declaration'
+&grammar='contract-intro'
+
+
+@Section
+title=Contract Methods
+
+
+Every contract method has a name.
+
+
+Contract methods may have arguments.  Each of these needs to be a _typed pattern_ indicating the expected type and function of the parameter.
+
+
+&grammar='contract-method-decl'
+&grammar='handled-by'
+&grammar='argument-pattern-typed'
+
+
+A contract method may optionally accept a _handler_ of a specific type over which responses will be sent.  The handler's type must be a contract.
+
+
+@Commentary
+
+
+@Section
+title=Role of Contracts
+
+
+Contracts are absolutely central to the operation of FLAS.
+
+
+Cards, agents and services are essentially unaware of each other and are completely decoupled except through contracts and entities.
+
+
+While it is possible for one card to create another card directly by name, much of the time cards are created because an entity is placed in a punnet.  The only way in which a containing card knows how to interact with the contained card is through a set of contracts it expects the cards in that punnet to implement.
+
+
+@Section
+title=Directionality
+
+
+It is fairly easy to see the directionality in cards: there is one card that "is" the application, and that contains other cards, which contain other cards… The application card is itself in a client-side container.  One set of messages ("do this" messages, if you will) flow downwards, while another set of messages ("request" messages) flow the other way, looking for services.
+
+
+If no cards or agents provide a service being requested, the request is propagated to the client-side container.  Some contracts have services implemented directly in the container (such as $Repeater$ and $Ajax$).  If the client-side container cannot find an implementation, it may forward the request to a server-side container if one is connected.
+
+
+@Section
+title=Testing
+
+
+Contracts define the communication protocols between cards that depend on them and those that implement them.  To support this, _protocol tests_ on contracts may be defined&footnote  which are automatically run on all cards depending on the contract.
+
+
+&footnote
+This feature is not yet implemented.
