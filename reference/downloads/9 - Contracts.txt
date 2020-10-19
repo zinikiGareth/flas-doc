@@ -11,8 +11,8 @@ Contracts come in three varieties: _implementation_ contracts handle "downward" 
 Contracts are defined with a kind, a name and a set of methods.
 
 
-&grammar='contract-declaration'
-&grammar='contract-intro'
+&grammar rule='contract-declaration'
+&grammar rule='contract-intro'
 
 
 @Section
@@ -25,9 +25,9 @@ Every contract method has a name.
 Contract methods may have arguments.  Each of these needs to be a _typed pattern_ indicating the expected type and function of the parameter.
 
 
-&grammar='contract-method-decl'
-&grammar='handled-by'
-&grammar='argument-pattern-typed'
+&grammar rule='contract-method-decl'
+&grammar rule='handled-by'
+&grammar rule='argument-pattern-typed'
 
 
 A contract method may optionally accept a _handler_ of a specific type over which responses will be sent.  The handler's type must be a contract.

@@ -80,7 +80,7 @@ Introduction
   9.1c Role of Contracts
   9.2c Directionality
   9.3c Testing
-10 Objects
+10 Objects [objects]
   10.1 Object State
   10.2 Object Constructors
   10.3 Object Methods
@@ -93,7 +93,7 @@ Introduction
   11.3 Updating State
   11.1c Messages
   11.2c Conflicts
-12 Templates
+12 Templates [templates]
   12.1 Template Definitions
   12.2 Template Fields
     Templates
@@ -104,5 +104,14 @@ Introduction
   12.5 Template Events
   12.1c MVC
   12.2c Development Cycle
-  12.3c Intelligent Redisplay
-13 HTML Visual Designs
+  12.3c A Mental Model
+  12.4c Intelligent Redisplay
+  12.5c Card Templates
+  12.6c Content Bindings
+    Conditional Bindings
+  12.7c Styling
+    Conditional Styling
+    Nested Conditionals
+  12.8c Event Affordance
+  12.9c Containers
+13 HTML Visual Designs [html-splitter]

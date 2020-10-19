@@ -1,5 +1,6 @@
 ﻿@Chapter
 title=Templates
+anchor=templates
 
 
 Templates bridge the gap between data and interaction, providing a means of combining visual display elements with $card$ or $object$ data.
@@ -26,8 +27,9 @@ Each template definition must have a corresponding visual element defined.
 The exact nature of the visual element definitions depends on the system being targeted. The default is HTML and the visual elements are defined in standard HTML files annotated with element $id$s indicating their role in the system.
 
 
-These notations are described in an appendix.
-&review 'ref the appendix on HTML splitter notations'
+These notations are described in appendix
+&ref 'html-splitter'
+.
 @/
 
 
@@ -192,6 +194,38 @@ Commands are offered to directly import from visual design tools.  In particular
 
 
 @Section
+title=A Mental Model
+
+
+The reference given in this chapter is intentionally concise and abstract.  While formally correct, it may be difficult to comprehend and apply.
+
+
+The &sp
+&review 'ref to user guide'
+&sp should be the starting point for developers wishing to _learn_ how to use templates; however, for reference purposes, this commentary will offer a concrete understanding of how the templates are used in practice by reference to the "standard model" of using templates: HTML and CSS in the web browser.
+
+
+Templates are automatically extracted from input HTML using a $splitter$ which is described in an appendix (
+&ref 'html-splitter'
+).  Each such template is then provided in the HTML delivered to the client as an HTML $template$ object in the $head$ section.
+
+
+In theory at least, such a template may be arbitrarily complex.  Certainly, it may have multiple levels of nesting.  However, the splitting process automatically removes some of the nested elements (in particular, elements used within $content$, $container$, $punnet$ and also any elements used to define nested $template$s).  The splitting process identifies these elements using their $id$, removes this from all elements and then annotates the nodes with $data-flas-$ properties so that they can be located at runtime in JavaScript using query selectors.
+
+
+This means that within the context of a template, each of the nested elements (except nested templates) identified by a compliant $id$ is addressable through the template mechanism.
+
+
+The template mechanism in FLAS is not there to *define* templates but to *bind* the runtime values in the state of a card or object to the compatible elements (abstractly referred to as _fields_) in the template defined in HTML.
+
+
+In situations where HTML is not being used but rather some other visualization mechanism, the principle remains the same but the technology will be different.  Consult the appropriate documentation for your environment.
+
+
+The template definitions extracted from the visual design are not specifically attached to, or scoped within, cards in the program.  Rather, a binding is made between each card and the appropriate templates.  This binding is, more or less, many-to-many: each template in the visual design may be used by many cards; and each card may use many templates.
+
+
+@Section
 title=Intelligent Redisplay
 
 
@@ -205,3 +239,388 @@ Wherever possible, the system optimizes the redisplay of items so as to make the
 
 
 Theoretically, redisplay occurs between each full message cycle to the card; however, for efficiency reasons, multiple message cycles may be processed before the display is updated.  However, it is to be expected that the display (and in particular, event handling) will not be allowed to lag noticeably.
+
+
+@Section
+title=Card Templates
+
+
+Templates are, in reality, a property of _cards_.  While objects support templates, and it is possible to bind structs, entities and unions into appropriate template fields, in every case this has to happen within the context of an overall card.
+
+
+To put it the other way, cards are a combination of data, processing, message passing and rendering.  The rendering is handled by applying the card template to the current state of the card.
+
+
+There can only be *one* card template for a given card.  This must be identified by it having the appropriate $id$ in the visual design (i.e. $flas-card-$_name_) and by it being the first template listed in the card.  The card may then define as many other supporting templates as it wants, but each of these must be referred to at least once before it is defined.
+
+
+The only variables that can be referenced within a card template are the members of the state.  Functions and constants at the top scope of the card or in the global state may also be used.
+
+
+@Section
+title=Content Bindings
+
+
+The simplest and most common form of binding is the content binding.  This allows a $String$ value in the card to be literally placed in a specific template field.  The value will automatically undergo any "entitifcation"&footnote  or other encoding process required by the visual design.
+
+
+&footnote
+Entitification is the process by which HTML replaces special characters with the appropriate HTML _entities_to stop them being interpreted as HTML.  It is not possible to use FLAS to inject arbitrary HTML into a template.  This would be both a security and a portability issue.
+
+
+A content binding is expressed using the $SEND$ operator ($<-$) indicating that the _value_ on the right is to be sent to the _field_ on the left.  Possibly the simplest such usage would be:
+
+
+$$
+|card Simple
+||template show
+|||hello <- "hello, world"
+$$
+
+
+This places the constant $String$ value $"hello world"$ in the template identified by $flas-card-show$ in the field identified by $flas-content-hello$.
+
+
+Because all content fields require $String$ values, it is necessary that non-$String$ values be converted to $String$s before binding.  This does not happen by default, but the $show$ function may be used to do the "default" conversion.
+
+
+$$
+|card Simple
+||template show
+|||quantity <- show 15
+$$
+
+
+This is obviously not ideal in all cases: dates, for example, will generally want more tailored conversion (the default for $Instant$ is to show the number of days that have elapsed since the beginning of 1970).  In these cases, it is the developer's job to consider the appropriate transformation and use it.
+
+
+$$
+|card Simple
+||state
+|||Calendar cal
+||...
+||template show
+|||now <- cal.showIsoDate (Instant.now)
+$$
+
+
+The process of initializing the calendar object using the $Lifecycle$ contract has been elided.
+&review 'we should probably create a calendar using Lifecycle somewhere though and then reference it here'
+
+
+Each field may only be bound once during a template definition.
+
+
+@Subsection
+title=Conditional Bindings
+
+
+It is also possible to use guarded bindings, analogously to using guarded equations in function definitions.
+
+
+In this case, the binding only contains the name of the field to be bound, and then a nested block includes the binding cases.
+
+
+For example, it may be desirable to display a specific message when there are no entries, but otherwise to display a count.
+
+
+$$
+|card Counter
+||state
+|||List[String] entries
+||template showCounts
+|||count
+|||| | length entries == 0 <- "no entries"
+|||| | <- (show (length entries)) ++ "entries"
+$$
+
+
+As seen here, it is possible to end the binding definition with a single, optional default binding which applies if none of the preceding guards evaluate to $True$.
+
+
+@Section
+title=Styling
+
+
+&review 'I feel a lot of this should be in the actual section and only the more chatty and exampley bits should be here'
+
+
+Both content and style fields may have styling attached to them.  In HTML, this amounts to allowing the $class$ field on an element to be set to a set of values.  These values are determined by considering all of the possible styling bindings and building a composite list.
+
+
+All style applications must be introduced in a nested (indented) scope.
+
+
+* Style applications which are indented directly from the template are applied to the template as a whole (that is, they are applied to the HTML element associated with the template itself).
+* Style applications which are indented from a $content$ or $style$ binding are applied to the corresponding element in the template.
+* Style applications which are indented from a previous style application are applied to the same element as the enclosing application and _only if_ the enclosing application is also applied.
+
+
+All values on the right hand side of a styling binding must be of type $String$ or $List[String]$.
+
+
+All styling applications are introduced using the $GUARD$ operator ($|$) and the styles follow a $SENDTO$ operator ($=>$).
+
+
+So, starting from the simplest case again, it is possible to apply the $bold$ style to an entire template unconditionally.
+
+
+$$
+card Styling
+|template message
+|| | => "bold"
+$$
+
+
+On a content field, it is written as a nested block within the binding:
+
+
+$$
+card Styling
+|template message
+||message <- "hello"
+||| | => "bold"
+$$
+
+
+Although it starts to look a little scrappy, it can also be applied to a conditional nested block:
+
+
+$$
+card Styling
+|template message
+||state
+|||Boolean sayHello
+||message
+||| | sayHello <- "hello, world"
+|||| | => "bold"
+||| | <- "goodbye"
+|||| | => "italic"
+$$
+
+
+@Comment
+
+
+This is, in fact, why the conditional binding syntax exists.  Without it, it would be simple enough to define a binding to a function which used guarded equations to deduce the desired value.  But the logic to style each case separately would be both tortuous and duplicative.
+@/
+
+
+It is possible to do the same thing on a styling field:
+
+
+$$
+card Styling
+|template message
+||styleMe
+||| | => "bold"
+$$
+
+
+Note that because a styling field does not have a value to bind, only the name of the field is written, and no $SEND$ operator is used.
+
+
+@Subsection
+title=Conditional Styling
+
+
+In the same way in which bindings can be applied conditionally, styles may be applied conditionally.  The syntax is essentially unchanged: a boolean expression is simply inserted in between the $GUARD$ and $SENDTO$ operators.  This expression must be identifiably of type $Boolean$ and, like the other expressions in the template code may only depend on state members along with global constants and functions.
+
+
+$$
+card Styling
+|state
+||Boolean wantBold
+|template message
+||styleMe
+||| | wantBold => "bold"
+$$
+
+
+Note that, unlike guarded equations and content bindings, _all_ of the cases which match will have their associated styles applied.  Because of this, the order in which the applications are presented is irrelevant.
+
+
+It is again possible to provide default style applications which will be applied in all cases.  Again, unlike guarded equations and conditional bindings, it is possible to present any number of default style applications and all of them will be applied.
+
+
+Note that there is no specific syntax for "either this or that".  This is, of course, possible to achieve by using both a condition and its negation:
+
+
+$$
+card Styling
+|state
+||Boolean wantBold
+|template message
+||styleMe
+||| | wantBold => "bold"
+||| | !wantBold => "quiet"
+$$
+
+
+@Subsection
+title=Nested Conditionals
+
+
+A style application may contain blocks of style applications.  This has two purposes.
+
+
+Firstly, it allows applications that are "related" to be written closely together but on separate lines, making the intent of the code clearer.
+
+
+Secondly, because the nested applications are only applied if the parent application is applied, it makes it possible to unravel complex conditionals into a block.
+
+
+For example, it is possible to have a button which can be enabled or disabled and, if enabled, can be highlighted to indicate that it has notifications.
+
+
+$$
+card Button
+|state
+||Boolean isActive
+||Boolean hasNotifications
+|template message
+||button
+||| | isActive => "enabled"
+|||| | hasNotifications => "alert"
+$$
+
+
+@Section
+title=Event Affordance
+
+
+Event handlers are defined in code on the card or the template.  By default, when defined, they are attached to the _whole card_.  While this is a useful default, it does have the bizarre property of meaning that attaching them to fields in the template reduces their area of applicability.  However, in general, event handlers will either be intended to operate at the card level and will not be attached; or will only be relevant to certain nodes and will always be attached.
+
+
+The act of attaching the name of an event handler to a content or style field is called an _affordance_ because it makes it possible to invoke the handler from that location.  Note that _no extra information_ is required - or can be provided - because the event handler already contains the information about the event that it will handle, and an event handler is invoked as a message, so only two pieces of information are in scope - the current state of the card and the event object itself&footnote .
+
+
+&footnote
+Although note that, because the event object contains a pointer to the value being bound, it is possible to customize the handling of the event based on which affordance was used.
+
+
+The event affordance is placed in a nested block of either a content binding or a style application.  If it is applied to a conditional binding or conditional style definition, the event is only enabled if the containing guards are true.
+
+
+&review 'why can we not add affordances to containers?'
+&review 'can we add an affordance directly to a content element that has guarded bindings?'
+
+
+Adding the affordance simply consists of using the $SENDTO$ ($=>$) operator followed by the name of the event handler.
+
+
+$$
+card Event
+|template clickHere
+||handleMe
+|||=> updateMe
+|event updateMe (ClickEvent ev)
+$$
+
+
+This event only adds the handler if the button is active:
+
+
+$$
+card Button
+|state
+||Boolean isActive
+||Boolean hasNotifications
+|template message
+||button
+||| | isActive => "enabled"
+|||| => updateMe
+|||| | hasNotifications => "alert"
+|event updateMe (ClickEvent ev)
+$$
+
+
+@Section
+title=Containers
+
+
+Containers serve four overlapping roles:
+
+
+* They allow a level of abstraction and encapsulation by enabling a separate template to be used to render a (structured) part of the card's data.
+* Extending this, they allow $Object$s to be responsible for rendering their state into a particular part of the window.
+&review 'is it not also possible to output a struct or an object into a content field?'
+* They allow $List$s and $Crobag$s to render multiple items - possibly of different types - into a visual list.
+* By using _punnets_ it becomes possible to delegate more completely to other (explicitly or implicitly typed) cards.
+
+
+Punnets will be considered in the next section.  The remainder of this section simply deals with _item containers_.
+
+
+&review 'does the reference to explicitly typed cards mean we do need card names (at least) in FLIM, possibly together with the contracts that use and require?'
+
+
+To support containers, additional item templates need to be provided in the visual design.  These must then be bound in the card using a $template$ definition.
+
+
+The simplest case is the delegation of the rendering of a $struct$ into a container using a template.
+
+
+$$
+struct Combo
+|String name
+|Number count
+card Delegated
+|template main
+||entry <- (Combo "ducks" 22) => combo
+|template combo
+||item-name <- name
+||quantity <- count
+$$
+
+
+Here, the $main$ template (which must be a card template) has a defined container called $entry$.  It is bound to the constant value $Combo "ducks" 22$ and this value is formatted using the $combo$ template.  Because of this specific use of the template name, the template knows (through type inference) that it is being applied to a $struct$ of type $Combo$, and thus the names $name$ and $count$ are in scope - referring to the fields of the $struct$.
+
+
+This template can be referenced multiple times within the card, but on every occasion it must be used to render a $struct$ of the same type.
+
+
+Delegating to object templates works in much the same way, except that the template is nested inside the object rather than in the parent card.
+
+
+$$
+object Combo
+|state
+||String name
+||Number count
+|ctor make (String name) (Number cnt)
+||...
+|template combo
+||item-name <- name
+||quantity <- count
+card WithObject
+|state
+||Combo thing
+|...
+|||thing <- Combo.make "ducks" 22
+|template main
+||entry <- thing => combo
+$$
+
+
+Here, the $object$ has to be created in a message-method context, the details of which have been elided.
+&review 'should ref to something about object creations'
+
+
+The $combo$ template is on the object, as is the state which it references.  In this case, because the delegation is through the object, no additional variables are introduced - the references are to members of the object's state.
+
+
+Objects may have any number of templates, but they must all be _item_ templates.
+
+
+&review 'we had a section on card templates, but never got around to one on item templates'
+
+
+&review 'we need to cover more explicitly object templates - we seem to have just flung this in here; at the same time, it can''t appear earlier so we need to just go more slowly here, I think'
+
+
+&review 'need to talk about unions & different templates in containers'
+&review 'lists & crobags'
+&review 'need to talk about nesting chains and their syntax'
+&review 'and we still need to address the fact that we should be able to be more precise about ambiguous ones'
+&review 'and by extension, the fact that they are chains and you can nest templates within templates'

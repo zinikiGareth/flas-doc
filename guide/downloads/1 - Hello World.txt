@@ -69,11 +69,12 @@ Although Java is essentially cross-platform, FLAS uses the JavaFX library to run
 
 
 All of the samples described in this manual are available on github at&sp
-&link 'git@github.com:zinikiGareth/zinikiDemos.git' 'git@github.com:zinikiGareth/zinikiDemos.git'
+&link 'https://github.com/zinikiGareth/zinikiDemos' 'github.com/zinikiGareth/zinikiDemos'
 .
 
 
-If you use eclipse, you can install a plugin from the Ziniki P2 repository at
+&review 'no, if you use vscode …'
+If you use eclipse, you can install a plugin from the Ziniki P2 repository at&sp
 &link 'https://p2.ziniki.org' 'not yet available'
 .
 

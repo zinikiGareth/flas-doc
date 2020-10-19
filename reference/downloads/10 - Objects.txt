@@ -1,4 +1,5 @@
 ﻿@Chapter
+anchor=objects
 title=Objects
 
 
@@ -11,8 +12,8 @@ Objects can only be created within the scope of an actor.
 Objects may be used to encapsulate entities, thus giving the (data-only) entity the appearance of being a persistent object.
 
 
-&grammar='object-declaration'
-&grammar='object-scope-unit'
+&grammar rule='object-declaration'
+&grammar rule='object-scope-unit'
 
 
 @Section
@@ -28,7 +29,7 @@ The fields in the state definition may be initialized provided that the initiali
 The state members are only visible to code definitions within the object.  Tests have special permission to access state fields using the $assert$ and $shove$ operations.
 
 
-&grammar='state-declaration'
+&grammar rule='state-declaration'
 
 
 @Section
@@ -41,7 +42,7 @@ Objects are constructed using named _constructors_.
 An object must have at least one constructor.
 
 
-&grammar='object-ctor-definition'
+&grammar rule='object-ctor-definition'
 
 
 The constructor definition is preceded by the keyword $ctor$.
@@ -73,8 +74,8 @@ Objects may declare update methods which return messages.  Update methods may wi
 &review 'and say more about it'
 
 
-&grammar='object-acor-definition'
-&grammar='object-method-definition'
+&grammar rule='object-acor-definition'
+&grammar rule='object-method-definition'
 
 
 These definitions are accessible to clients of the object using the member expression syntax: a variable name (of the appropriate object type), followed by $DOT$ ($.$), followed by the accessor or method name.

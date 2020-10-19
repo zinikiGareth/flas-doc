@@ -1,7 +1,9 @@
 ﻿@Chapter
 style=appendix
 title=HTML Visual Designs
+anchor=html-splitter
 
 
-In order to generate HTML from the template mechanism, it is necessary to indicate within the HTML design where the $card$ and $item$ boundaries are, and how the fields are mapped within these.
-&review 'ref to templates chapter'
+In order to generate HTML from the template mechanism (see &sp
+&ref 'templates'
+), it is necessary to indicate within the HTML design where the $card$ and $item$ boundaries are, and how the fields are mapped within these.
