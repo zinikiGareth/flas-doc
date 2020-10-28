@@ -1,0 +1,24 @@
+﻿@Chapter
+title=Resource Management
+
+
+@Commentary
+
+
+@Section
+title=TBD
+
+
+I'm not going to say anything here just yet, although this is a very important topic.
+
+
+Most of the stuff is fairly standard garbage collection
+
+
+But we need to talk about
+
+
+* punnets, cards, handles and the like
+* handlers and creation and destruction
+* subscriptions and when they go away (closely tied to handlers of course)
+* and possibly something about idempotent handlers for "PUT" operations, although that is on the border with server-side semantics again.

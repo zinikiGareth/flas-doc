@@ -1,0 +1,108 @@
+﻿@Chapter
+title=Services
+
+
+Services are stateless actors.
+
+
+&grammar rule='service-declaration'
+&grammar rule='service-contents'
+&grammar rule='service-scope'
+&grammar rule='service-scope-unit'
+
+
+&review 'looking at this now, the service-contents seems redundant but at the same time it does not seem possible to define some of the essential features of a service such as "require"'
+
+
+Services may be defined on the client or server side.
+
+
+@Section
+title=Contract Implementations
+
+
+Services may only implement service contracts (
+&ref 'contract-varieties'
+).  See &sp
+&ref 'contract-implementation'
+&sp for details of the implementation.
+
+
+@Section
+title=Service References
+
+
+A service may request access to another service using a contract.
+
+
+On the client side, if a service is available at runtime implementing the contract, the variable will provide access to the service through the contract, but if no service is available, the variable will be bound to a default implementation which merely reports the absence of the service when invoked.
+
+
+If a required service is not available when the service is to be loaded on the server side, the service will not be loaded and an error will be generated on the log.
+
+
+@Section
+title=Nested Definitions
+
+
+Services may have nested definitions, including function definitions (
+&ref 'function-definitions'
+), standalone method definitions (
+&ref 'standalone-method-defintions'
+), tuple definitions (
+&ref 'tuple-definitions'
+) and handler definitions (
+&ref 'handler-definitions'
+).
+
+
+@Commentary
+
+
+@Section
+title=Beyond the Scope
+
+
+Services are on the borderline of scope for this manual.  As described here, they are essentially useless because they are intended to be deployed on the server side rather than the client side.  That they may be deployed on the client side is just an optimization.  Discussion of server side deployments is largely beyond the scope of this manual.
+
+
+@Section
+title=Stateless
+
+
+Services are not allowed explicit state, nor do they follow an explicit $Lifecycle$.
+
+
+The reason for this is simply that they are intended to be deployed in server contexts and to be used in a highly parallel environment.  In this case, having state would cause contention every time they are used.
+
+
+In reality, of course, they actually have all the state they could want because they can request access to a $DataStore$ which has all the server-side state.
+
+
+If you want to provide a stateful implementation of a service contract, use an agent (
+&ref 'agents'
+).
+
+
+@Section
+title=Security
+
+
+Although beyond the scope of this manual, each request to a service acts on behalf of a given principal within the context of the server.  This user information is transported transparently to the service and then provided from the service transparently to any services it references.  This conditions how builtin services such as $DataStore$ handle requests.
+
+
+@Section
+title=On the Client Side
+
+
+Although intended for deployment on servers, services may be deployed on clients without harm.  When so deployed, they will request their services in the usual way.  However, any references to the $DataStore$ service will _first_ use the local cache before requesting items from the server.  This may offer a performance - and availability - benefit if the cache would be frequently hit in this way.
+
+
+@Section
+title=What Else?
+
+
+It feels there are still things to say, but I'm not sure what.
+
+
+The fact that you can declare stateful services using agents or cards on the client side

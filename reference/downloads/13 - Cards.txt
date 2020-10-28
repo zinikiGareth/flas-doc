@@ -1,0 +1,111 @@
+﻿@Chapter
+title=Cards
+
+
+Cards are stateful, client-side actors with templates and event handlers.
+
+
+&grammar rule='card-declaration'
+&grammar rule='card-scope-unit'
+
+
+Cards may only be defined on the client side.
+
+
+@Section
+title=Card State
+
+
+Cards may have a state definition.
+
+
+The fields in the state definition may be initialized provided that the initialization code does not have any external dependencies or generate any messages.  All other initialization code must be done by implementing the $Lifecycle$ contract.
+
+
+&grammar rule='state-declaration'
+
+
+@Section
+title=Contract Implementations
+
+
+Cards may implement contracts as clients or servers.  See &sp
+&ref 'contract-implementation'
+.
+
+
+@Section
+title=Service References
+
+
+A card may request access to a service using a contract.
+
+
+If a service is available at runtime implementing the contract, the variable will provide access to the service through the contract.
+
+
+If no service is available, the variable will be bound to a default implementation which merely reports the absence of the service when invoked.
+
+
+@Section
+title=Templates
+
+
+Cards may have a visual representation using the template mechanism (see &sp
+&ref 'templates'
+).
+
+
+@Section
+title=Event Handlers
+
+
+Cards may define methods which respond to events either on the entire card or on affordances within the card (see &sp
+&ref 'event-handlers'
+).
+
+
+By default, event handlers are applied to the entire card.  However, if any affordances to this handler are specified in the templates, the handler will only apply to those areas and not to the entire card.
+
+
+@Section
+title=Nested Definitions
+
+
+Cards may have nested definitions, including function definitions (
+&ref 'function-definitions'
+), standalone method definitions (
+&ref 'standalone-method-defintions'
+), tuple definitions (
+&ref 'tuple-definitions'
+) and handler definitions (
+&ref 'handler-definitions'
+).
+
+
+@Commentary
+
+
+@Section
+title=What Else?
+
+
+It feels there are a lot of things to say but I'm not sure what they are.
+
+
+Card hierarchy
+
+
+Punnets
+
+
+Creating Cards directly
+
+
+Card scopes
+
+
+Local vs Remote cards
+
+
+IFrames

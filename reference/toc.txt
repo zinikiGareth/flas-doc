@@ -57,12 +57,12 @@ Introduction
   6.6c Favorites
   6.7c Events
   6.8c Usage Patterns
-7 Functions
+7 Functions ['function-definitions']
   7.1 Pattern Matching
-  7.2 Guarded Equations
+  7.2 Guarded Equations [guarded-functions]
   7.3 Function Nesting
-  7.4 Tuple Definitions
-  7.5 Standalone Methods
+  7.4 Tuple Definitions ['tuple-definitions']
+  7.5 Standalone Methods ['standalone-method-definitions']
   7.6 Functions with State
   7.1c Evaluation
     Pattern Matching
@@ -76,7 +76,9 @@ Introduction
   8.4 Overriding the Type Mechanism
   8.1c Type Inference Algorithm
 9 Contracts
-  9.1 Contract Methods
+  9.1 Contract Varieties [contract-varieties]
+  9.2 Contract Methods
+  9.3 Optional [optional-methods]
   9.1c Role of Contracts
   9.2c Directionality
   9.3c Testing
@@ -87,31 +89,76 @@ Introduction
   10.4 Services
   10.5 Nested Scope
   10.1c Not an Object-Oriented Language
-11 Methods
+11 Methods [method-definitions]
   11.1 Guards
   11.2 Sending Messages
   11.3 Updating State
   11.1c Messages
   11.2c Conflicts
-12 Templates [templates]
-  12.1 Template Definitions
-  12.2 Template Fields
-    Templates
-    Containers
-    Content
-  12.3 Template Bindings
-  12.4 Template Styling
-  12.5 Template Events
-  12.1c MVC
-  12.2c Development Cycle
-  12.3c A Mental Model
-  12.4c Intelligent Redisplay
-  12.5c Card Templates
-  12.6c Content Bindings
+12 Agents [agents]
+  12.1 Agent State
+  12.2 Service References
+  12.3 Contract Implementations
+  12.4 Nested Definitions
+  12.1c Non-Visual Coordinators
+13 Cards
+  13.1 Card State
+  13.2 Contract Implementations
+  13.3 Service References
+  13.4 Templates
+  13.5 Event Handlers
+  13.6 Nested Definitions
+  13.1c What Else?
+14 Handlers ['handler-definitions']
+  14.1 Lambda Variables
+  14.2 Construction
+15 Services
+  15.1 Contract Implementations
+  15.2 Service References
+  15.3 Nested Definitions
+  15.1c Beyond the Scope
+  15.2c Stateless
+  15.3c Security
+  15.4c On the Client Side
+  15.5c What Else?
+16 Contract Implementation [contract-implementation]
+  16.1 Method Implementations
+  16.2 State
+  16.3 Variables in Scope
+17 Templates [templates]
+  17.1 Template Definitions
+  17.2 Template Fields
+  17.3 Template Bindings
+  17.4 Template Styling
+  17.5 Template Events
+  17.6 Containers
+  17.7 Punnets
+  17.8 Nested Templates and Variable Chains
+  17.9 Distributing Unions over Nested Templates
+  17.1c MVC
+  17.2c Development Cycle
+  17.3c A Mental Model
+  17.4c Intelligent Redisplay
+  17.5c Card Templates
+  17.6c Object Templates
+  17.7c Content Bindings
     Conditional Bindings
-  12.7c Styling
+  17.8c Styling
     Conditional Styling
     Nested Conditionals
-  12.8c Event Affordance
-  12.9c Containers
-13 HTML Visual Designs [html-splitter]
+  17.9c Event Affordance
+  17.10c Containers
+  17.11c Lists and Crobags
+  17.12c Punnets
+18 Event Handlers [event-handlers]
+  18.1 Event Specification
+19 Resource Management
+  19.1c TBD
+20 Full Grammar
+21 Installing FLAS
+  21.1 Downloading
+  21.2 Installing
+22 Command Reference
+  22.1 $flas$
+  22.2 $flas-lsp$
+23 HTML Visual Designs [html-splitter]

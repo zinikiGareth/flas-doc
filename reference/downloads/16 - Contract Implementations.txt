@@ -1,0 +1,96 @@
+﻿@Chapter
+title=Contract Implementation
+anchor=contract-implementation
+
+
+Agents, Cards and Services allow contracts to be implemented.
+
+
+A contract implementation must be nested directly within the actor definition.
+
+
+It is introduced with the keyword $implements$ and the (qualified if necessary) name of the contract.
+
+
+$implements$ may not be used with $handler$ contract varieties (
+&ref 'contract-varieties'
+).
+
+
+Services may only implement $service$ contracts.
+
+
+&grammar rule='implements-contract'
+&grammar rule='implemenation-method'
+&grammar rule='implementation-result'
+
+
+@Section
+title=Method Implementations
+
+
+The implementation consists of method definitions (
+&ref 'method-definitions'
+).
+
+
+Each method in the contract may only be implemented once.
+
+
+All of the non-optional methods of the contract must be implemented.
+
+
+Optional methods (
+&ref 'optional-methods'
+) may be implemented if desired.  If not implemented, the default implementation will be to have no effect.  No errors will be generated.
+
+
+@Comment
+
+
+It is not, of course, required that an implementation has an effect.  Declaring the method with no actions returns an empty list of actions which will have no external effects.
+@/
+
+
+Each method must have the same number of arguments as the contract declaration.  Each argument must be a simple variable name.  The type of the argument is automatically deduced from the contract.
+
+
+@Comment
+
+
+Often, the contract will specify a more general type than is desired in the implementation.  The $cast$ operator (
+&ref 'cast-operator'
+) should be used to obtain the desired type.  This will return an error if the value is not of the desired type.
+
+
+The $isa$ operator (
+&ref 'isa-operator'
+) can be used to test the type of the value if desired.
+@/
+
+
+@Comment
+
+
+Pattern matching may not be used in implementation methods.  Guards may be used, and the functionality may be broken down in order to use pattern matching in nested functions or standalone methods.
+@/
+
+
+@Section
+title=State
+
+
+Implementation methods may reference and update the actor state, if available.
+
+
+@Section
+title=Variables in Scope
+
+
+All of the state variables and all of the arguments to the method are in scope.
+
+
+All of the constants, functions, tuple values and handlers declared at the top level of the actor are in scope.
+
+
+All the nested definitions for the method are in scope.

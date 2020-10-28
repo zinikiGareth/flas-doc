@@ -5,14 +5,19 @@ title=Contracts
 Contracts define the protocols by which actors communicate with each other.
 
 
-Contracts come in three varieties: _implementation_ contracts handle "downward" or "nested" communication to contained _agents_ or _cards_; _service_ contracts handle "upward" or "outward" communication from contained actors to service providers; and _handler_ contracts define the structure of responses.
-
-
 Contracts are defined with a kind, a name and a set of methods.
 
 
 &grammar rule='contract-declaration'
 &grammar rule='contract-intro'
+
+
+@Section
+title=Contract Varieties
+anchor=contract-varieties
+
+
+Contracts come in three varieties: _implementation_ contracts handle "downward" or "nested" communication to contained _agents_ or _cards_; _service_ contracts handle "upward" or "outward" communication from contained actors to service providers; and _handler_ contracts define the structure of responses.
 
 
 @Section
@@ -31,6 +36,14 @@ Contract methods may have arguments.  Each of these needs to be a _typed pattern
 
 
 A contract method may optionally accept a _handler_ of a specific type over which responses will be sent.  The handler's type must be a contract.
+
+
+@Section
+title=Optional
+anchor=optional-methods
+
+
+Contract methods may be declared $optional$, meaning that if implementations do not implement it, a default, do-nothing implementation will be provided.
 
 
 @Commentary

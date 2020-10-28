@@ -1,0 +1,56 @@
+﻿@Chapter
+title=Handlers
+anchor='handler-definitions'
+
+
+Handlers provide a framework for handling responses to requests.
+
+
+Handlers are implementations of contracts of the _handler_ variety (
+&ref 'hander-varieties'
+).
+
+
+&grammar rule='handler-definition'
+
+
+A handler is a local value which registers to receive messages.  When messages are sent to the containing actor for this handler, the relevant method is invoked and any output messages are processed.
+
+
+@Section
+title=Lambda Variables
+
+
+A handler does not have a $state$ in the same way that $object$s, $agent$s and $card$s do.  Instead, it preserves the arguments passed to it during construction as _lambda variables_.
+
+
+@Comment
+
+
+I'm not sure that calling these lambda variables is the best idea, but it's the best I've come up with.
+
+
+Don't be too surprised if it changes if I think of something better.
+@/
+
+
+The declaration of a handler includes the declaration of these lambda variables as typed patterns.
+
+
+Their values may not be changed or assigned during the execution of methods.
+
+
+They are only visible within the handler methods.
+
+
+@Section
+title=Construction
+
+
+Creating a handler is the same as creating a $struct$.  The name of the handler type is given along with the values needed to populate the lambda variables.
+
+
+It is an error for the types of the values to not match the types of the patterns.
+
+
+If less values are provided than lambda variables are required, the resulting value will be a function requiring the missing lambda variables.

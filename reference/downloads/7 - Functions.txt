@@ -1,5 +1,6 @@
 ﻿@Chapter
 title=Functions
+anchor='function-definitions'
 
 
 Functions map a set of values to a single result value.
@@ -55,6 +56,7 @@ A _constructor match_ pattern matches some or all of the fields of a $struct$ or
 
 @Section
 title=Guarded Equations
+anchor=guarded-functions
 
 
 In addition to pattern matching, it is possible to choose between expressions by using guards.
@@ -104,6 +106,7 @@ All the definitions in all containing scopes are visible to definitions in the n
 
 @Section
 title=Tuple Definitions
+anchor='tuple-definitions'
 
 
 Tuple definitions allow the elements of a tuple value to be extracted into a scope.
@@ -118,6 +121,7 @@ A tuple definition is identical to a set of parallel constant function definitio
 
 @Section
 title=Standalone Methods
+anchor='standalone-method-definitions'
 
 
 Standalone methods are pure functions defined using method syntax.

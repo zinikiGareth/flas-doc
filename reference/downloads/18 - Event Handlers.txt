@@ -1,0 +1,49 @@
+﻿@Chapter
+title=Event Handlers
+anchor=event-handlers
+
+
+An event handler is a special form of method definition (
+&ref 'method-definitions'
+) to handle UI events.
+
+
+&grammar rule='event-handler'
+
+
+Event handlers may be defined in cards or objects.
+
+
+An event handler must be in the top level scope of its container.
+
+
+An event handler may only be referenced within an affordance of a template.
+
+
+An event handler will be invoked from the system runtime when the corresponding event occurs in a designated area of the card.
+
+
+@Comment
+
+
+Even for event handlers bound to templates in objects, the screen real estate is ultimately owned by a card.  Cards relinquish real estate granted to punnets and these become the property of the nested cards.
+
+
+An event handler bound to an affordance in a template is only available in those regions covered by the elements to which it is bound.  An unbound event handler is active across the entire card.
+@/
+
+
+@Section
+title=Event Specification
+
+
+Every event handler must have exactly one argument which is a typed pattern.
+
+
+The type of the pattern must be an $Event$ type.
+
+
+The handler will only handle events of the type corresponding to the specified type.
+
+
+The variable is of this type.  The value will have the information associated with the event.  It will also have a $source$ member which is the data associated with the template that was used to render the element to which the event was bound.

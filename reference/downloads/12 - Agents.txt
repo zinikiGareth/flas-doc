@@ -1,0 +1,85 @@
+﻿@Chapter
+title=Agents
+anchor=agents
+
+
+Agents are stateful, client-side actors which do not have templates or handle events.
+
+
+@Comment
+
+
+In all other ways, agents are identical to cards.
+@/
+
+
+&grammar rule='agent-declaration'
+&grammar rule='agent-contents'
+
+
+Agents may only be defined on the client side.
+
+
+@Section
+title=Agent State
+
+
+Agents may have a state definition.
+
+
+The fields in the state definition may be initialized provided that the initialization code does not have any external dependencies or generate any messages.  All other initialization code must be done by implementing the $Lifecycle$ contract.
+
+
+&grammar rule='state-declaration'
+
+
+@Section
+title=Service References
+
+
+An agent may request access to a service using a contract.
+
+
+If a service is available at runtime implementing the contract, the variable will provide access to the service through the contract.
+
+
+If no service is available, the variable will be bound to a default implementation which merely reports the absence of the service when invoked.
+
+
+@Section
+title=Contract Implementations
+
+
+Agents may implement contracts as clients or servers.  See &sp
+&ref 'contract-implementation'
+.
+
+
+@Section
+title=Nested Definitions
+
+
+Agents may have nested definitions, including function definitions (
+&ref 'function-definitions'
+), standalone method definitions (
+&ref 'standalone-method-defintions'
+), tuple definitions (
+&ref 'tuple-definitions'
+) and handler definitions (
+&ref 'handler-definitions'
+).
+
+
+@Commentary
+
+
+@Section
+title=Non-Visual Coordinators
+
+
+Cards in FLAS form a hierarchy.  Because it is useful to extract functionality into separate components, it can be useful to abstract contract implementations (in particular, service implementations) into a separate "card" without concern for its rendering itself.  Agents perform this function.
+
+
+An agent is simply a card that does not have any templates or concern itself with rendering.  As such, it cannot be placed in a punnet but must be created directly.
+&review 'Do what now?'
+Once created, the agent forms part of the chain of actors used to resolve services and may provide services to all nested cards and actors.

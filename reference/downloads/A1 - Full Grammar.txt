@@ -1,0 +1,39 @@
+﻿@Chapter
+title=Full Grammar
+style=appendix
+
+
+This is the complete grammar for the core FLAS language.  Each of the productions should have been extracted and discussed somewhere in the main text of this manual.
+
+
+The syntax used here is essentially Backus-Naur Form (BNF), but with additions for FLAS indenting rules:
+
+
+$*>>*$ indicates an indented block which may have zero or more repetitions of the rule.
+
+
+$*>>!*$ indicates an indented block which must have exactly one repetition of the rule.
+
+
+$*>>?*$ indicates an optional indented block; if present, it will have exactly one repetition of the rule.
+
+
+$*>>>*$ indicates an indented block with one or more repetitions of the rule.
+
+
+&grammar
+&removeOption prod='protocol-test-file'
+&removeOption prod='deal-declaration'
+&removeOption prod='offer-declaration'
+&removeOption prod='envelope-declaration'
+&removeOption prod='envelope-fields-list'
+&removeOption prod='envelope-field-decl'
+&removeOption prod='wraps-declaration'
+&removeOption prod='wraps-binding-list'
+&removeOption prod='wraps-binding-decl'
+
+
+
+
+&review 'can we xref automatically from here to where the rules are used, e.g. automatically create an anchor the first time a rule is used with the rule= syntax and then ref that anchor here?'
+&review 'need to remove the Ziniki extensions not discussed here'

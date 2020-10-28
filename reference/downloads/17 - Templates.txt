@@ -10,53 +10,13 @@ Templates bridge the gap between data and interaction, providing a means of comb
 title=Template Definitions
 
 
-Each card may have one or more template definitions.
+Cards and Objects may have template definitions.
 
 
 &grammar rule='named-template-definition'
-&grammar rule='define-template-chain'
-&grammar rule='template-chain-var'
 
 
 Each template definition must have a corresponding visual element defined.
-
-
-@Comment
-
-
-The exact nature of the visual element definitions depends on the system being targeted. The default is HTML and the visual elements are defined in standard HTML files annotated with element $id$s indicating their role in the system.
-
-
-These notations are described in appendix
-&ref 'html-splitter'
-.
-@/
-
-
-The first template definition describes the visual appearance of the entire card.  All subsequent template definitions describe the visual appearance of a sub-element of the card.
-
-
-The first definition may not be referenced by any templates.
-
-
-All other definitions must be referenced by a template before they are used.  These may also be referenced (mutually recursively) by subsequent definitions.
-
-
-&review 'item definitions may also have binding chains'
-
-
-A template definition consists of a set of bindings indicating how the data is to be used to prepare the visual elements.
-
-
-@Section
-title=Template Fields
-
-
-Abstractly, the visual design is reduced to a set of template and field definitions.  There are six kinds of definitions: each definition must have a name and be of one of these kinds.  The visual design mechanism must have a way of indicating the kind and name.
-
-
-@Subsection
-title=Templates
 
 
 &sp *Card Templates* are blocks of visual design containing the entire layout for a card.
@@ -65,18 +25,67 @@ title=Templates
 &sp *Item Templates* are blocks of visual design containing the layout for a compound element within a card.
 
 
-@Subsection
-title=Containers
+
+
+@Comment
+
+
+The exact nature of the visual element definitions depends on the system being targeted. The default is HTML and the visual elements are defined in standard HTML files annotated with element $id$s indicating their role in the system.
+
+
+These notations are described in appendix &sp
+&ref 'html-splitter'
+.
+@/
+
+
+For cards:
+
+
+* The first template definition describes the visual appearance of the entire card and must be a a *card* template; all subsequent template definitions describe the visual appearance of a sub-element of the card, and must be *item* templates.
+
+
+* The first definition in a card may not be referenced by any templates.
+
+
+* All other definitions must be referenced by a template before they are used.  These may also be referenced (mutually recursively) by subsequent definitions.
+
+
+For objects:
+
+
+* All the templates must be *item* templates and may be presented in any order.
+
+
+* The templates may, or may not, mutually reference each other.
+
+
+&review 'item definitions may also have binding chains'
+
+
+A template definition consists of a set of bindings, stylings and event affordances indicating how the data is to be used to present the visual elements.
+
+
+@Section
+title=Template Fields
+
+
+The visual design of each template is abstractly represented as a set of field definitions.  There are four kinds of fields: each element to be referenced in the template must have a name and be of one of these kinds in the visual design.  The visual design mechanism must have a way of indicating the kind and name.
+
+
+@Comment
+
+
+If the visual design is HTML (as for web sites), templates are automatically extracted from input HTML using a $splitter$ which is described in an appendix (
+&ref 'html-splitter'
+) and the kind and name are determined by examining the $id$ fields of the input elements.  Each such template is then provided in the HTML delivered to the client as an HTML $template$ object in the $head$ section.
+@/
 
 
 A *Container* is a block of visual design which is capable of holding zero or more items.
 
 
 A *Punnet* is a block of visual design which is capable of holding zero or more nested cards.
-
-
-@Subsection
-title=Content
 
 
 A *Content* definition is a block whose content is set and styled by the template mapping.  It may also have event handlers attached.
@@ -89,7 +98,13 @@ A *Style* definition is a block whose content is determined by the visual design
 title=Template Bindings
 
 
-A template binding indicates how the appropriate block of the template is to be populated.
+A template binding indicates how the appropriate block of the template is to be populated from data contained within the card state.
+
+@Comment
+
+
+For every template, there must ultimately be a single "containing" card.  Apart from constants, this card is the only source of data available to the template.  Individual templates may be "bound" to subsets of the data.  In no case, however, may a template have access to any data or content source outside the card.
+@/
 
 
 &grammar rule='template-bind'
@@ -100,9 +115,6 @@ A template binding indicates how the appropriate block of the template is to be 
 
 
 Bindings are defined by specifying the name of a template field as a destination and a value to use to configure that field.
-
-
-A template name may not be used as the field in a binding.
 
 
 A style field may not be used for binding.
@@ -117,16 +129,37 @@ A value bound to a punnet field must be of type $Crobag$.
 &review 'the container case is complicated'
 
 
+@Comment
+
+
+The template mechanism in FLAS is not there to *define* templates but to *bind* the runtime values in the state of a card or object to the compatible elements (abstractly referred to as _fields_) in the template defined visually.
+
+
+The template definitions extracted from the visual design are not specifically attached to, or scoped within, cards in the program.  Rather, a binding is made between each card and the appropriate templates.  This binding is, more or less, many-to-many: each template in the visual design may be used by many cards; and each card may use many templates.
+@/
+
+
 @Section
 title=Template Styling
 
 
+A styling directive affects how an object is rendered.
+
+
 Styling may be applied to content and style fields only.
+
+
 &grammar rule='template-customization'
 &grammar rule='template-style'
 
 
 Styles may be applied conditionally or unconditionally.
+
+
+All styling applications are introduced using the $GUARD$ operator ($|$) and the styles follow a $SENDTO$ operator ($=>$).  Conditional styles contain a boolean expression between the $GUARD$ and $SENDTO$; the styling, and any nested styles will only be applied if the expression evaluates to $True$.
+
+
+Styles must be of type $String$ or $List[String]$.  Constants and variables may both be used.
 
 
 Conditional styles may be nested.  A nested conditional style is only applied if all the nesting conditions are true.
@@ -135,14 +168,8 @@ Conditional styles may be nested.  A nested conditional style is only applied if
 @Comment
 
 
-This mechanism does not provide any additional functionality than would be present without it.  However, the ability to nest conditional styles makes it easier to understand the relations between styles and removes duplicated conditions.
+Conditional nesting does not provide any additional functionality than would be present without it.  However, the ability to nest conditional styles makes it easier to understand the relations between styles and removes duplicated conditions.
 @/
-
-
-A conditional style consists of a condition and a set of styles.  The condition must be of type $Boolean$.  If it is $True$, the styles will be applied and nested blocks considered; otherwise they are all ignored.
-
-
-Styles must be of type $String$ or $List[String]$.  Constants and variables may both be used.
 
 
 All of the matching and unconditional styles will be reduced to a single set of styles that will be applied.
@@ -159,10 +186,147 @@ Event handlers may be attached to content and style elements.
 &grammar rule='template-event'
 
 
-The specification of a handler is the $SENDTO$ operator ($=>$) followed by the name of the event handler.
+The specification of a handler consists of the $SENDTO$ operator ($=>$) followed by the name of the event handler.
 
 
 Event handlers may be included within conditional styling blocks.  In this case, the event handler is only registered on the appropriate element if the conditional style is applied.
+
+
+@Section
+title=Containers
+
+
+A field in the visual design may be identified as a container.  This can be bound to a value or list of values providing that templates exist to render the value(s).
+
+
+A container is bound in exactly the same way as a content field.
+
+
+An individual value may be rendered using a template by specifying the $SENDTO$ operator ($=>$) after the value and then providing the name of a template.  The template must be compatible with the value.
+
+
+The items in a $List$ or $Crobag$ may be individually rendered using a template by specifying the $SENDTO$ operator ($=>$) after the value and then providing the name of the template.  The template must be compatible with the type of the entries in the list.  One template will be rendered for each entry in the list.
+
+
+If no template is specified using the $SENDTO$ operator, the compiler will search for a template it can identify as being compatible and use that.  If no compatible template can be discovered, an error will result.
+
+
+@Comment
+
+
+Compatibility is discussed later, but essentially it is a question of finding a template which is "looking for" a variable of the type on hand.
+
+
+At the moment, the compiler is fairly poor at inferring information about templates, and also poor at overriding "false positives".  It is to be expected that this will improve over time.
+@/
+
+
+@Section
+title=Punnets
+
+
+@Comment
+
+
+Punnets are not yet implemented, but the basic idea is that it is possible to assign a $Crobag$ of entities to a punnet.  The runtime will then scan through the entities, identifying their preferred card types.  These cards will then be created and assigned a portion of the punnet's screen real estate.  They will then follow their own lifecycle in terms of rendering and the containing card subsequently has very little interaction with them.   It can obviously remove them from the $Crobag$ and it can communicate with them via contracts.
+@/
+
+
+@Section
+title=Nested Templates and Variable Chains
+
+
+Nested templates are templates that may only be accessed from other templates.  Apart from the main card template, all templates defined on a card are nested templates.
+
+
+@Comment
+
+
+The situation with Object templates is more confusing and under review.  Obviously, a template is nested if it is referenced and has a chain, but does that mean it cannot be accessed externally?  Does it have to have a chain definition in order to be nested?  What if it doesn't want to be passed a variable?
+
+
+This will all be resolved later and documented here.
+@/
+
+
+A nested template has an associated *variable chain* which enables it to name the elements it is trying to render.
+
+
+&grammar rule='define-template-chain'
+&grammar rule='template-chain-var'
+
+
+@Comment
+
+
+The top level template knows exactly what it is trying to render - the card state - and can directly reference members of that state by name.  However, nested templates - particularly when rendering lists or breaking apart unions - cannot know by name what they are rendering.  Instead, they have the opportunity to type and name the value they are being asked to render.  This is the first link in the "variable chain".
+@/
+
+
+The variable chain is specified by adding the $SEND$ operator ($<-$) after the template name, followed by one or more ordered bindings.  Each binding specifies a value type and a name for the value in the scope of this template.
+
+
+The ordering is always such that the most recent binding is listed first.
+
+
+@Comment
+
+
+Consider a nested list, such as a list of cars each of which has had multiple owners.  The card template renders the overall list, which delegates to a template for each car.  This in turn delegates to a template for each owner.
+
+
+$$
+entity Car
+|List[Owner] owners
+card CarInfo
+|state
+||List[Car] cars
+|template everything
+||cars <- cars
+|template car <- (Car c)
+||owners <- c.owners
+|template owner <- (Owner o) (Car c)
+$$
+@/
+
+
+In order for a template with a variable chain to be applied to a value, the value (or member of a list) must be of the same type as the specified type of the first element of the variable chain, and all other members of the variable chain must have compatible members in the current template.
+
+
+@Comment
+
+
+This is the definition of compatibility: in order for a template to be compatible, it must be possible to satisfy its requirements with regard to the variable chain.
+@/
+
+
+Names defined in the variable chain may be used in the template as if they were values defined in the state.
+
+
+Names used in the variable chain may not override those used in the state or those used in definitions at the top level of the enclosing scope (card or object).
+
+
+@Section
+title=Distributing Unions over Nested Templates
+
+
+Values of $union$ or $List[union]$ types cannot be directly rendered because they have no direct members.
+
+
+In order to render these values, one template must be defined for each member type of the union.  These members must define an explicit variable chain identifying the part type of the union which they handle.
+
+
+The appropriate template will be used to render union elements of a given type
+
+
+@Comment
+
+
+There is obviously a problem here when more than one union wants to distribute across the same union member.
+
+
+This problem is yet to be resolved, but will probably require more explicit naming of the templates to be used, probably using the $SENDTO$ operator.
+@/
 
 
 @Commentary
@@ -172,10 +336,10 @@ Event handlers may be included within conditional styling blocks.  In this case,
 title=MVC
 
 
-FLAS uses a variant on the MVC (*M*odel, *V*iew, *C*ontroller) pattern.  In this pattern, there is a unique source of truth about data values (the Model), which is the state of the actor.  The templates determine what is shown to the user (the View) by taking the provided visual elements (usually HTML) and combining them according to the instructions in the template and the data in the model.  The operations supported by the actor (contracts and events) constitute the Controller. 
+FLAS uses a variant on the MVC (*M*odel, *V*iew, *C*ontroller) pattern.  In this pattern, there is a unique source of truth about data values (the Model), which in FLAS is the state of the actor.  The templates determine what is shown to the user (the View) by taking the provided visual elements (usually HTML) and populating them with data from the model according to the instructions in the template.  The operations supported by the actor (contracts and events) constitute the Controller. 
 
 
-The main intent of this design is to present a separation of concerns.  In particular, by having very loose coupling between the visual elements and the data (a binding, mainly based on kind and name of slot), it is easy to separate the process of visual design from the process of coding.  This is _not_ an attempt to introduce silos, but the reality is that these processes _are_ distinct and have distinct tools.
+The main intent of this design is to separate concerns.  In particular, by having very loose coupling between the visual elements and the data (a binding, mainly based on kind and name of slot), it is easy to separate the process of visual design from the process of coding.  This is _not_ an attempt to introduce silos, but the reality is that these processes _are_ distinct and have distinct tools.
 
 
 @Section
@@ -185,60 +349,59 @@ title=Development Cycle
 To facilitate close working of cross-functional teams, FLAS works hard to make it very easy to reliably, repeatedly and automatically combine the output of visual design with the ongoing code development.
 
 
-The latest version of the visual design is always processed and analyzed along with the code in every build (including from IDEs). The visual design may either be presented as a directory or as a $ZIP$ file.
+The latest version of the visual design is always processed and analyzed along with the code in every build (including within IDEs). The visual design may either be presented as a directory or as a $ZIP$ file.
 
 
-Commands are offered to directly import from visual design tools.  In particular, it is possible to download the latest version of the visual design from $webflow$ at the touch of a button inside VSCode.
-&review 'make this statement true'
-&review 'link to webflow'
+Commands are offered to directly import from visual design tools.  In particular, it is possible to download the latest version of the visual design from &sp
+&link 'htttps://webflow.com/' '$webflow$'
+&sp at the touch of a button inside VSCode&footnote.
+
+
+&footnote
+This is not yet true.
+
+
+&review 'allow direct download from webflow inside vscode'
 
 
 @Section
 title=A Mental Model
 
 
-The reference given in this chapter is intentionally concise and abstract.  While formally correct, it may be difficult to comprehend and apply.
+The reference section of this chapter is intentionally concise and abstract.  While providing formal correctness, it may be difficult to comprehend and apply.
 
 
 The &sp
-&review 'ref to user guide'
-&sp should be the starting point for developers wishing to _learn_ how to use templates; however, for reference purposes, this commentary will offer a concrete understanding of how the templates are used in practice by reference to the "standard model" of using templates: HTML and CSS in the web browser.
+&link 'https://ziniki.com/latest.php' 'developer guide'
+&sp should be the starting point for developers wishing to _learn_ how to use templates; however, for reference purposes, this commentary offers a concrete understanding of how the templates are used in practice by reference to the "standard model" of using templates: HTML and CSS in the web browser.
 
 
-Templates are automatically extracted from input HTML using a $splitter$ which is described in an appendix (
-&ref 'html-splitter'
-).  Each such template is then provided in the HTML delivered to the client as an HTML $template$ object in the $head$ section.
+In theory at least, the elements read from the visual design may be arbitrarily complex.  Certainly, any given set of elements comprising a single "template" may contain multiple nested elements.  However, the splitting process automatically removes some of the nested elements (elements used within $content$, $container$, $punnet$ and any elements used to define nested $template$s).  The splitting process identifies these elements using their $id$, removes this from all elements and then annotates the nodes with $data-flas-$ properties so that they can be located at runtime in JavaScript using query selectors.
 
 
-In theory at least, such a template may be arbitrarily complex.  Certainly, it may have multiple levels of nesting.  However, the splitting process automatically removes some of the nested elements (in particular, elements used within $content$, $container$, $punnet$ and also any elements used to define nested $template$s).  The splitting process identifies these elements using their $id$, removes this from all elements and then annotates the nodes with $data-flas-$ properties so that they can be located at runtime in JavaScript using query selectors.
-
-
-This means that within the context of a template, each of the nested elements (except nested templates) identified by a compliant $id$ is addressable through the template mechanism.
-
-
-The template mechanism in FLAS is not there to *define* templates but to *bind* the runtime values in the state of a card or object to the compatible elements (abstractly referred to as _fields_) in the template defined in HTML.
+This means that each of the nested elements within a template identified by a compliant $id$ is addressable through the template mechanism.
 
 
 In situations where HTML is not being used but rather some other visualization mechanism, the principle remains the same but the technology will be different.  Consult the appropriate documentation for your environment.
-
-
-The template definitions extracted from the visual design are not specifically attached to, or scoped within, cards in the program.  Rather, a binding is made between each card and the appropriate templates.  This binding is, more or less, many-to-many: each template in the visual design may be used by many cards; and each card may use many templates.
 
 
 @Section
 title=Intelligent Redisplay
 
 
-While the main focus of this feature is the separation of concerns, it is also important to provide efficient and simple redisplay.
+While the main focus of the template model is separating concerns, it is also important to provide efficient and simple redisplay.
 
 
-This template mechanism provides the opportunity to move all of the complex redisplay code from the user and place it in the system runtime environment.
+This template mechanism moves all of the complex redisplay code from user code and places it in the system runtime environment.
 
 
 Wherever possible, the system optimizes the redisplay of items so as to make the minimal number of changes to the display.  This is beneficial both for efficiency and for the user's visual experience.
 
 
 Theoretically, redisplay occurs between each full message cycle to the card; however, for efficiency reasons, multiple message cycles may be processed before the display is updated.  However, it is to be expected that the display (and in particular, event handling) will not be allowed to lag noticeably.
+
+
+It is also worth noting that there is no reason in principle that redisplay cannot happen in parallel with other operations on the card provided that the state being used for redisplay is held constant while the state of the card is updated.
 
 
 @Section
@@ -248,13 +411,26 @@ title=Card Templates
 Templates are, in reality, a property of _cards_.  While objects support templates, and it is possible to bind structs, entities and unions into appropriate template fields, in every case this has to happen within the context of an overall card.
 
 
-To put it the other way, cards are a combination of data, processing, message passing and rendering.  The rendering is handled by applying the card template to the current state of the card.
+Cards are a combination of data, processing, message passing and rendering.  The rendering is handled by applying the card template to the current state of the card.  Object templates are only used to provide delegation from a card.
 
 
-There can only be *one* card template for a given card.  This must be identified by it having the appropriate $id$ in the visual design (i.e. $flas-card-$_name_) and by it being the first template listed in the card.  The card may then define as many other supporting templates as it wants, but each of these must be referred to at least once before it is defined.
+There can only be *one* card template for a given card.  This must be identified by it having the appropriate $id$ in the visual design (i.e. $flas-card-$_name_) and by it being the first template bound to the card.  The card may define as many other supporting templates as it wants, but each of these must be referred to at least once before it is defined.
 
 
-The only variables that can be referenced within a card template are the members of the state.  Functions and constants at the top scope of the card or in the global state may also be used.
+The only variables that can be referenced within the _card_ template are the members of the state.  Functions and constants at the top scope of the card or in the global state may also be used.
+
+
+@Section
+title=Object Templates
+
+
+Object templates may be defined in exactly the same way that cards do.  However, objects may not use templates specifically identified for cards but most only bind to _item_ templates.
+
+
+An object definition may define multiple templates, each of which may reference any of the others.  There are no ordering constraints on object templates.  Object templates do not need to be used.
+
+
+If an object contains other objects, an object template may bind to a rendering of one of the nested object's templates. 
 
 
 @Section
@@ -265,7 +441,7 @@ The simplest and most common form of binding is the content binding.  This allow
 
 
 &footnote
-Entitification is the process by which HTML replaces special characters with the appropriate HTML _entities_to stop them being interpreted as HTML.  It is not possible to use FLAS to inject arbitrary HTML into a template.  This would be both a security and a portability issue.
+Entitification is the process by which HTML replaces special characters with the appropriate HTML _entities_ to stop them being interpreted as HTML.  It is not possible to use FLAS to inject arbitrary HTML into a template.  This would be both a security and a portability issue.
 
 
 A content binding is expressed using the $SEND$ operator ($<-$) indicating that the _value_ on the right is to be sent to the _field_ on the left.  Possibly the simplest such usage would be:
@@ -298,27 +474,28 @@ $$
 |card Simple
 ||state
 |||Calendar cal
-||...
+||...&footnote
 ||template show
 |||now <- cal.showIsoDate (Instant.now)
 $$
 
 
+&footnote
 The process of initializing the calendar object using the $Lifecycle$ contract has been elided.
 &review 'we should probably create a calendar using Lifecycle somewhere though and then reference it here'
 
 
-Each field may only be bound once during a template definition.
+Each field may only be bound once in a template definition.
 
 
 @Subsection
 title=Conditional Bindings
 
 
-It is also possible to use guarded bindings, analogously to using guarded equations in function definitions.
+It is also possible to use guards in bindings, analogously to using guarded equations in function definitions.
 
 
-In this case, the binding only contains the name of the field to be bound, and then a nested block includes the binding cases.
+In this case, the binding only contains the name of the field to be bound, and then a nested block contains the binding cases.
 
 
 For example, it may be desirable to display a specific message when there are no entries, but otherwise to display a count.
@@ -342,9 +519,6 @@ As seen here, it is possible to end the binding definition with a single, option
 title=Styling
 
 
-&review 'I feel a lot of this should be in the actual section and only the more chatty and exampley bits should be here'
-
-
 Both content and style fields may have styling attached to them.  In HTML, this amounts to allowing the $class$ field on an element to be set to a set of values.  These values are determined by considering all of the possible styling bindings and building a composite list.
 
 
@@ -354,12 +528,6 @@ All style applications must be introduced in a nested (indented) scope.
 * Style applications which are indented directly from the template are applied to the template as a whole (that is, they are applied to the HTML element associated with the template itself).
 * Style applications which are indented from a $content$ or $style$ binding are applied to the corresponding element in the template.
 * Style applications which are indented from a previous style application are applied to the same element as the enclosing application and _only if_ the enclosing application is also applied.
-
-
-All values on the right hand side of a styling binding must be of type $String$ or $List[String]$.
-
-
-All styling applications are introduced using the $GUARD$ operator ($|$) and the styles follow a $SENDTO$ operator ($=>$).
 
 
 So, starting from the simplest case again, it is possible to apply the $bold$ style to an entire template unconditionally.
@@ -539,23 +707,13 @@ $$
 title=Containers
 
 
-Containers serve four overlapping roles:
+Containers serve three overlapping roles:
 
 
 * They allow a level of abstraction and encapsulation by enabling a separate template to be used to render a (structured) part of the card's data.
 * Extending this, they allow $Object$s to be responsible for rendering their state into a particular part of the window.
 &review 'is it not also possible to output a struct or an object into a content field?'
 * They allow $List$s and $Crobag$s to render multiple items - possibly of different types - into a visual list.
-* By using _punnets_ it becomes possible to delegate more completely to other (explicitly or implicitly typed) cards.
-
-
-Punnets will be considered in the next section.  The remainder of this section simply deals with _item containers_.
-
-
-&review 'does the reference to explicitly typed cards mean we do need card names (at least) in FLIM, possibly together with the contracts that use and require?'
-
-
-To support containers, additional item templates need to be provided in the visual design.  These must then be bound in the card using a $template$ definition.
 
 
 The simplest case is the delegation of the rendering of a $struct$ into a container using a template.
@@ -596,15 +754,16 @@ object Combo
 card WithObject
 |state
 ||Combo thing
-|...
+|...&footnote
+||...
 |||thing <- Combo.make "ducks" 22
 |template main
 ||entry <- thing => combo
 $$
 
 
-Here, the $object$ has to be created in a message-method context, the details of which have been elided.
-&review 'should ref to something about object creations'
+&footnote
+The details of creating the $object$ from a message-method context have been elided.
 
 
 The $combo$ template is on the object, as is the state which it references.  In this case, because the delegation is through the object, no additional variables are introduced - the references are to members of the object's state.
@@ -613,14 +772,50 @@ The $combo$ template is on the object, as is the state which it references.  In 
 Objects may have any number of templates, but they must all be _item_ templates.
 
 
-&review 'we had a section on card templates, but never got around to one on item templates'
+@Section
+title=Lists and Crobags
 
 
-&review 'we need to cover more explicitly object templates - we seem to have just flung this in here; at the same time, it can''t appear earlier so we need to just go more slowly here, I think'
+Both $List$s and $Crobag$s may be used to provide the source entries for containers.  In each case, the entry type will be analyzed to infer the appropriate template and value to use to render the item.
 
 
-&review 'need to talk about unions & different templates in containers'
+For $List$s, all of the items will be rendered to the container and the container will automatically handle scrolling through this finite set of elements.
+
+
+For $Crobag$s, infinite scroll will automatically be provided on the container with more entries being fetched into the $Crobag$ from a backing server as appropriate.
+
+
+@Comment
+
+
+This use of a backing server is, strictly speaking, outside the scope of this reference manual.  However, as this is commentary, it is worth making the point that there is a huge difference between $List$s and $Crobag$s in this regard.
+
+
+See the Ziniki documentation set for more information on the recommended approach to backing $Crobag$s.
+@/
+
+
+@Section
+title=Punnets
+
+
+TODO: we need to finish this section, but that requires us to finish the code.
+
+
+By using _punnets_ it becomes possible to delegate more completely to other (explicitly or implicitly typed) cards.
+
+
+&review 'does the reference to explicitly typed cards mean we do need card names (at least) in FLIM, possibly together with the contracts that use and require?'
+
+
+---
+
+
+
+
 &review 'lists & crobags'
 &review 'need to talk about nesting chains and their syntax'
 &review 'and we still need to address the fact that we should be able to be more precise about ambiguous ones'
 &review 'and by extension, the fact that they are chains and you can nest templates within templates'
+&review 'images are still a little complicated'
+&review 'I think we also need some more "meta" things, such as the ability to control image size, or to set attributes other than "class".'
