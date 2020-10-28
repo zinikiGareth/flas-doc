@@ -154,11 +154,11 @@ Introduction
   18.1 Event Specification
 19 Resource Management
   19.1c TBD
-20 Full Grammar
-21 Installing FLAS
-  21.1 Downloading
-  21.2 Installing
-22 Command Reference
-  22.1 $flas$
-  22.2 $flas-lsp$
-23 HTML Visual Designs [html-splitter]
+A Full Grammar
+B Installing FLAS
+  C.1 Downloading
+  C.2 Installing
+C Command Reference
+  D.1 $flas$
+  D.2 $flas-lsp$
+D HTML Visual Designs [html-splitter]

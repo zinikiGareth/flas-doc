@@ -1,5 +1,6 @@
 ﻿@Title
 title=Annotated FLAS Reference Manual
+style=misc
 
 
 @Author
