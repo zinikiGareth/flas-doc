@@ -21,7 +21,7 @@ Services may only implement $service$ contracts.
 
 
 &grammar rule='implements-contract'
-&grammar rule='implemenation-method'
+&grammar rule='implementation-method'
 &grammar rule='implementation-result'
 
 

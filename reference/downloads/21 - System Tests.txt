@@ -1,0 +1,50 @@
+﻿@Chapter
+title=System Tests
+
+
+System tests support Scenario Driven Development across an entire system (or subsystem) at once.
+
+
+@Commentary
+
+
+@Section
+title=Scenario Driven Development
+
+
+Test Driven Development and Behavior Driven Development are techniques for developing software based on the assumption that it is "ready" when all the tests pass.
+
+
+Good engineering practice indicates that all the tests should be as independent as possible in order to avoid crosstalk and to promote stability.
+
+
+However, something is lost in this approach: what do users actually want to do?
+
+
+Scenario Driven Development addresses this by adding the notion of _scenarios_ to the testing toolbox.  Each scenario is independent, but _within_ a scenario, the steps occur in a defined order.
+
+
+Each scenario has a _configuration_ phase, in which the initial state of the system is defined, a series of _test step_s, processed in sequential order, and then a _finally_ phase which can do any final assertions about the state of the system.
+
+
+@Section
+title=A Higher Plane of Testing
+
+
+In unit tests, it is assumed that the interaction between the component under test and its environment is relatively small and can be measured, controlled and described exactly.  What is lost here is the interactions between components: it is possible for two components each to be tested successfully but for the communication between them to fail because the form of a generated message did not match the form of the message to be processed.
+
+
+System tests address this by testing across an entire system and coupling up actual software components.  In general, the "harder" aspects to test - specifically infrastructure such as networking or data stores - are still mocked out using simpler alternatives, but the software components that are under test are connected together as they would be in the live system.
+
+
+@Section
+title=A Combination of Tools
+
+
+This creates a hybrid system in which much of the behaviour is automatic - just as it would be in the live system - while at the extremities the UI and data store are mocked out.
+
+
+Exactly the same testing tools that are used in Unit Tests are therefore available in System Tests.  The thing that changes is their applicability: the tester is no longer required to consider most of the messages into and out of cards; in general, only UI events to cards and requests to and responses from the system contracts will be required in the test.
+
+
+To simplify matters further, it is possible to configure a system test to use an automatic in-memory data store which is configured from an initial data set (on disk) and then updated in memory until the end of the scenario.  In this case, the only test actions that are required are generating user events and matching card display output.

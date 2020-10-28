@@ -1,0 +1,132 @@
+﻿@Chapter
+title=Unit Tests
+
+
+Unit tests are defined in files with the $.ut$ extension and enable components to be independently tested.
+
+
+Each unit test in the file is executed independently.
+
+
+Test Definitions and global Data Definitions may be placed at the top level of a unit test file.
+
+
+&grammar rule='unit-test-unit'
+
+
+@Section
+title=Test Definitions
+
+
+&grammar rule='unit-test-declaration'
+&grammar rule='unit-test-step'
+
+
+@Section
+title=Data Definitions
+
+
+data Type name <- expr // with lots of rules about this assignment
+
+
+&grammar rule='unit-data-declaration'
+&grammar rule='unit-fields-data-declaration'
+&grammar rule='unit-fields-data-initializer'
+
+
+@Section
+title=Assertions
+
+
+assert (expr)
+value
+
+
+&grammar rule='unit-test-assert'
+
+
+@Section
+title=Invoking Methods Directly
+
+
+invoke <expr>  // must be some kind of o.m <args>
+&grammar rule='unit-invoke-action'
+
+
+@Section
+title=Simulating UI Events
+
+
+even <on a card> <target zone> (ev)
+// target zone can be "_" for whole card
+// what is the syntax for target zone?
+
+
+&grammar rule='unit-event-action'
+&review 'the syntax of this rule looks wrong to me'
+
+
+@Section
+title=Invoking Methods Through Contracts
+
+
+contract <card-name> <contract name on card> <method name> <args>...
+
+
+&grammar rule='unit-contract-action'
+
+
+@Section
+title=Expectations
+
+
+@Comment
+
+
+This supports the mock programming style of development.
+@/
+
+
+// need to declare a contract data object (the mock) that is picked up by the card using requires
+expect <contract-mock> <method> <args> [-> _<handler>]
+
+
+// you can then call invoke on the handler
+ 
+&grammar rule='unit-test-expect'
+&grammar rule='unit-expect-introduce-handler'
+
+
+@Section
+title=Matching Rendered Content
+
+
+match <card> <TEXT|STYLE|SCROLL> [target-zone]
+
+
+&grammar rule='unit-test-match'
+&grammar rule='unit-test-match-category'
+
+
+@Section
+title=Shove
+
+
+&grammar rule='unit-invoke-action'
+
+
+@Comment
+
+
+The verb $shove$ may sound uncouth, but that is intentional.  This action - while convenient for testing - explicitly overrides the intent of modularity.  The awkwardness of the name should act as a reminder that what is happening here is a shortcut which it is not possible to reproduce at runtime.
+@/
+
+
+@Section
+title=Testing Render Behaviour
+
+
+newdiv [<n>]
+
+
+&review 'not in grammar'

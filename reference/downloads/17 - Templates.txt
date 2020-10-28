@@ -354,7 +354,7 @@ The latest version of the visual design is always processed and analyzed along w
 
 Commands are offered to directly import from visual design tools.  In particular, it is possible to download the latest version of the visual design from &sp
 &link 'htttps://webflow.com/' '$webflow$'
-&sp at the touch of a button inside VSCode&footnote.
+&sp at the touch of a button inside VSCode&footnote .
 
 
 &footnote
