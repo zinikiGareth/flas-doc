@@ -1,45 +1,45 @@
-Introduction
-  Organization of this Guide
-  Prerequisites
-  Other Reading
-1 Hello, World
-  1.1 HTML
-  1.2 FLAS
-  1.3 Assembly File
-  1.4 Compiling and running the program
-  1.1c Bring Your Own HTML
-2 Actors
+1 Introduction
+  1.1 Organization of this Guide
+  1.2 Prerequisites
+  1.3 Other Reading
+2 Hello, World
   2.1 HTML
   2.2 FLAS
   2.3 Assembly File
-  2.1c Cards and the Actor Model
-  2.2c Event Handlers
-  2.3c Functions
-  2.4c State Member Initialization
-3 Styling
+  2.4 Compiling and running the program
+  2.1c Bring Your Own HTML
+3 Actors
   3.1 HTML
-  3.2 CSS
-  3.3 FLAS
-  3.1c Styling
-  3.2c Event Targets
-4 Data
+  3.2 FLAS
+  3.3 Assembly File
+  3.1c Cards and the Actor Model
+  3.2c Event Handlers
+  3.3c Functions
+  3.4c State Member Initialization
+4 Styling
   4.1 HTML
   4.2 CSS
   4.3 FLAS
+  4.1c Styling
+  4.2c Event Targets
+5 Data
+  5.1 HTML
+  5.2 CSS
+  5.3 FLAS
     Data Types
     Card Outline
     State
     Templates
     Event Handlers
-  4.1c Card and Item Templates
-  4.2c Naming Templates and Handlers
-  4.3c The Template Nesting Chain
-  4.4c Event Sources and Traits
-5 Objects and the Lifecycle Contract
-  5.1 HTML
-  5.2 CSS
-  5.3 FLAS
+  5.1c Card and Item Templates
+  5.2c Naming Templates and Handlers
+  5.3c The Template Nesting Chain
+  5.4c Event Sources and Traits
+6 Objects and the Lifecycle Contract
+  6.1 HTML
+  6.2 CSS
+  6.3 FLAS
     Headers
     SingleHeader
-6 Bringing It All Together
-  6.1 Outline HTML
+7 Bringing It All Together
+  7.1 Outline HTML
