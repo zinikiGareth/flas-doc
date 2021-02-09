@@ -1,2 +1,4 @@
 guide.pdf
 reference.pdf
+*.epub
+tmp/

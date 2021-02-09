@@ -89,15 +89,8 @@ Because FLAS builds on HTML and CSS, some familiarity with these technologies is
 title=Other Reading
 
 
-&review 'we need to link to resources in Other Reading'
-There should be a FLAS Reference Guide
-
-
-There should be a guide to the Expenses Demo
-
-
-&outrageousclaim
-There should be Ziniki manuals
-
-
+&review 'These need to be proper links'
+FLAS Reference Guide
+Ziniki manuals
 WebFlow
+There should be a guide to the Expenses Demo
