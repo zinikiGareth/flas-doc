@@ -10,19 +10,19 @@ pipeline {
                 }
             }
         }
-        stage('guide') {
+        stage('flas-guide') {
             steps {
                 withEnv(["PATH+JAVA=/opt/jdk-11.0.6+10/bin", "JAVA_HOME=/opt/jdk-11.0.6+10", "SSHID=/home/jenkins/.ssh/id_rsa", "STYLES=styles", "ZINIKI=/home/jenkins/workspace/Build Ziniki/"]) {
-                    dir('guide') {
+                    dir('flas-guide') {
                         sh 'java -jar /home/formatter/formatter.jar guide.cfg'
                     }
                 }
             }
         }
-        stage('reference') {
+        stage('flas-reference') {
             steps {
                 withEnv(["PATH+JAVA=/opt/jdk-11.0.6+10/bin", "JAVA_HOME=/opt/jdk-11.0.6+10", "SSHID=/home/jenkins/.ssh/id_rsa", "STYLES=styles", "ZINIKI=/home/jenkins/workspace/Build Ziniki/"]) {
-                    dir('reference') {
+                    dir('flas-reference') {
                         sh 'java -jar /home/formatter/formatter.jar reference.cfg'
                     }
                 }
