@@ -1,0 +1,141 @@
+﻿@Chapter
+title=Creating a Shared Object
+
+
+In the previous chapter, we worked with shared objects, but deferred the actual creation of such an object.  In this chapter, we are going to enhance the previous example by handling the case where the requested object turns out to be missing.
+
+
+@Section
+title=The Code
+
+
+The visuals, the system test and most of the code is exactly the same as in the previous chapter.
+
+
+The first change is in $OnDomain$.  In the previous chapter, we used the domain directly to create the secondary key.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.fl' formatter='flas'
+&select from="handler org.ziniki.DataHandler OnDomain"
+
+
+Now, we need to use the domain twice: once to create the secondary key and once to pass to the handler which will publish the new entity rating to the domain.  Consequently, we extract it into a variable that can be shared between the two.  At the same time, we cast it to a $Domain$ to improve type checking.
+
+
+&include 'createRating/org.zinapps.samples.ziniki.createRating/ratings.fl' formatter='flas'
+&select from="handler org.ziniki.DataHandler OnDomain"
+
+
+The most significant change is in the $StoreRatingEntity$.  In the previous chapter, we had merely logged an error when the $missing$ method was called.  Now we want to create a new object and attach it to our "personal" arena.  We also provide a handler which will receive the object once it has been created.
+
+
+&include 'createRating/org.zinapps.samples.ziniki.createRating/ratings.fl' formatter='flas'
+&select from="handler org.ziniki.DataHandler StoreRatingEntity"
+
+
+The $ShareRating$ handler is new.
+
+
+&include 'createRating/org.zinapps.samples.ziniki.createRating/ratings.fl' formatter='flas'
+&select from="handler org.ziniki.EntityCreated ShareRating"
+
+
+This handler implements a different contract to the other handlers we have seen so far, but the $created$ method is comparable to the $value$ method in the $DataHandler$ contract.  It is, however, not possible for the $attachPersonalArena$ to return a $missing$ method since it is creating a new object not searching for an existing one.
+
+
+The variable $r$ is introduced to provide a type-safe version of the entity received on creation.  This should be essentially the same object that we passed to $attachPersonalArena$ but it will have been assigned an $id$ in the same way that the $putMy$ method assigned an $id$ to the object created in Chapter 1.  This is then immediately assigned to the $rating$ object.
+
+
+&review 'how do we do links again?'
+
+
+The final step is to _publish_ this entity.  Publication&footnote is the process by which an entity to which you already have access is made available in a different context.  The simplest such operation is to take an object which is attached to your personal arena and attach it to a shared arena.  Domains are special cases of arenas.
+
+
+&footnote
+There is a lot more information about how this works in the commentary and will be amplified in subsequent chapters.
+
+
+The act of publishing an entity involves specifying the entity, the arena to which it is to be published and the benches (in that arena) to which it is attached.  Here we specify the entity we received back, the domain we recovered previously and the $public$ bench.
+
+
+Everything else remains the same.
+
+
+@Section
+title=Removing the Configuration
+
+
+Because we are now creating the shared entity, it no longer needs to be created by default in the $datafiles$ configuration.  Consequently, we have deleted these configuration files.
+
+
+@Commentary
+
+
+@Section
+title=Arenas and Domains
+
+
+In the previous chapter, we briefly started to touch on the subject of shared objects and the primary sharing mechanism in Ziniki, the _arena_.
+
+
+&review "I don't think there are actually any other mechanisms as yet, but there has been a plan to have a mailbox approach"
+
+
+An _arena_ is not dissimilar to a folder or directory in a classic operating system: it is a way of organizing content and controlling access to it. Like directories, arenas may be nested. In the same way, a _domain_ corresponds to the root of such a directory hierarchy, containing other arenas and entities.
+
+
+Access to an arena is controlled through the concept of _bench_es.  Each entity in the arena may be attached to one or more of the _bench_es defined in the arena.  Each bench has a specific set of permissions - actions that can be carried out either on the attached entities or on the arena itself and its benches - and a set of _persona_s (each associated with a single identity) who are granted those permissions.
+
+
+In this way, the arena, and in particular the benches of an arena, constitute the central access control mechanism in Ziniki.  The other one that we have met so far is the "personal arena" which is the same in principle, but only provides access to your own objects.
+
+
+@Section
+title=Creating Entities
+
+
+Creating entities is just like creating structs.  They are created within actors using constructor syntax.  But then they must be saved to the data store in some way.  One approach (as followed in Chapter 1) is to save an individual entity as a rooted $my$ object, which can be recovered by type using the $my$ method.  A second approach, introduced here, is to pass the newly created entity to the $attachPersonalArena$ method, which ensures that the entity is assigned a unique ID and attached to the current user's personal arena, from which it can be recovered by iteration.
+
+
+@Section
+title=The Personal Arena
+
+
+From what we have seen so far, it might seem that the "personal" arena is very different from the standard, shared arenas.  However, that is largely because everything we have seen so far have been the points of difference.  Otherwise, a personal arena has almost exactly the same capabilities as a shared arena.
+
+
+To clarify, the differences are:
+
+
+* The personal arena has exactly one bench and no more can be added;
+* That bench has the owning user on it and no other users may be added;
+* The bench has unlimited permissions on all the objects within it;
+* The personal arena may not have any nested arenas.
+
+
+Technically, objects that are stored with the $my$/$putMy$ mechanism are not stored in the personal arena but just in a personal space which cannot be accessed by other individuals.  If desired, however, the same entity may be later attached to the personal arena and even published; this is not, however, a common or recommended usage pattern.
+
+
+@Section
+title=The Owner and Public Benches
+
+
+Two benches are automatically created for every arena with pre-defined privileges: the $owner$ bench has all the privileges, just like the bench in the personal arena and the user creating the arena is automatically added to it; the $public$ bench has just the $ReadEntity$ permissions and does not have - and cannot have - any users specifically added to it, but all users of the system _implicitly_ have access to any entities or arenas attached to the $public$ bench.
+
+
+@Section
+title=Publishing
+
+
+As noted above, entities are created in "client space" and are initially not stored in the data store.  However, once an object is created, it may be stored and attached to a user's personal arena.  Once here, it may be _published_ to any shared arena for which the user has the appropriate permissions.
+
+
+The act of publishing does not constitute creating a copy; rather, it is more like a _link_&footnote in the UNIX operating system.  The same object is referenced in two (or more) places.  Having said that, the object is published _at a particular version_ and subsequent changes to the original object do not propagate until a subsequent publish operation occurs.
+
+
+&review 'this actually takes some effort and I don''t think I have put it in yet'
+
+
+&footnote
+Either hard or shared is good enough for this metaphor.  It has some similarity to both; some features more like one than the other; and some differences from both.

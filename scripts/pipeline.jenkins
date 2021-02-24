@@ -28,5 +28,23 @@ pipeline {
                 }
             }
         }
+        stage('ziniki-guide') {
+            steps {
+                withEnv(["PATH+JAVA=/opt/jdk-11.0.6+10/bin", "JAVA_HOME=/opt/jdk-11.0.6+10", "SSHID=/home/jenkins/.ssh/id_rsa", "STYLES=styles", "ZINIKI=/home/jenkins/workspace/Build Ziniki/"]) {
+                    dir('ziniki-guide') {
+                        sh 'java -jar /home/formatter/formatter.jar zinguide.cfg'
+                    }
+                }
+            }
+        }
+        stage('ziniki-reference') {
+            steps {
+                withEnv(["PATH+JAVA=/opt/jdk-11.0.6+10/bin", "JAVA_HOME=/opt/jdk-11.0.6+10", "SSHID=/home/jenkins/.ssh/id_rsa", "STYLES=styles", "ZINIKI=/home/jenkins/workspace/Build Ziniki/"]) {
+                    dir('ziniki-reference') {
+                        sh 'java -jar /home/formatter/formatter.jar zinreference.cfg'
+                    }
+                }
+            }
+        }
     }
 }

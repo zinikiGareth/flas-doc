@@ -1,0 +1,49 @@
+﻿@Chapter
+title=Introduction
+
+
+Ziniki is many things: a company, an ecosystem, a philosophy, a microservice container.  For the purposes of this guide, we will try to focus on Ziniki as an ecosystem in which it is possible to write small units of client-side code - cards - which, embedded in the ecosystem, can access the services and resources of the ecosystem without reference to location or scale.
+
+
+Everything about FLAS is designed with _location transparency_ in mind: there is, or should be, no difference between the way in which a card interacts with a local service to how it interacts with a remote service.  At the implementation level, and in reality, there are differences of course: differences in reliability, in latency, in cost.  But these differences should not be things that you, as a developer, should be concerned with.  As much as possible the overall Ziniki ecosystem attempts to abstract things like security and connectivity away from you.  You $require$ that a service is made available; so it is (or is not).  Your use of it proceeds independently of whether it is available or unavailable, connected or disconnected, local or remote; determining these things is considered advanced usage.
+
+
+But from time to time we will address Ziniki the microservice container.  Some of the Ziniki code "leaks" to the client side, but as much as possible the code is held in a microservice container which in turn deploys a range of services - some "built in", others provided by you or third parties - to provide the cloud services you need to build leading edge applications with minimal time, effort or bugs.
+
+
+And, of course, we will not be able to resist talking about Ziniki the philosophy: separation of concerns, event driven systems, modular architectures, keeping things simple, infrastructure as a service and many more.
+
+
+@Section
+title=Organization of this Guide
+
+
+As with the _FLAS Developer Guide_, this guide is intended to explain how to build FLAS applications that use Ziniki services by presenting small examples of how individual challenges can be tackled.
+
+
+@Section
+title=Prerequisites
+
+
+In order to use Ziniki effectively, you must use FLAS.  It is assumed that you either have learnt to use FLAS already, or are learning FLAS and Ziniki together, with all the appropriate guides and samples to hand.
+
+
+All the prerequisites for FLAS are prerequisites for using Ziniki.
+
+
+In order to get any of the samples to work, you will either need to configure a local, small-scale in-memory/on-disk Ziniki microservice container or subscribe to a cloud-based Ziniki provider.  Setting up a local server is described in the course of the "Hello, Ziniki" example.
+
+
+@Section
+title=Other Reading
+
+
+&review 'we need to link to resources in Other Reading'
+FLAS Developer and Reference Guides
+
+
+There should be a guide to the Expenses Demo
+
+
+Ziniki Reference Manual
+&review 'Does there need to be an admin manual?'

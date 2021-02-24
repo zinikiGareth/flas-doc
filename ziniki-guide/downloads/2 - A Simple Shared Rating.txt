@@ -1,0 +1,322 @@
+﻿@Chapter
+title=A Simple Shared Rating
+
+
+In our most trivial example in the previous chapter, we did at least manage to build something that could be deployed to - and use - the cloud.  The information that we kept about the number of times the user had interacted with Ziniki was stored persistently in the cloud, but was separate for each individual.  What we want to do next is to allow multiple users to manipulate a shared object.
+
+
+We are going to approach this through the metaphor of a simple thumbs-up/thumbs-down rating card.  Each user is shown the same card backed by the same data object and has the opportunity to vote "up" or "down" on the service represented by the card&footnote.  The card maintains the overall rating of the service and displays that to each user.
+
+
+&footnote
+As with all our demos, there is a lot missing here from a reasonable solution, such as the ability to restrict each user to one vote, keep the rating within bounds (eg. above zero) and express the rating in a user-friendly way (such as out of five).  We will return to some of these issues later.
+
+
+So, without further ado, let's get to it.
+
+
+@Section
+title=The Visuals
+
+
+First off, let's look at the visual component of this card.  As you would expect, it is really quite simple.
+
+
+&include 'ratings/ui/index.html' formatter='html'
+
+
+The card is placed in the main $div$ with the $id$ of $flas-card-ratings$.  This has three elements: a $content$ field which will display the current rating and two $style$ fields which are the _up_ and _down_ buttons (we have used UTF-8 emoji for these).  As usual, we have put no effort into styling these but the usual pattern applies: you can create and include CSS to your heart's content, and it will be deployed along with the card.
+
+
+@Section
+title=The Card
+
+
+As with the previous example, we need an entity to store in the database to keep track of the current rating value.  Even though this will be shared between many users, the code is just the same as before.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.fl' formatter='flas'
+&select from="entity Rating"
+
+
+The idea here is to keep track of the current rating as a single number: each up or down vote will change this number.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.fl' formatter='flas'
+&select from="card"
+&stop at="implements"
+
+
+The basic boilerplate of the card defines a $state$ which will contain a $Rating$ entity, a template which binds the current entity value to the $current$ field in the HTML, and attaches an event handler to each of the emoji, and obtains a handle to the $DataStore$ service in the variable $ds$.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.fl' formatter='flas'
+&select from="implements"
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.fl' formatter='flas'
+&select from="domainName ="
+
+
+When the card is ready to go, it requests a domain given in the variable $domainName$.  It expects to find the ratings object attached directly to this domain.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.fl' formatter='flas'
+&select from="handler org.ziniki.DataHandler OnDomain"
+
+
+If the code has been correctly deployed and set up, then the domain should be present.  If the $missing$ method is ever called, something has been misconfigured.  In many cases, an entity being $missing$ is merely a hint to create it, but it is not possible to create a domain from within the code, so we do the next best thing and respond with a message.  By default, if $missing$ is not implemented, the message is simply ignored, which is fine in this case, but slightly less clear.  In development, this message will generally be visible (although it may be lost in other tracing); when deployed in the cloud, the message will only be visible to administrators.
+
+
+When we obtain the domain, we attempt to recover the ratings object by using a _secondary key_.  This is a way of naming items within a particular domain or arena, and is described in more detail in the commentary below.  This will return the unique object to be given that name in this domain.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.fl' formatter='flas'
+&select from="handler org.ziniki.DataHandler StoreRatingEntity"
+
+
+The $missing$ method in this case is entirely valid, but we don't want to tackle the complexities of creating and publishing this item just yet, so we are going to defer that until the next chapter.  Instead, we will pre-populate the database with an appropriate object, pointed to by the appropriate secondary key.  Just to make sure everything goes smoothly, if the $missing$ method is called, we log an appropriate error.
+
+
+When we receive back the value that we want, we store it in the appropriate state variable.  As we do this, the display will automatically update with the current value.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.fl' formatter='flas'
+&select from="event"
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.fl' formatter='flas'
+&select from="event thumbsDown"
+
+
+The two event handlers are both basically the same, adjusting the (in state) value of the rating and then storing the updated version of the object back to the data store.
+
+
+And that's it for the card, given the simplified set of requirements we are working with.
+
+
+@Section
+title=The System Test
+
+
+In our opinion, this code is not complicated enough to need any Unit Tests.  It's not clear what they would test beyond "if you click the button, it adds 1" which is what it says it does.
+
+
+But we certainly want to be sure that the code does what we expect, so a system test is in order.  We are going to take advantage of the storyboard nature of system tests to check that as we manipulate the card, the data is updated and the card with it.  We will also check that multiple users can collaborate.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.st' formatter='flas'
+&select from="configure"
+
+
+In setting up this test, we configure the Ziniki embedded test server to operate on the domain defined in the test case, thus ensuring that we can change the domain by making the minimal number of changes.
+
+
+This server is configured to use the datastore and to read files from the datafiles directory as discussed in the next section.  We are ultimately going to use two users in this test, but for now we are going to start with a single user "$gareth$".
+
+
+To finish the configuration, we create an instance of the $Ratings$ card and call its $Lifecycle.ready$ method.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.st' formatter='flas'
+&select from="the initial rating"
+
+
+Assuming everything has worked successfully, we should now have recovered the $Rating$ entity from the datastore which, given the sample data we have set up, should have an initial rating of zero.  Here we test both that the rating is zero and that this rating is showing in the content area.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.st' formatter='flas'
+&select from="thumbs up"
+
+
+The main thing we want to test is the functioning of the thumbs up and thumbs down buttons.  Here we test that after simulating a press on the thumbs up button, the rating value stored on the card is 1.
+
+
+&review 'add a test of what is in Ziniki'
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.st' formatter='flas'
+&select from="currently vote"
+
+
+Although it is more a bug than a feature, we are currently able to vote more than once, so we make a test out of it.  If we ever go back and fix this bug, this will give us an easy way in to drive the new behaviour.
+
+
+Again, we simulate pressing the thumbs up button and confirm that the value is now 2.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.st' formatter='flas'
+&select from="thumbs down"
+
+
+Here we simulate the pressing of the thumbs down button and then assert that the resulting rating is 1.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.st' formatter='flas'
+&select from="a second user"
+
+
+A key part of this test - indeed, this whole chapter - is the notion that it is possible to have entities shared between multiple system users.  So now we are going to create a second user - and have them create their own card - and observe the interactions between the two.
+
+
+The first step is to switch the user.  The $ziniki$ command ensures that the specified user - $nelson$ exists in the system and asserts that any new cards will connect as this user.  The next two steps create a card for this user and initialize it in the same way as in the configuration step.
+
+
+Finally, we assert that the card has initialized correctly with the same rating, both in the entity and on the screen.
+
+
+The newly created user now simulates pushing the thumbs up button.  This increases the rating to 2, which we test.
+
+
+&include 'ratings/org.zinapps.samples.ziniki.ratings/ratings.st' formatter='flas'
+&select from="the first user"
+
+
+Finally, since this object is shared through the Ziniki server, when the second user saves their rating (using the $ds.put$ method), the first user should be notified of the change and receive the updated value and display it without needing to do anything.
+
+
+@Section
+title=Configuring the System Test
+
+
+In order to be able to defer the creation of the shared entity until the next chapter, we need to configure this test to have that object where we need it before the test starts.
+
+
+When we configure the Ziniki server, we declare the data store to read the contents of a directory, in this case $datafiles$.  As we saw in the previous chapter, if this directory does not exist, then it is simply ignored (although the data store is created and made available).
+
+
+The contents of this directory are the hierarchical contents of the server, separated by domain name.
+&review "I'm still not sure this is the best design - each server could specify its own directory as a path"
+Within each of these directories are a set of files.  Each file corresponds with one document in the data store.  The file extension identifies what _kind_ of object it is and the name is used as part of the object identifier.
+
+
+In this case we have two objects we want to create: one is the entity itself (entities have the extension $.en$) and the other is a secondary key record pointing to the entity.
+
+
+&include 'ratings/datafiles/ratings.com/rating.en' formatter='flas'
+
+
+This file follows a FLAS-like format - using significant indentation - to define and configure the object.
+
+
+For an entity, there is only one top level command, which is the $type$ command.  This specifies the (always fully qualified) name of the type of the object.
+
+
+Within this are the values of the object fields.  Each field must be of an appropriate type and specify a field name as a string and a value.
+
+
+In this case, there is only one field - the current rating $value$ - which is set to the $number$ $0$.
+
+
+This object is stored in the key $data://ratings.com/entity/rating$.  The scheme ($data$) and the first portion of the path ($entity$) come from the fact that it is an entity with the $.en$ extension; the domain comes from the parent directory and the final element of the path is taken from the object name.
+
+
+Secondary key catalogues always have the extension $.sk$, while their name is the name of the key itself.  Inside the file they have a format that identifies each key in turn and its corresponding value.
+
+
+&include 'ratings/datafiles/ratings.com/ratings.sk' formatter='flas'
+
+
+This is a trivial secondary key because it does not have any additional fields - there is only one such key in each domain or arena.  As indicated by the comments, if the key catalogue did have additional fields, they would be specified by the $field$ top-level command.
+
+
+Each entry in the catalogue has a pair of $key$ and $value$.  The $key$ must have the same number of nested $field$ elements as the catalogue has top level $field$ elements.  The value will always have one string entry which is the $id$ of the entity referenced by the secondary key.
+
+
+In this case, there are no $field$ commands either at the top level or nested within the $key$.  The value is defined to point to the entity we created earlier.
+
+
+@Section
+title=Compiling the Example
+
+
+Compiling this example, and deploying to Ziniki, is just like the previous chapter.  Refer to that for details on how to start the ziniki process and create a simulated login for the compiler to use.
+
+
+Compile and deploy using the following command:
+
+
+$$
+$ flas --ziniki https://ziniki.domain.com:18080  --web ui org.zinapps.samples.ziniki.ratings
+$$
+
+
+This should compile smoothly, run through the system test, upload to the Ziniki server and deploy the application.
+
+
+@Section
+title=Running in a Browser
+
+
+Unless you happen to own ratings.com - or you are happy working with self-signed certificates - you will need to use a different domain: one for which you do have a certificate (see the previous chapter for configuring that).
+
+
+In order to change the domain, you need to change three things:
+
+
+* the value of the $domainName$ variable in ratings.fl
+* the subdirectory of $datafiles$ must have the appropriate domain name
+* the $value$ in the $sk$ file must have the same domain name as the host name in the URI
+
+
+As with the system test, until we add the ability to create $Rating$ entities in the next chapter, we need to configure the data store with the same initial objects that we used for the system test.
+
+
+This is easily done by passing the $--datafiles$ argument to the $ziniki$ script.  Note that this must be done _after_ the initial users (and their corresponding domains) have been configured using the $--user$ arguments; the loading process uses the set of currently configured domains to determine which subdirectories of the $datafiles$ directories to read, and if a domain is not configured, the corresponding directories will be ignored.
+
+
+$$
+$ ziniki --configFile config/local/bootstrap.json --configFile config/dist/domain.com.json --user https://ziniki.domain.com:18082/id/domainOwner --import-flim flim --datafiles datafiles
+$$
+
+
+This assumes that the $datafiles$ directory is in the directory in which the script is invoked, but obviously a more complete path could be used.
+
+
+It should now be possible to visit the application by deploying it as described above, and visiting:
+
+
+$$
+https://ziniki.domain.com:18080/app/org.zinapps.samples.ziniki.hello
+$$
+
+
+As in the previous chapter, this requires you to complete the login process (creating a login for the new user $domainOwner$ with a suitable password) and then use the thumbs up and thumbs down buttons.
+
+
+To see the multi-user behaviour, it is necessary to access the card in a separate browser context (it is important that no user state is shared between the two; a different browser is the easiest approach).  You will then need to log in as a completely new user, and follow the full registration process.
+
+
+&review 'there may be a problem accessing this with this when we fully implement security'
+&review 'but as long as we make sure that the object is attached to the "public" bench, it should not be a problem'
+
+
+Once complete, the same rating card - with the most up-to-date values - should appear.  Subsequently, as you interact with either card, the other should update in real time.
+
+
+@Commentary
+
+
+@Section
+title=Sharing between Users
+
+
+In the previous chapter, we created a private object.  In this chapter, we have used a shared object (and in the next chapter we will see how we create and share objects).  Ziniki is (almost) equally happy working with private and shared objects.
+
+
+&review 'it almost feels like what I want to say here in fact belongs in the next chapter'
+
+
+All shared objects are stored within a tree-like structure rooted in a _domain_.  Each domain must be configured through the administration UI.  Within the domain, entities constitute the leaf nodes, while junction nodes are implemented by _arena_s (covered in some later chapter).  Access to an entity or an arena is determined by the immediately containing domain or arena.
+
+
+&review 'where are arenas covered?' 
+
+
+@Section
+title=Finding Shared Objects
+
+
+In the previous chapter, we discussed the $my$ method and how that enables private entities to be found by type.  In this chapter, we have found a shared entity using two techniques.  First, we used the $domain$ method to find a domain using its _name_, and then we used a _secondary key_ to find the unique rating object in that domain.
+
+
+A secondary key catalogue is configured with a unique name and a set of fields.  Although the catalogue may appear to be defined once, when it is attached to an arena it is independent from all the other instances attached to other arenas.
+
+
+Each secondary key must have a unique value for a specific combination of values for the key fields within the same arena or domain.  In our case, there are no field values, so this limits the number of possible values to just the one - the one we want.  But we could configure this to have one or more fields - such as the name of a restaurant to rate, as we will see in a later chapter - and use that to maintain and find multiple $Rating$ entities in the same domain.    But it is worth pointing out that it would be possible to configure the same secondary key catalogue in a different domain to support multiple objects (one for each domain).

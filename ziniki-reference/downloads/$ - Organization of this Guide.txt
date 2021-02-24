@@ -1,0 +1,57 @@
+﻿@Chapter
+title=Organization of this Guide
+style=misc
+
+
+I. Configuration
+Basic model and how it works
+Syntax - json, _ % %%; defining values; declaring objects
+Included setup
+core
+services
+id
+auth
+local/grizzly
+AWS/lambda
+memory/dynamo
+bootstrap/cloud_bootstrap
+local config
+Configure Cloud Standup (the script uses this to invoke some version of deployer over cloudformation)
+        cloud to connect to (AWS is the only current option)
+bucket to store CF in
+stack name
+components to deploy and how to connect to cloud resources, roles etc.
+custom domains to configure
+Also obviously requires to be done as a specific user, but probably on the command line
+
+
+II. Admin
+Scripts - aws_standup and ziniki
+        including all the options
+flas integration
+        --ziniki most obviously, but probably other things too.
+memory admin, dump etc.
+configuring domains into a server
+adding OpenID && OAuth providers
+tracing can be done with cloudwatch but we should have some additional tools
+        in particular catching errors and notifications
+backups in cloud are assumed to be handled by cloud infrastructure (glacier, etc)
+Commerce Admin?
+Installing new services (not including FLAS)?
+Installing modules
+
+
+III. APIs
+DataStore
+ContentStore
+Uploader
+… and more in time
+Commerce
+Analytics
+Mail
+
+
+IV. More technical information
+Working with self-signed certificates
+ZiWSH/Websockets/Push Notifications
+OpenID && OAuth integration

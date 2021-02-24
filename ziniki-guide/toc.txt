@@ -1,0 +1,37 @@
+1 Introduction
+  1.1 Organization of this Guide
+  1.2 Prerequisites
+  1.3 Other Reading
+2 Hello, Ziniki
+  2.1 Our First Service
+  2.2 Unit Tests
+  2.3 System Tests
+  2.4 Installing Ziniki
+  2.5 Compiling Locally
+  2.6 Running in a Browser
+  2.7 Full Stack Automated Testing
+  2.1c The Ziniki DataStore
+  2.2c Entitites
+  2.3c Overview of DataStore Structure
+  2.4c Subscriptions
+    Subscribing to Non-Existent Roots
+  2.5c Ziniki and Apps
+  2.6c Domains and Users
+  2.7c The $ziniki$ Script and the Cloud
+3 A Simple Shared Rating
+  3.1 The Visuals
+  3.2 The Card
+  3.3 The System Test
+  3.4 Configuring the System Test
+  3.5 Compiling the Example
+  3.6 Running in a Browser
+  3.1c Sharing between Users
+  3.2c Finding Shared Objects
+4 Creating a Shared Object
+  4.1 The Code
+  4.2 Removing the Configuration
+  4.1c Arenas and Domains
+  4.2c Creating Entities
+  4.3c The Personal Arena
+  4.4c The Owner and Public Benches
+  4.5c Publishing
