@@ -1,0 +1,19 @@
+.hamburger-div {
+	display: block;
+	height: 90px;
+	background-color: silver;
+}
+
+.hamburger-icon {
+	font-size: 80px;
+	color: black;
+	text-align: center;
+}
+
+.hamburger-icon::before {
+	content: "++";
+}
+
+.hamburger-menu {
+	display: none;
+}

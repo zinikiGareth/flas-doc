@@ -7,6 +7,10 @@
 	margin-right: 1em;
 }
 
+.production-desc {
+	width: calc(100vw - 100px);
+}
+
 .pattern {
 	display: inline-block;
 	font-family: monospace;
@@ -21,11 +25,16 @@
 .production-block {
 	font-family: sans-serif;
 	line-height: 1.35em;
+	text-wrap: nowrap;
+	overflow-x: overflow;
+	
 }
 
 .production-or-block {
 	font-family: sans-serif;
 	line-height: 1.35em;
+	text-wrap: nowrap;
+	overflow-x: overflow;
 }
 
 .production-nested-block {
@@ -101,4 +110,8 @@
 
 p.comment {
 	background-color: yellow;
+}
+
+.hidden {
+	display: none;
 }

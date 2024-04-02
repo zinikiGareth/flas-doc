@@ -1,0 +1,24 @@
+.whole-window {
+	position: relative;
+}
+
+.hamburger-div {
+	display: none;
+}
+
+.hamburger-menu {
+	display: block;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 400px;
+	word-wrap: false;
+	overflow-x: none;
+}
+
+.grammar-content {
+	display: block;
+	position: absolute;
+	left: 400px;
+	top: 0px;
+}

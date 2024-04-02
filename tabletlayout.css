@@ -1,0 +1,48 @@
+.whole-window {
+	position: relative;
+}
+
+.production-block {
+	text-wrap: nowrap;
+}
+
+.hamburger-div {
+	display: block;
+	width: 30px;
+	height: 800px;
+}
+
+.hamburger-div.menu-open {
+	width: 400px;
+}
+
+.hamburger-icon {
+	font-size: 30px;
+	padding-top: 150px;
+	text-align: center;
+}
+
+.hamburger-icon::before {
+	content: ">";
+}
+
+.hamburger-menu {
+	display: none;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 50px;
+	text-wrap: nowrap;
+	overflow-x: none;
+}
+
+.grammar-content {
+	display: block;
+	position: absolute;
+	left: 60px;
+	top: 0px;
+}
+
+.grammar-content.menu-open {
+	left: 420px;
+}
