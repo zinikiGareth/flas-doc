@@ -10,10 +10,16 @@
 	display: block;
 	width: 30px;
 	height: 800px;
+	border: 1px solid black;
 }
 
 .hamburger-div.menu-open {
 	width: 400px;
+	border: none;
+}
+
+.hamburger-div.menu-open .hamburger-icon {
+	display: none;
 }
 
 .hamburger-icon {
@@ -31,9 +37,22 @@
 	position: absolute;
 	left: 0px;
 	top: 0px;
-	width: 50px;
+	width: 400px;
+}
+
+.hamburger-section-link {
+	border: 1px solid black;
+	text-align: center;
+	font-size: 175%;
+	overflow-x: hidden;
 	text-wrap: nowrap;
-	overflow-x: none;
+	width: 100%;
+	margin: 3px;
+	padding: 5px;
+}
+
+.hamburger-menu.menu-open {
+	display: block;
 }
 
 .grammar-content {
