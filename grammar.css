@@ -1,5 +1,11 @@
 body {
 	margin: 0px;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+	display: none;
 }
 
 .hamburger-div, .hamburger-section-link {
@@ -34,19 +40,29 @@ body {
 	font-family: sans-serif;
 	line-height: 1.35em;
 	text-wrap: nowrap;
-	overflow-x: visible;
+	overflow-x: scroll;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
 }
 
 .production-or-block {
 	font-family: sans-serif;
 	line-height: 1.35em;
 	text-wrap: nowrap;
-	overflow-x: visible;
+	overflow-x: scroll;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
 }
 
 .production-nested-block {
 	font-family: sans-serif;
 	line-height: 1.35em;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.production-block::-webkit-scrollbar, .production-or-block::-webkit-scrollbar, .production-nested-block::-webkit-scrollbar {
+	display: none;
 }
 
 .production-needs-testing {

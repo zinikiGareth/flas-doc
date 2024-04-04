@@ -1,7 +1,3 @@
-body::-webkit-scrollbar {
-	display: none;
-}
-
 .hamburger-div {
 	display: block;
 	height: 90px;
@@ -52,16 +48,6 @@ body::-webkit-scrollbar {
 .section-description {
 	margin-left: 0em;
 	max-width: calc(100vw - 35px);
-}
-
-.production-block {
-	overflow-x: scroll;
-	scrollbar-width: none;
-	-ms-overflow-style: none;
-}
-
-.production-block::-webkit-scrollbar{
-	display: none;
 }
 
 .production-name {

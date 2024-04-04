@@ -12,13 +12,43 @@
 	left: 0px;
 	top: 0px;
 	width: 400px;
-	word-wrap: false;
-	overflow-x: none;
+}
+
+.hamburger-section-link {
+	border: 1px solid black;
+	text-align: center;
+	font-size: 125%;
+	overflow-x: hidden;
+	text-wrap: nowrap;
+	width: 100%;
+	margin: 3px;
+	padding: 5px;
 }
 
 .grammar-content {
 	display: block;
 	position: absolute;
-	left: 400px;
+	left: 450px;
 	top: 0px;
+
+	/* turn this off to get traditional scrollbars */
+	width: calc(100% - 450px);
+}
+
+.grammar-section {
+	margin: 0em 0.5em;
+}
+
+.grammar-section h3 {
+	text-align: center;
+	font-size: 150%;
+}
+
+.section-description {
+	margin-left: 0em;
+	max-width: 100%;
+}
+
+.production-desc {
+	width: 100%;
 }
