@@ -1,3 +1,11 @@
+body {
+	margin: 0px;
+}
+
+.hamburger-div, .hamburger-section-link {
+	cursor: pointer;
+}
+
 .pattern-title {
 	display: inline-block;
 	font-family: sans-serif;
@@ -26,15 +34,14 @@
 	font-family: sans-serif;
 	line-height: 1.35em;
 	text-wrap: nowrap;
-	overflow-x: overflow;
-	
+	overflow-x: visible;
 }
 
 .production-or-block {
 	font-family: sans-serif;
 	line-height: 1.35em;
 	text-wrap: nowrap;
-	overflow-x: overflow;
+	overflow-x: visible;
 }
 
 .production-nested-block {
@@ -55,7 +62,7 @@
 
 .production-name {
 	display: inline-block;
-	width: 20em;
+	min-width: 20em;
 	text-align: right;
 	font-weight: bold;
 	margin-right: 0.5em;

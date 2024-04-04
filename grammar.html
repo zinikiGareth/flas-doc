@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FLAS Grammar</title>
 <link type='text/css' rel='stylesheet' href='grammar.css'>
 <link type='text/css' rel='stylesheet' href='narrowlayout.css'>
-<link type='text/css' rel='stylesheet' href='medlayout.css' media='(resolution: 96dpi) and (min-width: 800px)'>
+<link type='text/css' rel='stylesheet' href='tabletlayout.css' media='(resolution: 96dpi) and (min-width: 800px)'>
 <link type='text/css' rel='stylesheet' href='widelayout.css' media='(resolution: 96dpi) and (min-width: 1200px)'>
 <script type='text/javascript' src='grammar.js'></script>
 </head>
@@ -1747,7 +1748,7 @@ System Tests
 <h3>Files</h3>
 <div class='section-description'>
 
-	    <p>FLAS units are grouped into files.</p>
+	    <p>FLAS code is organized by files, where each file may hold multiple units for compilation purposes.</p>
 	  </div>
 <div class='production-rule'>
 <div class='production-block'>
@@ -1845,8 +1846,8 @@ System Tests
 <h3>Scoping</h3>
 <div class='section-description'>
 
-	       This set of units can be defined at the top level in files or within the
-	       scope of a function.
+	       <p>This set of units can be defined at the top level in files or within the
+	       scope of a function.</p>
 	    </div>
 <div class='production-rule'>
 <div class='production-block'>
@@ -1955,8 +1956,8 @@ System Tests
 <h3>Contracts</h3>
 <div class='section-description'>
 
-        Contracts are core to FLAS.
-        A contract defines an abstraction of what a card, agent or service does in a way that should be independently testable with tests written against the abstraction.
+        <p>Contracts are core to FLAS.</p>
+        <p>A contract defines an abstraction of what a card, agent or service does in a way that should be independently testable with tests written against the abstraction.</p>
         <p>
         There are three types of contracts:
         </p>
@@ -1965,7 +1966,7 @@ System Tests
         <li>those provided by a service or a providing agent and can be required by cards and then called;</li>
         <li>those defining how handlers will operate.</li>
         </ul>
-        In each case, the contract specifies a set of methods which must all be implemented together by the implementing card, agent, service or handler.
+        <p>In each case, the contract specifies a set of methods which must all be implemented together by the implementing card, agent, service or handler.</p>
         <p>
         Each method must have a method name.  It may optionally be marked as <code>optional</code>, meaning that implementers do not need to provide a definition for it.
         It specifies zero or more arguments; these must be typed, and there are restrictions on the types that may be passed.
@@ -2011,16 +2012,16 @@ System Tests
 <h3>Functions</h3>
 <div class='section-description'>
 
-	       Constants and functions can be declared either at the top level or within nested scopes.
+	       <p>Constants and functions can be declared either at the top level or within nested scopes.
 	       When declared within a nested scope, all the surrounding variables and definitions are available
-	       for reference by name.
-	       Note that a complete function declaration is made up of multiple cases applying to specific patterns.
+	       for reference by name.</p>
+	       <p>Note that a complete function declaration is made up of multiple cases applying to specific patterns.
 	       All of the cases must be declared ``together'' without any intervening blocks, but this is not
-	       included in this grammar specification.
-	       There are two ways to declare a function case.
-	       It is possible to declare a single expression on the same line as the function declaration.
-	       Or the function name and argument patterns can appear on one line, and one or more guarded equations
-	       can appear on subsequent lines.
+	       included in this grammar specification.</p>
+	       <p>There are two ways to declare a function case.</p>
+	       <p>It is possible to declare a single expression on the same line as the function declaration.</p>
+	       <p>Or the function name and argument patterns can appear on one line, and one or more guarded equations
+	       can appear on subsequent lines.</p>
 	    </div>
 <div class='production-rule'>
 <div class='production-block'>
@@ -2248,8 +2249,9 @@ System Tests
 <h3>Expressions</h3>
 <div class='section-description'>
 
-      We need to include . notation for fields, along with the fact that it has very high priority, so should probably be somewhere around the literal stage.
+      <p>TODO: We need to include . notation for fields, along with the fact that it has very high priority, so should probably be somewhere around the literal stage.
       But we don't particularly focus on operator precedence, so including it as a BINOP and noting that is probably fine.
+      </p>
       </div>
 <div class='production-rule'>
 <div class='production-block'>

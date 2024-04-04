@@ -1,3 +1,7 @@
+body::-webkit-scrollbar {
+	display: none;
+}
+
 .hamburger-div {
 	display: block;
 	height: 90px;
@@ -16,4 +20,62 @@
 
 .hamburger-menu {
 	display: none;
+}
+
+.hamburger-menu.menu-open {
+	display: block;
+}
+
+.hamburger-section-link {
+	text-align: center;
+	width: calc(100% - 0.6em);
+	font-size: 200%;
+	padding: 0.3em 0px;
+	margin: 0.3em;
+	border: 1px solid black;
+	background-color: silver;
+}
+
+.grammar-content.menu-open {
+	display: none;
+}
+
+.grammar-section {
+	margin: 0em 0.5em;
+}
+
+.grammar-section h3 {
+	text-align: center;
+	font-size: 150%;
+}
+
+.section-description {
+	margin-left: 0em;
+	max-width: calc(100vw - 35px);
+}
+
+.production-block {
+	overflow-x: scroll;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.production-block::-webkit-scrollbar{
+	display: none;
+}
+
+.production-name {
+	min-width: 6em;
+}
+
+.production-or {
+	width: 10em;
+}
+
+.production-nested {
+	width: 12em;
+}
+
+.production-desc {
+	width: calc(100vw - 1.3em);
 }
