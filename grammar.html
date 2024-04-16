@@ -96,9 +96,16 @@ Protocol Tests
 <div class='hamburger-section-link' data-grammar-section='System Tests'>
 System Tests
 </div>
+<div class='hamburger-section-link' data-grammar-section='lexical-issues'>
+Lexing
+</div>
+<div class='hamburger-section-link' data-grammar-section='grammar-summary'>
+Summary
+</div>
 </div>
 <div class='grammar-content'>
 <div class='grammar-section' data-grammar-section='lexical-issues'>
+<h3>Lexical Issues</h3>
 <h3>ACOR</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>acor</span><div class='lexical-description'>
   	<p>The <tt>acor</tt> keyword introduces an object accessor function.</p>
   </div><h3>AGENT</h3><span class='pattern-title'>Pattern:</span><span class='pattern'>agent</span><div class='lexical-description'>
@@ -283,6 +290,7 @@ System Tests
   	the first character must be a lower case alphabetic character.</p>
   </div></div>
 <div class='grammar-section' data-grammar-section='grammar-summary'>
+<h3>Summary</h3>
 <div class='production-rule'>
 <div class='production-block'>
   <div class='production-number'>(1)</div>
@@ -1748,7 +1756,10 @@ System Tests
 <h3>Files</h3>
 <div class='section-description'>
 
-	    <p>FLAS code is organized by files, where each file may hold multiple units for compilation purposes.</p>
+<p>
+FLAS code is organized by files,
+where each file may hold multiple units for compilation purposes.
+</p>
 	  </div>
 <div class='production-rule'>
 <div class='production-block'>
@@ -1770,8 +1781,12 @@ System Tests
 <span class='production-reference'>&lt;system-test-file&gt;</span></div>
   <div class='production-desc'>
 
-	  <p>Each type of file can be used to provide specific groups of definitions; other than where expressly allowed, definitions associated with one type of file may not be used in other files.</p>
-	
+<p>
+Each type of file can be used to provide specific groups of definitions;
+other than where expressly allowed, definitions associated with
+one type of file may not be used in other files.
+</p>
+	  
   </div>
 </div>
 <div class='production-rule'>
@@ -1782,8 +1797,16 @@ System Tests
 <span class='production-reference'>&lt;top-level-unit&gt;</span><span class='production-many'>*</span></div>
   <div class='production-desc'>
 
-	  <p>Source files are used to define all of the production code.  Apart from the contents of source code files, only the assembler file is distributed to clients.</p>
-	  <p>Multiple source files may be specified for a single project, but this only provides a convenience to the author(s) and maintainer(s).  The compiler treats all top-level definitions is source files as being part of the same "root" scope.</p>
+<p>
+Source files are used to define all of the production code.
+Apart from the contents of source code files,
+only the assembler file is distributed to clients.
+</p>
+<p>
+Multiple source files may be specified for a single project,
+but this only provides a convenience to the author(s) and maintainer(s).
+The compiler treats all top-level definitions is source files as being part of the same scope.
+</p>
 	
   </div>
 </div>
@@ -1795,7 +1818,15 @@ System Tests
 <span class='production-reference'>&lt;assembly-unit&gt;</span><span class='production-many'>*</span></div>
   <div class='production-desc'>
 
-	  <p>Each library or application contains one assembly file which contains meta-information about the project which cannot be gleaned simply from the classes.  This being the case, the assembly file does not include such things as lists of dependencies.  It does, however, include a routing table which maps URI paths to nests of cards, and actions as the various routes are entered and exited.</p>
+<p>
+Each library or application contains one assembly file
+which contains meta-information about the project
+which cannot be gleaned simply from the classes.
+This being the case, the assembly file does not include such things as lists of dependencies.
+It does, however, include a routing table
+which maps URI paths to nests of cards,
+and actions as the various routes are entered and exited.
+</p>
 	
   </div>
 </div>
@@ -1807,7 +1838,11 @@ System Tests
 &nbsp;<span class='production-reference'>&lt;unit-test-unit&gt;</span><span class='production-many'>*</span></div>
   <div class='production-desc'>
 
-	  <p>Unit test files contain multiple test fixtures.  These are mainly independent from each other (although the executable tests may depend on the data declarations).</p>
+<p>
+Unit test files contain multiple test fixtures.
+These are mainly independent from each other
+(although the executable tests may depend on the data declarations).
+</p>
 	  <p>Unit tests are intended to test individual cards, services and agents (as well as other code such as algotithmic functions) in isolation.</p>
 	  <p>All current unit tests must pass before a project can be distributed.</p>
 	
