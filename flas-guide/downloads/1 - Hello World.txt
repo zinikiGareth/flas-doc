@@ -61,7 +61,7 @@ Before you can run this program, you need to compile it.  Before you can compile
 
 Compiler packages can be downloaded from&sp
 &link 'https://www.ziniki.org/downloads' 'www.ziniki.org/downloads'
-, although currently the compiler package is only available for MacOS&footnote.  The download is in the form of a zip which you need to unpack to a directory somewhere on your computer and has nested $bin$, $lib$ and $flascklib$ subdirectories.  You should then ensure that the compiler is on your $PATH$.  As noted in the introduction, running the compiler also depends on you having Java installed.
+, although currently the compiler package is only available for MacOS and Linux&footnote.  The download is in the form of a zip which you need to unpack to a directory somewhere on your computer and has nested $bin$, $lib$ and $flascklib$ subdirectories.  You should then ensure that the compiler is on your $PATH$.  As noted in the introduction, running the compiler also depends on you having Java installed.
 
 
 &footnote

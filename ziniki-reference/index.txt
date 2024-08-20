@@ -1,2 +1,6 @@
+--downloaded--
 1VBZe98tstf6_WAQd0A3fPBJO_EPV7uyBvH-PVT5qR-w $ - Organization of this Guide.txt
 --excluded--
+1sqWne8_wEK-0aAY1kMb5DSowkQsfXdervKH3lZcFCuY A1 - ziniki command.txt
+1jeZd1iMXNRUi23rKpQvGqhSv5Hh80simOAguLExpZQo A3 - zinlogin command.txt
+1qfTS4ox1TdnIoEjviKbNG2ANBNPbrivOAy1KzrE0ulw A2 - ziniki-cert command.txt
