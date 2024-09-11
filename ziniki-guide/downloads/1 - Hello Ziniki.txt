@@ -343,8 +343,11 @@ Because Ziniki runs in the foreground, you will need to open another terminal wi
 In the new window, you need to "log in" using the zinlogin script&footnote.
 
 
-&footnote
+@Footnote
+
+
 The zinlogin script does not go through the authentication process.  It simply tells the Ziniki admin server that you want a login token and then stores it in the $.zintok$ file in your home directory.  While this may appear to be a security hole, this mechanism only works with the Ziniki admin server, which is not deployed in production instances.
+@/
 
 
 $$
@@ -358,8 +361,11 @@ The first argument here is the URI of the Ziniki admin server.  As configured, t
 The result of this is to create a $.zintok$ file in your home directory which can then be read by the $flas$ compiler when it attempts to connect to Ziniki&footnote.
 
 
-&footnote
+@Footnote
+
+
 It should go without saying that there are other ways to create this file in production environments.  This mechanism is provided for ease of local development, debugging and automation.
+@/
 
 
 &review 'somewhere we need to describe how to create .zintok, probably through Google OpenID login'
@@ -386,9 +392,12 @@ In the real world, you would probably configure your web server to deliver this 
 Because this loads the full experience, rather than the abbreviated test experience, you will need to log in before you can continue.  Ziniki includes support for all OAuth and OpenID providers, but many of these require that a pre-established relationship has been configured before they will cooperate.  Your memory-only Ziniki instance will not have any of these set up&footnote .  However, by default, when run from the command line Ziniki is configured to provide its own password-based OpenID Provider.  This enables you to have a full login experience managed locally.
 
 
-&footnote
+@Footnote
+
+
 This is not to say that you couldn't configure it if you wanted to, but doing so is outside the scope of Ziniki documentation.
 &review 'however, there really should be something on the subject in the putative admin guide' 
+@/
 
 
 Since you already have a user, the easiest way to proceed is to create a login for that user.  Click the "Log In" button presented on the home screen.  Now paste the user credential from above into the "Other OpenID" box and click "Log In".  This will redirect you through to the authorization server (you should notice the port has changed).  Because you specified a complete credential, it is able to extract the username and requests you to enter a password and then press "New User".

@@ -52,8 +52,11 @@ The variable $r$ is introduced to provide a type-safe version of the entity rece
 The final step is to _publish_ this entity.  Publication&footnote is the process by which an entity to which you already have access is made available in a different context.  The simplest such operation is to take an object which is attached to your personal arena and attach it to a shared arena.  Domains are special cases of arenas.
 
 
-&footnote
+@Footnote
+
+
 There is a lot more information about how this works in the commentary and will be amplified in subsequent chapters.
+@/
 
 
 The act of publishing an entity involves specifying the entity, the arena to which it is to be published and the benches (in that arena) to which it is attached.  Here we specify the entity we received back, the domain we recovered previously and the $public$ bench.
@@ -137,5 +140,8 @@ The act of publishing does not constitute creating a copy; rather, it is more li
 &review 'this actually takes some effort and I don''t think I have put it in yet'
 
 
-&footnote
-Either hard or shared is good enough for this metaphor.  It has some similarity to both; some features more like one than the other; and some differences from both.
+@Footnote
+
+
+Whether hard or symbolic is not significant for this metaphor.  It has some similarity to both; some features more like one than the other; and some differences from both.
+@/

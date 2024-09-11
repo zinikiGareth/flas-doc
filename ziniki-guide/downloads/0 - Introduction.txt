@@ -1,5 +1,6 @@
 ﻿@Chapter
 title=Introduction
+style=intro
 
 
 Ziniki is many things: a company, an ecosystem, a philosophy, a microservice container.  For the purposes of this guide, we will try to focus on Ziniki as an ecosystem in which it is possible to write small units of client-side code - cards - which, embedded in the ecosystem, can access the services and resources of the ecosystem without reference to location or scale.

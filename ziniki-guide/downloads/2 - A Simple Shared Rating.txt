@@ -8,8 +8,11 @@ In our most trivial example in the previous chapter, we did at least manage to b
 We are going to approach this through the metaphor of a simple thumbs-up/thumbs-down rating card.  Each user is shown the same card backed by the same data object and has the opportunity to vote "up" or "down" on the service represented by the card&footnote.  The card maintains the overall rating of the service and displays that to each user.
 
 
-&footnote
+@Footnote
+
+
 As with all our demos, there is a lot missing here from a reasonable solution, such as the ability to restrict each user to one vote, keep the rating within bounds (eg. above zero) and express the rating in a user-friendly way (such as out of five).  We will return to some of these issues later.
+@/
 
 
 So, without further ado, let's get to it.
@@ -210,7 +213,7 @@ This object is stored in the key $data://ratings.com/entity/rating$.  The scheme
 Secondary key catalogues always have the extension $.sk$, while their name is the name of the key itself.  Inside the file they have a format that identifies each key in turn and its corresponding value.
 
 
-&include 'ratings/datafiles/ratings.com/ratings.sk' formatter='flas'
+&morework include 'ratings/datafiles/ratings.com/ratings.sk' formatter='flas'
 
 
 This is a trivial secondary key because it does not have any additional fields - there is only one such key in each domain or arena.  As indicated by the comments, if the key catalogue did have additional fields, they would be specified by the $field$ top-level command.
