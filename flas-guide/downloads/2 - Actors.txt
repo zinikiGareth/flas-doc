@@ -37,8 +37,11 @@ The first line here introduces a $card$ definition.  $card$ here is a keyword an
 This card has four component elements: a _state_, a _template_, an _event handler_ and a nested&footnote  _function definition_.
 
 
-&footnote
+@Footnote
+
+
 Function definitions may appear at the top level along with cards; however, a function definition within a card is able to refer to the current state of the card by simply referring to the state members by name, whereas a global function definition would need to be passed the state members.
+@/
 
 
 The _state_ of a card is defined by a $state$ declaration.  Each element of the state declaration is indented one further level and consists of a _type_, a _name_ and an (optional) initializer.  In this case, the state member $greeting$ is declared to be of type $String$ and is initially set to the value $hello$.
@@ -67,6 +70,8 @@ As with the previous example, the assembly file gives the minimum amount of info
 
 
 @Commentary
+
+
 @Section
 title=Cards and the Actor Model
 

@@ -14,8 +14,11 @@ FLAS offers a number of such structures, but gives them a (possibly) more famili
 In common with most functional languages, FLAS then allows these types to be broken apart by functions through a mechanism known as _pattern matching_&footnote.  This allows a function to be specified in parts, each part describing how the function intends to handle _some part_ of the complete set of input values.  The FLAS compiler analyzes these declarations and identifies the overlaps and commonalities and comes up with a set of logic which traverses all the data structures to execute the correct portion of the function.
 
 
-&footnote
+@Footnote
+
+
 This is very different from the sort of pattern matching which uses regular expressions and should not be confused with it.  If you are likely to be confused, pretend you have never heard the term _pattern matching_ before and read on.
+@/
 
 
 Furthermore, the FLAS compiler supports a similar technique for handling templates and allows values to be "placed" in content slots in a template, and then goes on to find the appropriate sub-template to use to render the value.

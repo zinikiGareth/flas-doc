@@ -64,8 +64,11 @@ Compiler packages can be downloaded from&sp
 , although currently the compiler package is only available for MacOS and Linux&footnote.  The download is in the form of a zip which you need to unpack to a directory somewhere on your computer and has nested $bin$, $lib$ and $flascklib$ subdirectories.  You should then ensure that the compiler is on your $PATH$.  As noted in the introduction, running the compiler also depends on you having Java installed.
 
 
-&footnote
+@Footnote
+
+
 Although Java is essentially cross-platform, FLAS uses the JavaFX library to run JavaScript unit tests.  This library is platform-dependent.  The only obstacle to supporting other platforms is a packaging one.
+@/
 
 
 All of the samples described in this manual are available on github at&sp
@@ -104,8 +107,11 @@ title=Bring Your Own HTML
 Separation of concerns is a very important part of any well-structured application.  The concerns of visual design and application development should be kept very separate and easily maintained independently, with only the minimal loose coupling between the two&footnote. In embedding this approach within the FLAS compiler, we gave it a name: "Bring your own HTML".
 
 
-&footnote
+@Footnote
+
+
 This is not to say that they should be developed independently or by different teams.  In our opinion, the HTML and the application should be delivered alongside each other, by a single team although it is to be expected that there will be different specializations on the team.  But the team should develop the two portions independently using the appropriate tools.
+@/
 
 
 In most web applications I have worked on, the HTML and the code are intertwined.  This reaches its apogee in languages and tools such as PHP, ASP and JSP, where the code is literally written in and around each other.  Why do we think this is such a problem?

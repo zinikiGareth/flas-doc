@@ -9,8 +9,11 @@ For the past twenty years, a key to developing effective websites and web applic
 While providing an abstraction over it, FLAS assumes a styling model consistent with HTML and CSS; that is, it assumes that each card is made up of a set of elements, or _areas_, each of which can be individually _styled_ using an abstract mechanism entirely consistent with CSS classes.  In other words, FLAS knows absolutely nothing about the real-world concerns of fonts, colors or layout, but it supports a "code book" of terms which it assumes _can be converted_ into those concerns.  On the FLAS side, these are simple strings; on the web design&footnote  side, these are CSS class names.
 
 
-&footnote
+@Footnote
+
+
 This chapter describes styling from the perspective of web applications; in part, the abstraction exists precisely because there are alternatives with natively-rendered Mobile Application Frameworks.  However, these are beyond the scope of this guide.
+@/
 
 
 The CSS is written in the usual way: as a set of styles applied when certain elements are associated with certain classes.  While the two sides have their separate concerns, they are loosely coupled through the _names_ of the elements and the _names_ of the classes.
@@ -122,6 +125,8 @@ $makeRed$ works in the same way as $wantBig$, inverting the value of $wantRed$ a
 
 
 @Commentary
+
+
 @Section
 title=Styling
 

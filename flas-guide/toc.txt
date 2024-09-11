@@ -26,11 +26,11 @@
   5.1 HTML
   5.2 CSS
   5.3 FLAS
-    Data Types
-    Card Outline
-    State
-    Templates
-    Event Handlers
+      Data Types
+      Card Outline
+      State
+      Templates
+      Event Handlers
   5.1c Card and Item Templates
   5.2c Naming Templates and Handlers
   5.3c The Template Nesting Chain
@@ -39,7 +39,7 @@
   6.1 HTML
   6.2 CSS
   6.3 FLAS
-    Headers
-    SingleHeader
+      Headers
+      SingleHeader
 7 Bringing It All Together
   7.1 Outline HTML
