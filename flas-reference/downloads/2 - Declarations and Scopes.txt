@@ -29,10 +29,7 @@ Similarly, other embedded uses offer other extensions to the core model, but in 
 
 
 &grammar rule='top-level-unit'
-&review 'this should have all the ziniki defs in one block and we should remove that'
 &grammar rule='top-level-definition'
-&removeOption prod='deal-declaration'
-&removeOption prod='offer-declaration'
 &grammar rule='function-scope'
 &grammar rule='function-scope-unit'
 
@@ -136,9 +133,7 @@ Function definitions may, however, be defined in multiple clauses at the same le
 While this most obviously applies to function, type and actor names, it also applies to other names introduced into the scope such as parameter, field and type variable names.
 
 
-For example, in the following definition, the parameter $x$ conflicts with the enclosed definition of $x$, creating an ambiguity and is therefore disallowed:
-
-
+For example, in the following definition, the enclosed definition of $x$ would conflict with the parameter $x$: 
 $$
         f x = y
                 y = 2 * x
@@ -146,5 +141,5 @@ $$
 $$
 
 
-In the definition of $y$, which use of $x$ was intended?
+In the definition of $y$, which use of $x$ was intended?  Given the ambiguity the use of the name $x$ in the inner scope is therefore disallowed.
 @/

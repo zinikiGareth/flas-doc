@@ -150,7 +150,9 @@ Styling may be applied to content and style fields only.
 
 
 &grammar rule='template-customization'
-&grammar rule='template-style'
+&grammar rule='template-style-cond'
+&grammar rule='template-style-format'
+&grammar rule='template-style-format-or-else'
 
 
 Styles may be applied conditionally or unconditionally.
@@ -357,8 +359,11 @@ Commands are offered to directly import from visual design tools.  In particular
 &sp at the touch of a button inside VSCode&footnote .
 
 
-&footnote
+@Footnote
+
+
 This is not yet true.
+@/
 
 
 &review 'allow direct download from webflow inside vscode'
@@ -440,8 +445,11 @@ title=Content Bindings
 The simplest and most common form of binding is the content binding.  This allows a $String$ value in the card to be literally placed in a specific template field.  The value will automatically undergo any "entitifcation"&footnote  or other encoding process required by the visual design.
 
 
-&footnote
+@Footnote
+
+
 Entitification is the process by which HTML replaces special characters with the appropriate HTML _entities_ to stop them being interpreted as HTML.  It is not possible to use FLAS to inject arbitrary HTML into a template.  This would be both a security and a portability issue.
+@/
 
 
 A content binding is expressed using the $SEND$ operator ($<-$) indicating that the _value_ on the right is to be sent to the _field_ on the left.  Possibly the simplest such usage would be:
@@ -480,9 +488,12 @@ $$
 $$
 
 
-&footnote
+@Footnote
+
+
 The process of initializing the calendar object using the $Lifecycle$ contract has been elided.
 &review 'we should probably create a calendar using Lifecycle somewhere though and then reference it here'
+@/
 
 
 Each field may only be bound once in a template definition.
@@ -663,8 +674,11 @@ Event handlers are defined in code on the card or the template.  By default, whe
 The act of attaching the name of an event handler to a content or style field is called an _affordance_ because it makes it possible to invoke the handler from that location.  Note that _no extra information_ is required - or can be provided - because the event handler already contains the information about the event that it will handle, and an event handler is invoked as a message, so only two pieces of information are in scope - the current state of the card and the event object itself&footnote .
 
 
-&footnote
+@Footnote
+
+
 Although note that, because the event object contains a pointer to the value being bound, it is possible to customize the handling of the event based on which affordance was used.
+@/
 
 
 The event affordance is placed in a nested block of either a content binding or a style application.  If it is applied to a conditional binding or conditional style definition, the event is only enabled if the containing guards are true.
@@ -762,8 +776,11 @@ card WithObject
 $$
 
 
-&footnote
+@Footnote
+
+
 The details of creating the $object$ from a message-method context have been elided.
+@/
 
 
 The $combo$ template is on the object, as is the state which it references.  In this case, because the delegation is through the object, no additional variables are introduced - the references are to members of the object's state.

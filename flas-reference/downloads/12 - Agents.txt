@@ -14,7 +14,7 @@ In all other ways, agents are identical to cards.
 
 
 &grammar rule='agent-declaration'
-&grammar rule='agent-contents'
+&grammar rule='agent-scope-unit'
 
 
 Agents may only be defined on the client side.

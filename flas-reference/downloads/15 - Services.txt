@@ -6,8 +6,6 @@ Services are stateless actors.
 
 
 &grammar rule='service-declaration'
-&grammar rule='service-contents'
-&grammar rule='service-scope'
 &grammar rule='service-scope-unit'
 
 

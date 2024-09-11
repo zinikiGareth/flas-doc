@@ -79,5 +79,8 @@ title=Testing
 Contracts define the communication protocols between cards that depend on them and those that implement them.  To support this, _protocol tests_ on contracts may be defined&footnote  which are automatically run on all cards depending on the contract.
 
 
-&footnote
+@Footnote
+
+
 This feature is not yet implemented.
+@/

@@ -19,7 +19,7 @@ In each case, the body of the method is the same.
 &grammar rule='method-actions'
 &grammar rule='method-action'
 &grammar rule='message-method-action'
-&grammar rule='service-method'
+&grammar rule='implementation-method'
 &grammar rule='maybe-handled'
 &grammar rule='assign-method-action'
 

@@ -30,10 +30,11 @@ FLAS cannot be a general purpose programming language because it makes too many 
 * _Services_ support the construction of server-side _microservices_, embedded and deployed within Ziniki&footnote  servers.
 
 
-&footnote
+@Footnote
+
+
 Technically, since FLAS generates JVM and JS code, services could be deployed within servers provided by any PAAS provider, but for obvious reasons, we will only consider FLAS services embedded in Ziniki servers.
-
-
+@/
 Supporting these three units are a number of other building blocks - _structs_, _unions_, _contracts_, _objects_ and _tests_ which provide the ability to build more general purpose units for program composition.
 
 
