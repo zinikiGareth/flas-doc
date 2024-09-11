@@ -1,0 +1,303 @@
+﻿@Chapter
+style=appendix
+title=$ziniki$ command
+
+
+The $ziniki$ command allows developers to start a local Ziniki instance from the command line.
+
+
+Ziniki startup is controlled by configuration files.  These JSON files control which Ziniki components are configured into a runtime system and how they interact.  It is possible to configure Ziniki from scratch by specifying the configuration of all the desired components; however, it is generally easier (and more reliable) to select from some prepackaged options
+
+
+@Section
+title=Prepackaged configurations
+
+
+It is not possible to start $ziniki$ from the command line without any arguments.  Even the simplest prepackaged configuration requires a number of parameters to be specified, such as the hostname and ports it will listen on, and a TLS certificate to handle security.  These are the parameters which must be set to identify the environment in which Ziniki will be operated.
+
+
+An example parameter file is provided in the file $config/env/domain.com.json$, and the parameters specified here are described in full in the section "Environment Parameters" below.
+
+
+Every configuration file to be passed to Ziniki needs to be specified with the $--configFile$ option which takes an appropriate path.  Thus, the simplest way to start Ziniki is to use the example configuration file:
+
+
+$$
+bin/ziniki --configFile config/env/domain.test.json
+$$
+
+
+Initially, this will not work because the Ziniki needs TLS in order to function, and the configuration file references a non-existent PKCS12 keystore, $keys/domain.test.p12$.  This file needs to be created using $ziniki-cert$ before Ziniki will start.  You may, however, wish to make other changes: this file uses the domain $domain.test$, which may not be what you want.  If you want to run multiple Ziniki servers on the same node, you will need to change the port numbers, etc.
+
+
+If you want to change the name of the domain, it is recommended to copy all of the parameters to a new file reflecting the name of the domain.
+
+
+@Section
+title=Common Options
+
+
+There are a number of common options that control how Ziniki is run independent of the configuration.
+
+
+@Option
+name=-Dvar=value
+
+
+Because Ziniki is a Java program, it is possible to specify properties to the Java virtual machine.  Some of these control underlying behaviors (such as the versions of TLS that can be used) and others can be used to control aspects of Ziniki which cannot be configured using the standard configuration file mechanism.
+
+
+All parameters specified on the $ziniki$ command line beginning with $-D$ are collected and passed directly to the Java virtual machine without any checks.
+@/
+
+
+@Option
+name=--trace=<file>
+
+
+Specify a Java Properties file to configure the tracing mechanism in Ziniki.  By default, tracing will be sent to the console and only warning and error messages will be displayed.
+@/
+
+
+@Option
+name=--info
+
+
+If neither the $--custom$ or $--trace$ options are used, then this specifies that the default tracing will be used, but messages will be issued at the $INFO$ level.
+@/
+
+
+@Option
+name=--debug
+
+
+If neither the $--custom$ or $--trace$ options are used, then this specifies that the default tracing will be used, but messages will be issued at the $DEBUG$ level.
+@/
+@/
+
+
+@Section
+title=Packaging Options
+
+
+By default, Ziniki starts up as a single process, operating entirely in memory and offering Ziniki, admin, authentication and identity services as well as a content store (all on different ports).  The packaging options enable all of these configurations to be changed fairly easily, although it may require additional options to be provided in the environment.
+
+
+@Option
+title=--ziniki
+
+
+Offer the Ziniki service.  Although this is provided by default, this option is regressive: specifying it turns off the default offering and means that (unless they are also explicitly specified) the authentication and identity services will _not_ be offered.
+@/
+
+
+@Option
+title=--auth
+
+
+Offer the authentication service.  Although this is provided by default, this option is regressive: specifying it turns off the default offering and means that (unless they are also explicitly specified) the Ziniki and identity services will _not_ be offered.
+@/
+
+
+@Option
+title=--id
+
+
+Offer the identity service.  Although this is provided by default, this option is regressive: specifying it turns off the default offering and means that (unless they are also explicitly specified) the Ziniki and authentication services will _not_ be offered.
+@/
+
+
+@Option
+title=--dbfile=<file>
+
+
+By default, Ziniki operates entirely in memory, with a clean initialization at the start of every run.  However, it can be useful to load in an existing, prepared state.  The $--dbfile$ option offers the ability to load a ZIP file into memory before the run starts.  Note that this is a read-only operation: Ziniki will never update this file.  To obtain a ZIP file containing the current memory contents, it is necessary to use the $/zip$ operation on the admin interface.
+@/
+
+
+@Option
+title=--aws
+
+
+If you do not want to run Ziniki entirely in memory, it is possible to connect to an existing AWS environment and use the Dynamo and S3 resources provided there.  The $--aws$ option incorporates the relevant options to replace the in-memory database and content storage options with their AWS equivalents.  This may require additional environment configuration to operate.  It will also require manual setup and configuration of the Ziniki server.
+&morework We should have a reference to initial Ziniki setup, which should probably be in the admin manual, since it feels out of scope here.
+@/
+
+
+@Section
+title=Environment Parameters
+
+
+The various packaging options do most of the "heavy lifting" to set up and configure a Ziniki instance.  However, they depend on certain values which must be specified by the user.  These are provided in the "environment file" - the file which describes the environment in which Ziniki is to run.  Most importantly, these describe the domain on which Ziniki will respond, the ports it will use and the TLS configuration.
+
+
+Like all Ziniki configuration files, the environment file is in JSON format.
+
+
+@Option
+name=host
+
+
+This is the alleged server virtual host name (more complex Ziniki configurations can support multiple virtual hosts).  This is a DNS name which should be routed to the local machine using a $hosts$ file or other routing technology.
+@/
+
+
+@Option
+name=firstUser
+
+
+In order for Ziniki to bootstrap itself, it must have at least one user.  In a live environment, this user is configured during the setup process. For simplicity during development, the setup process is automated and creates an initial $Domain$ object corresponding to the value of $host$ and associates that with the specified $firstUser$.  This should be a valid OpenID or OAuth user URI.  If you are using the builtin Ziniki authentication server, this will be an openID of the form:
+
+
+$$
+https://ziniki._<host>_:_<idPort>_/id/_<name>_
+$$
+
+
+If you are using an external authentication source, you will need to consult its documentation to find out what your userid is.
+@/
+
+
+@Option
+name=zinikiPort
+
+
+The standard Ziniki configuration uses a total of six ports.  The "main" port is the $zinikiPort$, which is where Ziniki will install its $HTTPS$ server for handling requests for login, requesting applications and the like.
+@/
+
+
+@Option
+name=authPort
+
+
+When Ziniki has its own authentication server enabled, the authentication server runs on this port, to offer the login window.
+@/
+
+
+@Option
+name=idPort
+
+
+When Ziniki has its own authentication enabled, this is the port that will be used in $id$ URIs.
+@/
+
+
+@Option
+name=adminPort
+
+
+The $adminPort$ is used to access the administration functions of Ziniki.  Exactly what will be available on this port depends on which modules have been installed, but with the standard configuration of the Ziniki in developer mode, this enables you to access the internals of the memory store at runtime.
+@/
+
+
+@Option
+name=contentPort
+
+
+Ziniki depends on access to a content store.  In live environments, this is provided by a cloud storage service such as S3.  In developer mode, an internal memory storage is used and served directly from the same Ziniki instance.  To differentiate the services, the $contentPort$ is used to identify requests to the content store.
+@/
+
+
+@Option
+name=wsapiPort
+
+
+Once logged in, most of the communication between Ziniki clients and servers takes place over a websocket.  This connection takes place over a distinct hostname ($wsapi._domain_$ rather than $ziniki._domain_$) and with the port number specified by $wsapiPort$.
+@/
+
+
+@Option
+name=tlsconfig
+
+
+In order to configure TLS for Ziniki, it is necessary to specify the appropriate certificate information.  Currently, Ziniki offers two mechanisms: "standard" JKS keystores, or PKCS12 files.   Both are configured the same way, as shown in the $domain.test.json$ example:
+
+
+$$
+        "tlsconfig": {
+                "class": "org.ziniki.server.main.grizzly.PKCS12Config",
+                "root": "_root_",
+                "file": "keys/domain.test.p12",
+                "password": "password"
+        }
+$$
+
+
+If you want to use a JKS keystore, replace the value of the $class$ key with $org.ziniki.server.main.grizzly.JKSConfig$.  Both require the same set of parameters.  Note that no keystore files are shipped with Ziniki; you will need to create your own.  The $ziniki-cert$ script is provided to assist with this.
+@/
+
+
+@Section
+title=The $--custom$ option
+
+
+For full flexibility, it is possible to specify the $--custom$ option, which stops any of the default options being used.  It is then necessary to specify individual options to configure Ziniki.  All of the pre-packaged options can still be used, but the following options will generally be needed to achieve a working configuration.  Note that these options can also be used in combination with the pre-packaged options to obtain more complex configurations.
+
+
+@Option
+title=--root <directory>
+
+
+By default, the Ziniki instance uses the install directory (i.e. the parent directory of the $bin$ directory in which the script is located) as its "root" directory.  It uses this to find all of its standard resources.  The $--root$ options allows you to explicitly specify another directory.
+@/
+
+
+@Option
+title=--config <string>
+
+
+You can specify arbitrary JSON configuration directly on the command line using the $--config$ option.  This is generally only practical for specifying individual configuration options.  Note that even if you are specifying just a single parameter, it still needs to be in JSON object syntax, including having the field names and string arguments enclosed in double quotes.
+@/
+
+
+@Option
+title=--configFile <file>
+
+
+Read a JSON configuration from a specified file.
+@/
+
+
+&morework the code supports --s3Config, but this only seems to actually be supported in the lambda version.
+
+
+@Option
+title=--user <id_uri>
+
+
+Create a user during initial setup.  This option may be specified multiple times to create multiple users.
+
+
+Note that since users are associated with domains, all the domains associated with these users will also be automatically created.  Each domain will only be created once, no matter how many users are associated with it.
+@/
+
+
+@Option
+title=--import-flim <dir>
+
+
+In general, all FLAS code to be included in Ziniki is uploaded using the compiler at runtime.  However, for convenience, existing FLIM directories may be loaded into development Ziniki instances directly from the command line using this option.
+
+
+Multiple directories may be specified using this option.  In this case, all of the packages in all of the directories will be loaded.
+@/
+@/
+
+
+@Section
+title=Notes
+
+
+You need to add the domain you wish to use to your local host resolution mechanism ($hosts$ file or otherwise).
+
+
+If you are using an external OpenID source (such as Yahoo!) can you still use zinlogin? (I need to check this and document the result).
+
+
+More environment options may exist for things like dynamo and s3 storage
+
+
+There should be something to configure the content store.
+
+
+@/

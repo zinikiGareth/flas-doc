@@ -1,0 +1,39 @@
+﻿@Chapter
+style=appendix
+title=$ziniki-cert$ command
+
+
+In order to use TLS effectively, it is necessary to generate certificates.  $ziniki-cert$ enables users to generate (free, unlimited) certificates _for local use_ using a private CA whose root certificate can be added to common browsers (Chrome, Firefox, etc).  These can also be shared with other users.
+
+
+None of this is intended to be secure or for production use.  It is suitable for use by individual developers or development teams on internal networks with test data.
+
+
+The $ziniki-cert$ command operates in the Ziniki installation directory, and creates files under the $keys$ subdirectory; if that is not present, it creates it.
+
+
+The first time you run $ziniki-cert$ in an installation, it will create a root certificate, along with a new, private key.  This certificate, called $rootCA.pem$, is the one you need to install and distribute in order to avoid having browser errors.  Installing certificates is beyond the scope of this manual, and depends on browser, operating system and version, but is supported in all major browsers on all major operating systems.
+
+
+@Option
+title=<domain>
+
+
+The only required option is the domain name for which you wish to create a certificate.  $ziniki-cert$ automatically generates a wildcard certificate (since it wants to use $ziniki.<domain>$, $wsapi.<domain>$ and possibly $id.<domain>$ and $auth.<domain>), so you only need to specify the base domain name, such as $domain.test$.
+@/
+
+
+@Option
+title=--ip <addr>
+
+
+By default, the certificate is issued with the IP address 127.0.0.1; it is possible to specify an alternative address, particularly if you are going to be using the certificate on a team server to be accessed remotely (or if you want to test mobile devices).
+@/
+
+
+@Option
+title=--password <password>
+
+
+By default, the very secure password "password" is used to encrypt the keystore.  Since it is assumed that all of this is just to enable TLS on an internal system, there is no concern about security or fraud here.  However, if you wish to use another password for some reason, it is possible to change it using this option.
+@/

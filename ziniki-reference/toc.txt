@@ -1,1 +1,10 @@
 Organization of this Guide
+A $ziniki$ command
+  A.1 Prepackaged configurations
+  A.2 Common Options
+  A.3 Packaging Options
+  A.4 Environment Parameters
+  A.5 The $--custom$ option
+  A.6 Notes
+B $zinlogin$ command
+C $ziniki-cert$ command

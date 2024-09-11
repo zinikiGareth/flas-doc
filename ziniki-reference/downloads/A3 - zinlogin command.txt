@@ -1,0 +1,26 @@
+﻿@Chapter
+style=appendix
+title=$zinlogin$ command
+
+
+During development, especially for automated testing, it is often inconvenient to deal with the necessities of logging in; however, Ziniki is designed to function almost exclusively with registered users.  Thus the $zinlogin$ command allows users to automate the login process _for a development server_.  This script does _not_ work with live servers.
+
+
+The $zinlogin$ script takes two parameters:
+
+
+@Option
+title=<admin-uri>
+
+
+It is necessary to specify the URI of the Ziniki admin server.  When Ziniki starts up it shows this information to the trace file at $INFO$ level, but in general it will be $https://ziniki.<domain>:<adminPort>/$.  For example, the admin port for the default $domain.test$ configuration would be $https://ziniki.domain.test:18083/$.
+@/
+
+
+@Option
+title=<user-uri>
+
+
+This is the ID URI of the user to be logged in, for example, the $firstUser$ entry in the environment file.
+&morework as before, does this work if they are not using our authentication mechanism?  Experiment and comment.
+@/
